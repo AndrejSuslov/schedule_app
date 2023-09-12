@@ -1,30 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_project/themes/dark_theme/dark_theme.dart';
+import 'package:flutter_test_project/themes/light_theme/light_theme.dart';
+import 'generated/l10n.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ScheduleApp());
 }
 
-class MyApp extends StatelessWidget {
-  static final ValueNotifier<ThemeMode> themeNotifier =
-      ValueNotifier(ThemeMode.light);
-
-  const MyApp({Key? key}) : super(key: key);
+class ScheduleApp extends StatelessWidget {
+  const ScheduleApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<ThemeMode>(
-        valueListenable: themeNotifier,
-        builder: (_, ThemeMode currentMode, __) {
-          return MaterialApp(
-            // Remove the debug banner
-            debugShowCheckedModeBanner: false,
-            title: 'Andron broke',
-            theme: ThemeData(primarySwatch: Colors.amber),
-            darkTheme: ThemeData.dark(),
-            themeMode: currentMode,
-            home: const HomeScreen(),
-          );
-        });
+    return MaterialApp(
+      // Remove the debug banner
+      debugShowCheckedModeBanner: false,
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      supportedLocales: S.delegate.supportedLocales,
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      home: HomeScreen(),
+    );
   }
 }
 
@@ -35,29 +37,25 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('some text it will be better soon'),
-        actions: [
-          IconButton(
-              icon: Icon(MyApp.themeNotifier.value == ThemeMode.light
-                  ? Icons.dark_mode
-                  : Icons.light_mode),
-              onPressed: () {
-                MyApp.themeNotifier.value =
-                    MyApp.themeNotifier.value == ThemeMode.light
-                        ? ThemeMode.dark
-                        : ThemeMode.light;
-              })
+      bottomNavigationBar: NavigationBar(
+        destinations: [
+          NavigationDestination(
+            icon: const Icon(Icons.home_work_outlined),
+            label: S.of(context).home,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.person),
+            label: S.of(context).teacher,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.meeting_room_rounded),
+            label: S.of(context).auditories,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.settings),
+            label: S.of(context).settings,
+          )
         ],
-      ),
-      body: Center(
-        child: ElevatedButton(
-          child: const Text('Button'),
-          onPressed: () {
-            // Navigator.push(context,
-            //     MaterialPageRoute(builder: (context) => const OtherScreen()));
-          },
-        ),
       ),
     );
   }
