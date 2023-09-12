@@ -1,0 +1,21 @@
+{
+  "schedule": "Schedule",
+  "home": "Home",
+  "teacher": "Teacher",
+  "auditories": "Audiences",
+  "settings": "Settings",
+  "empty": "Nothing found",
+  "inviteScreenTitle": "The schedule of the RSEU (RINH)",
+  "welcomeText": "Welcome\nEnter your group number",
+  "confirmButton": "Confirm",
+  "scheduleOf": "Schedule of {of}",
+  "emptyLessons": "There are no classes today, you can relax",
+  "clearCache": "Clear Cache",
+  "changeGroup": "Change Group",
+  "theme": "Theme",
+  "system": "System",
+  "light": "Light",
+  "dark": "Dark",
+  "teachers": "Teachers",
+  "noTeachers": "There is no list of teachers"
+}

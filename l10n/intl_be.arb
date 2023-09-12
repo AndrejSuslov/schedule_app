@@ -1,0 +1,21 @@
+{
+  "schedule": "Расклад",
+  "home": "Галоўная",
+  "teacher": "Выкладчык",
+  "auditories": "Аўдыторыі",
+  "settings": "Наладкі",
+  "empty": "Нічога не знойдзена",
+  "inviteScreenTitle": "Расклад АККПРБ",
+  "welcomeText": "Вітаем\nВыберыце вашу групу",
+  "confirmButton": "Пацверздіць",
+  "scheduleOf": "Расклад {of}",
+  "emptyLessons": "Пар сёння няма",
+  "clearCache": "Ачысціць кэш",
+  "changeGroup": "Змяніць групу",
+  "theme": "Тэма",
+  "system": "Сістэмная",
+  "light": "Светлая",
+  "dark": "Цёмная",
+  "teachers": "Выкладчыкі",
+  "noTeachers": "Адсутнічае спіс выкладчыкаў"
+}
