@@ -1,63 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_project/color_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  static final ValueNotifier<ThemeMode> themeNotifier =
-      ValueNotifier(ThemeMode.light);
-
-  const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<ThemeMode>(
-        valueListenable: themeNotifier,
-        builder: (_, ThemeMode currentMode, __) {
-          return MaterialApp(
-            // Remove the debug banner
-            debugShowCheckedModeBanner: false,
-            title: 'Andron broke',
-            theme: ThemeData(primarySwatch: Colors.amber),
-            darkTheme: ThemeData.dark(),
-            themeMode: currentMode,
-            home: const HomeScreen(),
-          );
-        });
+    return MaterialApp(
+        title: 'Flutter Demo',
+        home: BlocProvider(
+          create: (context) => ColorBloc(),
+          child: MyHomePage(),
+        ));
   }
 }
 
-// Home Screen
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-
+class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    ColorBloc _bloc = BlocProvider.of<ColorBloc>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('some text it will be better soon'),
-        actions: [
-          IconButton(
-              icon: Icon(MyApp.themeNotifier.value == ThemeMode.light
-                  ? Icons.dark_mode
-                  : Icons.light_mode),
-              onPressed: () {
-                MyApp.themeNotifier.value =
-                    MyApp.themeNotifier.value == ThemeMode.light
-                        ? ThemeMode.dark
-                        : ThemeMode.light;
-              })
-        ],
+        title: Text('BLoC with flutter'),
+        centerTitle: true,
       ),
       body: Center(
-        child: ElevatedButton(
-          child: const Text('Button'),
-          onPressed: () {
-            // Navigator.push(context,
-            //     MaterialPageRoute(builder: (context) => const OtherScreen()));
-          },
+        child: BlocBuilder<ColorBloc, Color>(
+          builder: (contxt, currentColor) => AnimatedContainer(
+            height: 100,
+            width: 100,
+            color: currentColor,
+            duration: const Duration(milliseconds: 500),
+          ),
         ),
+      ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          FloatingActionButton(
+              backgroundColor: Colors.red,
+              onPressed: () {
+                _bloc.add(ColorEvent.event_red);
+              }),
+          const SizedBox(width: 10),
+          FloatingActionButton(
+              backgroundColor: Colors.green,
+              onPressed: () {
+                _bloc.add(ColorEvent.event_green);
+              }),
+        ],
       ),
     );
   }
