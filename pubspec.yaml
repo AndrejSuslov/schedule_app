@@ -13,6 +13,8 @@ dependencies:
   intl: any
   flutter_localizations:
     sdk: flutter
+  table_calendar: ^3.0.9
+  bloc: ^8.1.2
 
 dev_dependencies:
   flutter_test:
@@ -26,12 +28,12 @@ flutter:
 
   uses-material-design: true
 
-  fonts:
-    - family: Product-Sans
-      fonts:
-        - asset: assets/fonts/Product Sans Regular.ttf
-        - asset: assets/fonts/Product Sans Italic.ttf
-          style: italic
+  # fonts:
+  #   - family: Product-Sans
+  #     fonts:
+  #       - asset: assets/fonts/Product Sans Regular.ttf
+  #       - asset: assets/fonts/Product Sans Italic.ttf
+  #         style: italic
 
 flutter_intl:
   enabled: true

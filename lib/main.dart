@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_project/themes/dark_theme/dark_theme.dart';
 import 'package:flutter_test_project/themes/light_theme/light_theme.dart';
+import 'package:flutter_test_project/widgets/calendar_widget.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -25,7 +26,7 @@ class ScheduleApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      home: HomeScreen(),
+      home: const HomeScreen(),
     );
   }
 }
@@ -57,6 +58,7 @@ class HomeScreen extends StatelessWidget {
           )
         ],
       ),
+      body: const CalendarWidget(),
     );
   }
 }
