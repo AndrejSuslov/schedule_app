@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_project/themes/dark_theme/dark_theme.dart';
 import 'package:flutter_test_project/themes/light_theme/light_theme.dart';
-import 'package:flutter_test_project/widgets/calendar_widget.dart';
+import 'package:flutter_test_project/widgets/bottom_navigation_bar.dart';
+import 'blocs/settings_bloc/settings_bloc.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -14,51 +16,47 @@ class ScheduleApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      // Remove the debug banner
-      debugShowCheckedModeBanner: false,
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      supportedLocales: S.delegate.supportedLocales,
-      localizationsDelegates: const [
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      home: const HomeScreen(),
-    );
+    return _buildApplication(context);
   }
-}
 
-// Home Screen
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: NavigationBar(
-        destinations: [
-          NavigationDestination(
-            icon: const Icon(Icons.home_work_outlined),
-            label: S.of(context).home,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.person),
-            label: S.of(context).teacher,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.meeting_room_rounded),
-            label: S.of(context).auditories,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.settings),
-            label: S.of(context).settings,
-          )
-        ],
+  Widget _buildApplication(BuildContext context) {
+    return BlocProvider<SettingsBloc>(
+      create: (context) => SettingsBloc(),
+      child: BlocBuilder<SettingsBloc, SettingsState>(
+        buildWhen: (prevState, newState) {
+          return newState is! SettingsError;
+        },
+        builder: (context, state) {
+          if (state is SettingsLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is SettingsLoaded) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              onGenerateTitle: (context) => S.of(context).schedule,
+              theme: lightTheme,
+              darkTheme: darkTheme,
+              themeMode: state.settings.themeMode,
+              supportedLocales: S.delegate.supportedLocales,
+              localizationsDelegates: const [
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              home: Builder(
+                builder: (context) {
+                  //ИЗМЕНИТЬ НА ISNOTEMPTY КОГДА ДОБАВИМ ГРУППЫ!!!!!
+                  if (state.settings.group.isEmpty) {
+                    return const BottomNavBar();
+                  }
+                  return Text("error");
+                },
+              ),
+            );
+          }
+          return const Center(child: CircularProgressIndicator());
+        },
       ),
-      body: const CalendarWidget(),
     );
   }
 }
