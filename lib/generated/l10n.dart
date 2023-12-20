@@ -240,6 +240,159 @@ class S {
       args: [],
     );
   }
+
+  String get hometasks {
+    return Intl.message(
+      'Hometasks',
+      name: 'hometasks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get completed {
+    return Intl.message(
+      'Completed',
+      name: 'completed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get taskTitle {
+    return Intl.message(
+      'Task Title',
+      name: 'taskTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get notes {
+    return Intl.message(
+      'Notes',
+      name: 'notes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get date {
+    return Intl.message(
+      'Date',
+      name: 'date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get time {
+    return Intl.message(
+      'Time',
+      name: 'time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get addNewTask {
+    return Intl.message(
+      'Add new task',
+      name: 'addNewTask',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get createdTask {
+    return Intl.message(
+      'Task has been created successfully',
+      name: 'createdTask',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get emptyTitle {
+    return Intl.message(
+      'Title cannot be empty',
+      name: 'emptyTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get taskToBeCompletedOn {
+    return Intl.message(
+      'Task to be completed on ',
+      name: 'taskToBeCompletedOn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get taskCompleted {
+    return Intl.message(
+      'Task completed',
+      name: 'taskCompleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get noAdditionalNote {
+    return Intl.message(
+      'There is no additional note for this task',
+      name: 'noAdditionalNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get taskDeleted {
+    return Intl.message(
+      'Task has been deleted successfully',
+      name: 'taskDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get taskDeleteAlert {
+    return Intl.message(
+      'Are you sure you want to delete this task?',
+      name: 'taskDeleteAlert',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get yes {
+    return Intl.message(
+      'YES',
+      name: 'yes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get no {
+    return Intl.message(
+      'NO',
+      name: 'no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get emptyCanteen {
+    return Intl.message(
+      'Canteen is closed today',
+      name: 'emptyCanteen',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

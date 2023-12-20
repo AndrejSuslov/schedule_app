@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:flutter_test_project/services/parser.dart';
 import 'dart:ffi';
 import 'dart:io';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
+=======
+import 'package:flutter/services.dart';
+>>>>>>> ed44b9e49a8f041875f8166b292e0f274bda06c9
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test_project/screens/schedule_screen.dart';
+import 'package:flutter_test_project/services/homework_screen.dart';
+import 'package:flutter_test_project/services/parse.dart';
 import 'package:flutter_test_project/themes/dark_theme/dark_theme.dart';
 import 'package:flutter_test_project/themes/light_theme/light_theme.dart';
 import 'package:flutter_test_project/widgets/bottom_navigation_bar.dart';
@@ -72,8 +80,22 @@ import 'package:table_calendar/table_calendar.dart';
 //   }
 // }
 
+<<<<<<< HEAD
 void main() {
   var some = ExcelParsing(6, 2);
+=======
+void main() async {
+  runApp(const ProviderScope(child: ScheduleApp()));
+
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      systemNavigationBarIconBrightness: Brightness.light, //n
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarDividerColor: Colors.transparent, //
+      systemNavigationBarContrastEnforced: false // navigation bar icons color
+      ));
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge,
+      overlays: [SystemUiOverlay.top]);
+>>>>>>> ed44b9e49a8f041875f8166b292e0f274bda06c9
 }
 
 // class ExcelParsing extends StatelessWidget {
@@ -188,3 +210,52 @@ void main() {
 //   }
 // }
 
+<<<<<<< HEAD
+=======
+  Widget _buildApplication(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<SettingsBloc>(
+          create: (context) => SettingsBloc(),
+        ),
+      ],
+      child: BlocBuilder<SettingsBloc, SettingsState>(
+        buildWhen: (prevState, newState) {
+          return newState is! SettingsError;
+        },
+        builder: (context, state) {
+          if (state is SettingsLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is SettingsLoaded) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              onGenerateTitle: (context) => S.of(context).schedule,
+              theme: lightTheme,
+              darkTheme: darkTheme,
+              themeMode: state.settings.themeMode,
+              supportedLocales: S.delegate.supportedLocales,
+              localizationsDelegates: const [
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              home: Builder(
+                builder: (context) {
+                  final bloc = context.read<SettingsBloc>();
+                  //ИЗМЕНИТЬ НА ISNOTEMPTY КОГДА ДОБАВИМ ГРУППЫ!!!!!
+                  if (state.settings.group.isEmpty) {
+                    return ScheduleScreen({'group': bloc.settings.group});
+                  }
+                  return Text("error");
+                },
+              ),
+            );
+          }
+          return const Center(child: CircularProgressIndicator());
+        },
+      ),
+    );
+  }
+}
+>>>>>>> ed44b9e49a8f041875f8166b292e0f274bda06c9

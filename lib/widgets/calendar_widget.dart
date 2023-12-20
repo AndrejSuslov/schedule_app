@@ -65,7 +65,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       calendarFormatsWeek = 'Week';
     }
 
-    return BlocListener<ScheduleBloc, ScheduleState>(
+    return BlocListener<HomeworkBloc, ScheduleState>(
       listener: (context, state) {
         if (state is ScheduleLoaded) {
           setState(() {
@@ -108,7 +108,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         onDaySelected: (prevDate, selDate) {
           setState(() {
             _selectedDate = selDate;
-            final bloc = context.read<ScheduleBloc>();
+            final bloc = context.read<HomeworkBloc>();
             bloc.add(_formEvent(selDate));
           });
         },

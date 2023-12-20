@@ -21,9 +21,6 @@ dependencies:
   rive: ^0.12.3
   flutter_staggered_animations: ^1.1.1
   bloc: ^8.1.2
-  path_provider: ^2.1.1
-  file_picker: ^6.1.1
-  excel: ^4.0.0
 
 dev_dependencies:
   flutter_test:
@@ -34,7 +31,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.1
+  flutter_lints: ^2.0.0
 
 dependency_overrides:
   intl: ^0.18.1
@@ -47,7 +44,6 @@ flutter:
       - assets/anims/sleep.riv
       - assets/anims/empty.riv
       - assets/anims/error.riv
-      - assets/UIR2.xlsx
 
   # fonts:
   #   - family: Product-Sans

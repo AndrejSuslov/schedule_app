@@ -7,6 +7,7 @@ import 'package:sqflite/sqflite.dart';
 part 'schedule_event.dart';
 part 'schedule_state.dart';
 
+<<<<<<< HEAD
 // ТУТ ДОЛЖЕН БЫТЬ ПАРСИНГ РАСПИСАНИЯ ДЛЯ ШКОЛОТРОНОВ
 
 // class DictionaryDataBaseHelper {
@@ -59,8 +60,12 @@ part 'schedule_state.dart';
 class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   final DateFormat _dateFormat = DateFormat('yyyy-dd-MM');
   final List<String> _Trying = [];
+=======
+class HomeworkBloc extends Bloc<ScheduleEvent, ScheduleState> {
+  final DateFormat _dateFormat = DateFormat('dd.MM.yyyy');
+>>>>>>> ed44b9e49a8f041875f8166b292e0f274bda06c9
 
-  ScheduleBloc() : super(ScheduleInitial()) {
+  HomeworkBloc() : super(ScheduleInitial()) {
     on<ScheduleEvent>((event, emit) {});
   }
 }

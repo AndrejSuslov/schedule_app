@@ -46,6 +46,28 @@ class MessageLookup extends MessageLookupByLibrary {
         "teachers": MessageLookupByLibrary.simpleMessage("Выкладчыкі"),
         "theme": MessageLookupByLibrary.simpleMessage("Тэма"),
         "welcomeText": MessageLookupByLibrary.simpleMessage(
-            "Вітаем\nВыберыце нумар вашай групы")
+            "Вітаем\nВыберыце нумар вашай групы"),
+        "addNewTask": MessageLookupByLibrary.simpleMessage('Дабавіць заданне'),
+        "time": MessageLookupByLibrary.simpleMessage('Час'),
+        "date": MessageLookupByLibrary.simpleMessage('Дата'),
+        "notes": MessageLookupByLibrary.simpleMessage('Запісы'),
+        "taskTitle": MessageLookupByLibrary.simpleMessage('Назва'),
+        "completed": MessageLookupByLibrary.simpleMessage('Выканана'),
+        "hometask": MessageLookupByLibrary.simpleMessage('Дамашнія заданні'),
+        "createdTask": MessageLookupByLibrary.simpleMessage('Заданне запісана'),
+        "emptyTitle": MessageLookupByLibrary.simpleMessage(
+            'Назва не павінна быць пустой'),
+        "taskToBeCompletedOn": MessageLookupByLibrary.simpleMessage(
+            'Заданне павінна быць выканана да '),
+        "taskCompleted":
+            MessageLookupByLibrary.simpleMessage('Заданне выканана'),
+        "noAdditionalNote": MessageLookupByLibrary.simpleMessage(
+            'Для гэтага задання няма дадатковых запісаў'),
+        "taskDeleted": MessageLookupByLibrary.simpleMessage(
+            'Заданне было паспяхова выдалена'),
+        "taskDeleteAlert": MessageLookupByLibrary.simpleMessage(
+            'Вы ўпэўнены, што жадаеце выдаліць гэта заданне?'),
+        "yes": MessageLookupByLibrary.simpleMessage('ТАК'),
+        "no": MessageLookupByLibrary.simpleMessage('НЕ'),
       };
 }
