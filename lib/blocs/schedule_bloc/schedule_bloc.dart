@@ -6,10 +6,10 @@ import 'package:intl/intl.dart';
 part 'schedule_event.dart';
 part 'schedule_state.dart';
 
-class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
+class HomeworkBloc extends Bloc<ScheduleEvent, ScheduleState> {
   final DateFormat _dateFormat = DateFormat('dd.MM.yyyy');
 
-  ScheduleBloc() : super(ScheduleInitial()) {
+  HomeworkBloc() : super(ScheduleInitial()) {
     on<ScheduleEvent>((event, emit) {});
   }
 

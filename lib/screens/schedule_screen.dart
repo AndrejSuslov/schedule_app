@@ -1,12 +1,23 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:flutter_test_project/screens/canteen_screen.dart';
+import 'package:flutter_test_project/screens/error_screen.dart';
+import 'package:flutter_test_project/screens/settings_screen.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:rive/rive.dart';
-
 import '../blocs/schedule_bloc/schedule_bloc.dart';
+import '../blocs/settings_bloc/settings_bloc.dart';
 import '../generated/l10n.dart';
 import '../models/schedule.dart';
+import '../services/homework_screen.dart';
+import '../services/parse.dart';
 import '../widgets/calendar_widget.dart';
+// import 'notification_screen.dart';
 
 class ScheduleScreen extends StatelessWidget {
   final Map<String, String> request;
@@ -37,16 +48,31 @@ class ScheduleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ScheduleBloc>(
+    return BlocProvider<HomeworkBloc>(
       create: (context) {
-        return ScheduleBloc()..add(_formEvent(DateTime.now()));
+        return HomeworkBloc()..add(_formEvent(DateTime.now()));
       },
       child: Builder(
         builder: (context) {
           return Scaffold(
             appBar: AppBar(
+              actions: [
+                InkWell(
+                  child: const Padding(
+                    padding: EdgeInsets.only(right: 20),
+                    // child: Icon(
+                    //   Icons.notifications,
+                    //   size: 27,
+                    // ),
+                  ),
+                  onTap: () {
+                    pushToCanteenScreenWithLoading(context);
+                  },
+                ),
+              ],
               title: Text(S.of(context).scheduleOf(request.values.first)),
             ),
+            drawer: _buildDrawer(context),
             body: SafeArea(
               child: Column(
                 children: [
@@ -57,6 +83,65 @@ class ScheduleScreen extends StatelessWidget {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildDrawer(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Theme.of(context)
+                  .primaryColor, // Use your app's primary color
+            ),
+            child: const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // You can add your app's logo or any other header content here
+                Text(
+                  'Расписание АУППРБ',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Андронио Суслини',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.fastfood), // Icon for the first item
+            title: const Text('Столовая'),
+            onTap: () {
+              pushToCanteenScreenWithLoading(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.task_alt), // Icon for the second item
+            title: const Text('Домашние задания'),
+            onTap: () {
+              pushToNotificationScreen(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings), // Icon for the second item
+            title: Text(S.of(context).settings),
+            onTap: () {
+              pushToSettingsScreen(context);
+            },
+          ),
+        ],
       ),
     );
   }
@@ -72,7 +157,7 @@ class ScheduleScreen extends StatelessWidget {
         key: ValueKey(currentIndex),
         movementDuration: const Duration(milliseconds: 0),
         confirmDismiss: (dismiss) {
-          final bloc = context.read<ScheduleBloc>();
+          final bloc = context.read<HomeworkBloc>();
           var duration = const Duration();
           if (dismiss == DismissDirection.endToStart) {
             duration = const Duration(days: 1);
@@ -86,7 +171,7 @@ class ScheduleScreen extends StatelessWidget {
           }
           return Future.value(false);
         },
-        child: BlocBuilder<ScheduleBloc, ScheduleState>(
+        child: BlocBuilder<HomeworkBloc, ScheduleState>(
           builder: (context, state) {
             if (state is ScheduleLoaded) {
               return _buildAnimatedListView(context, state.schedule);
@@ -130,25 +215,6 @@ class ScheduleScreen extends StatelessWidget {
     return _buildEmptyListWidget(context);
   }
 
-  Widget _buildErrorWidget(BuildContext context, String message) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.5,
-          width: MediaQuery.of(context).size.width * 0.7,
-          child: const RiveAnimation.asset(
-            'assets/anims/error.riv',
-          ),
-        ),
-        Text(
-          message,
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-      ],
-    );
-  }
-
   Widget _buildEmptyListWidget(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -167,4 +233,123 @@ class ScheduleScreen extends StatelessWidget {
       ],
     );
   }
+}
+
+void pushToNotificationScreen(BuildContext context) {
+  Navigator.of(context).popUntil((route) => route.isFirst);
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+      builder: (_) => const HomeScreen(),
+    ),
+  );
+}
+
+// Future<void> pushToCanteenScreen(BuildContext context) async {
+//   Canteen? canteen = await MenuLoader(
+//           "https://script.google.com/macros/s/AKfycbxU0kHQHz5ozY262ZR-1veg0ZQFn0Z7KdBVgqNgMZG4wnMy-OKK86srjOoawl9goZ5N3w/exec")
+//       .loadMenu();
+//   SchedulerBinding.instance.addPostFrameCallback((_) {
+//     Navigator.of(context).popUntil((route) => route.isFirst);
+//     Navigator.pushReplacement(
+//       context,
+//       MaterialPageRoute(
+//         builder: (_) => CanteenScreen(
+//           canteen: canteen!,
+//           dateTime: DateTime.now(),
+//         ),
+//       ),
+//     );
+//   });
+// }
+
+void pushToErrorScreen(BuildContext context) {
+  Navigator.of(context).popUntil((route) => route.isFirst);
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+      builder: (_) => const ErrorScreen(),
+    ),
+  );
+}
+
+void pushToSettingsScreen(BuildContext context) {
+  final bloc = context.read<SettingsBloc>();
+  Navigator.of(context).popUntil((route) => route.isFirst);
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+      builder: (_) => SettingsScreen(bloc),
+    ),
+  );
+}
+
+Future<void> pushToCanteenScreenWithLoading(BuildContext context) async {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Center(
+              child: LoadingAnimationWidget.fourRotatingDots(
+                size: 50,
+                color: Colors.green,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text("Finding cookies..."),
+          ],
+        ),
+      );
+    },
+  );
+  bool result = await InternetConnection().hasInternetAccess;
+  if (result) {
+    try {
+      final canteen = await MenuLoader(
+        "https://script.google.com/macros/s/AKfycbxU0kHQHz5ozY262ZR-1veg0ZQFn0Z7KdBVgqNgMZG4wnMy-OKK86srjOoawl9goZ5N3w/exec",
+      ).loadMenu();
+
+      Navigator.pop(context);
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => CanteenScreen(
+            canteen: canteen,
+            dateTime: DateTime.now(),
+          ),
+        ),
+      );
+    } catch (error) {
+      Navigator.pop(context);
+
+      // _buildErrorWidget(context, 'error');
+      _buildErrorWidget(context, "error");
+    }
+  } else {
+    pushToErrorScreen(context);
+  }
+}
+
+Widget _buildErrorWidget(BuildContext context, String message) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      SizedBox(
+        height: MediaQuery.of(context).size.height * 0.5,
+        width: MediaQuery.of(context).size.width * 0.7,
+        child: const RiveAnimation.asset(
+          'assets/anims/error.riv',
+        ),
+      ),
+      Text(
+        message,
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
+    ],
+  );
 }

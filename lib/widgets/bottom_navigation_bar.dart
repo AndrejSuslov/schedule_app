@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_project/generated/l10n.dart';
+import 'package:flutter_test_project/screens/invite_screen.dart';
 import 'package:flutter_test_project/screens/schedule_screen.dart';
-
+import 'package:flutter_test_project/screens/zmeika_screen.dart';
+import 'package:flutter_test_project/services/homework_screen.dart';
 import '../blocs/settings_bloc/settings_bloc.dart';
+import '../screens/error_screen.dart';
 import '../screens/settings_screen.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -21,6 +24,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
   void initState() {
     final bloc = context.read<SettingsBloc>();
     _screens.add(ScheduleScreen({'group': bloc.settings.group}));
+    _screens.add(InviteScreen(bloc));
+    _screens.add(const HomeScreen());
     _screens.add(SettingsScreen(bloc));
     super.initState();
   }
@@ -36,6 +41,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     return Scaffold(
       body: _screens[_currentIndex],
       bottomNavigationBar: NavigationBar(
+        height: 66,
         destinations: [
           NavigationDestination(
             icon: const Icon(Icons.home_work_outlined),

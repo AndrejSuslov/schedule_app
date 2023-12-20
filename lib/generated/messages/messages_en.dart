@@ -46,6 +46,28 @@ class MessageLookup extends MessageLookupByLibrary {
         "teachers": MessageLookupByLibrary.simpleMessage("Teachers"),
         "theme": MessageLookupByLibrary.simpleMessage("Theme"),
         "welcomeText": MessageLookupByLibrary.simpleMessage(
-            "Welcome\nEnter your group number")
+            "Welcome\nEnter your group number"),
+        "addNewTask": MessageLookupByLibrary.simpleMessage('Add new task'),
+        "time": MessageLookupByLibrary.simpleMessage('Time'),
+        "date": MessageLookupByLibrary.simpleMessage('Date'),
+        "notes": MessageLookupByLibrary.simpleMessage('Notes'),
+        "taskTitle": MessageLookupByLibrary.simpleMessage('Task Title'),
+        "completed": MessageLookupByLibrary.simpleMessage('Completed'),
+        "hometask": MessageLookupByLibrary.simpleMessage('Hometasks'),
+        "createdTask": MessageLookupByLibrary.simpleMessage(
+            'Task has been created successfully'),
+        "emptyTitle":
+            MessageLookupByLibrary.simpleMessage('Title cannot be empty'),
+        "taskToBeCompletedOn":
+            MessageLookupByLibrary.simpleMessage('Task to be completed on '),
+        "taskCompleted": MessageLookupByLibrary.simpleMessage('Task completed'),
+        "noAdditionalNote": MessageLookupByLibrary.simpleMessage(
+            'There is no additional note for this task'),
+        "taskDeleted": MessageLookupByLibrary.simpleMessage(
+            'Task has been deleted successfully'),
+        "taskDeleteAlert": MessageLookupByLibrary.simpleMessage(
+            'Are you sure you want to delete this task?'),
+        "yes": MessageLookupByLibrary.simpleMessage('YES'),
+        "no": MessageLookupByLibrary.simpleMessage('NO'),
       };
 }

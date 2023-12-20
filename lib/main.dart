@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test_project/screens/schedule_screen.dart';
+import 'package:flutter_test_project/services/homework_screen.dart';
+import 'package:flutter_test_project/services/parse.dart';
 import 'package:flutter_test_project/themes/dark_theme/dark_theme.dart';
 import 'package:flutter_test_project/themes/light_theme/light_theme.dart';
 import 'package:flutter_test_project/widgets/bottom_navigation_bar.dart';
@@ -7,8 +12,17 @@ import 'blocs/settings_bloc/settings_bloc.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() {
-  runApp(const ScheduleApp());
+void main() async {
+  runApp(const ProviderScope(child: ScheduleApp()));
+
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      systemNavigationBarIconBrightness: Brightness.light, //n
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarDividerColor: Colors.transparent, //
+      systemNavigationBarContrastEnforced: false // navigation bar icons color
+      ));
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge,
+      overlays: [SystemUiOverlay.top]);
 }
 
 class ScheduleApp extends StatelessWidget {
@@ -20,8 +34,12 @@ class ScheduleApp extends StatelessWidget {
   }
 
   Widget _buildApplication(BuildContext context) {
-    return BlocProvider<SettingsBloc>(
-      create: (context) => SettingsBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<SettingsBloc>(
+          create: (context) => SettingsBloc(),
+        ),
+      ],
       child: BlocBuilder<SettingsBloc, SettingsState>(
         buildWhen: (prevState, newState) {
           return newState is! SettingsError;
@@ -45,9 +63,10 @@ class ScheduleApp extends StatelessWidget {
               ],
               home: Builder(
                 builder: (context) {
+                  final bloc = context.read<SettingsBloc>();
                   //ИЗМЕНИТЬ НА ISNOTEMPTY КОГДА ДОБАВИМ ГРУППЫ!!!!!
                   if (state.settings.group.isEmpty) {
-                    return const BottomNavBar();
+                    return ScheduleScreen({'group': bloc.settings.group});
                   }
                   return Text("error");
                 },

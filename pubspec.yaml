@@ -21,6 +21,15 @@ dependencies:
   rive: ^0.11.17
   flutter_staggered_animations: ^1.1.1
   bloc: ^8.1.2
+  flutter_local_notifications: ^16.1.0
+  flutter_riverpod: ^2.4.5
+  gap: ^3.0.1
+  font_awesome_flutter: ^10.6.0
+  http: ^1.1.0
+  json_annotation: ^4.8.1
+  loading_animation_widget: ^1.2.0+4
+  internet_connection_checker_plus: ^2.1.0
+  swipeable_page_route: ^0.4.0
 
 dev_dependencies:
   flutter_test:
@@ -32,6 +41,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  build_runner: ^2.4.7
+  json_serializable: ^6.7.1
 
 dependency_overrides:
   intl: ^0.18.1
@@ -44,6 +55,7 @@ flutter:
       - assets/anims/sleep.riv
       - assets/anims/empty.riv
       - assets/anims/error.riv
+      - assets/images/academy.png
 
   # fonts:
   #   - family: Product-Sans
