@@ -21,6 +21,14 @@ dependencies:
   rive: ^0.12.3
   flutter_staggered_animations: ^1.1.1
   bloc: ^8.1.2
+  flutter_riverpod: ^2.4.9
+  internet_connection_checker_plus: ^2.1.0
+  loading_animation_widget: ^1.2.0+4
+  file_picker: ^6.1.1
+  excel: ^4.0.0
+  path_provider: ^2.1.1
+  gap: ^3.0.1
+  font_awesome_flutter: ^10.6.0
 
 dev_dependencies:
   flutter_test:

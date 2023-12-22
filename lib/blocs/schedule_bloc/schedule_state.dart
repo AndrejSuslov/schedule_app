@@ -12,24 +12,20 @@ class ScheduleInitial extends ScheduleState {}
 class ScheduleLoading extends ScheduleState {}
 
 class ScheduleLoaded extends ScheduleState {
-  final List<Schedule> schedule;
-  final DateTime selectedDate;
+  final List<String> classes;
+  final DateTime date;
 
-  const ScheduleLoaded({
-    required this.schedule,
-    required this.selectedDate,
-  });
+  const ScheduleLoaded(this.classes, this.date);
 }
 
 class ScheduleError extends ScheduleState {
   final String message;
 
-  const ScheduleError({
-    required this.message,
-  });
+  const ScheduleError(this.message);
 }
 
 class ScheduleTeacherLoaded extends ScheduleState {
+  // if we wanna add this, we need remove requierd
   final List<String> teachers;
 
   const ScheduleTeacherLoaded({

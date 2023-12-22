@@ -62,7 +62,7 @@ class SettingsScreen extends StatelessWidget {
                           text: "App was created by\n",
                         ),
                         TextSpan(
-                          text: "Vladislav Ponomarenko & Andrej Suslov",
+                          text: "Vladislav Ponomarenko & Andrey Suslov",
                         ),
                       ],
                     ),

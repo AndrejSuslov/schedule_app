@@ -54,3 +54,10 @@ class GetAuditoriumFromQuery extends ScheduleEvent {
 
   const GetAuditoriumFromQuery(this.query);
 }
+
+class ChangeDateOfClasses extends ScheduleEvent {
+  // i added this class for changing
+  final DateTime selectedDay;
+
+  const ChangeDateOfClasses(this.selectedDay);
+}

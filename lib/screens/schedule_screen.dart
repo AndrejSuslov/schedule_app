@@ -26,6 +26,7 @@ class ScheduleScreen extends StatelessWidget {
 
   // ЗДЕСЬ НУЖНО НАПИСАТЬ РЕКВЕСТЫ К ГРУППЕ, КУРСУ, АУДИТОРИИ, УЧИЛКЕ (ПОКА ХЗ КАК)
   ScheduleEvent _formEvent(DateTime dateTime) {
+    // maybe u need refactore this code, because i dunno what is it)))
     if (request.keys.contains('group')) {
       return GetScheduleForGroup(
         group: request['group']!,
@@ -48,9 +49,9 @@ class ScheduleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<HomeworkBloc>(
+    return BlocProvider<SheduleBloc>(
       create: (context) {
-        return HomeworkBloc()..add(_formEvent(DateTime.now()));
+        return SheduleBloc()..add(_formEvent(DateTime.now()));
       },
       child: Builder(
         builder: (context) {
@@ -111,7 +112,7 @@ class ScheduleScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'Андронио Суслини',
+                  'FCKNG SHIT',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -157,7 +158,7 @@ class ScheduleScreen extends StatelessWidget {
         key: ValueKey(currentIndex),
         movementDuration: const Duration(milliseconds: 0),
         confirmDismiss: (dismiss) {
-          final bloc = context.read<HomeworkBloc>();
+          final bloc = context.read<SheduleBloc>();
           var duration = const Duration();
           if (dismiss == DismissDirection.endToStart) {
             duration = const Duration(days: 1);
@@ -165,16 +166,15 @@ class ScheduleScreen extends StatelessWidget {
             duration = const Duration(days: -1);
           }
           if (bloc.state is ScheduleLoaded) {
-            final date =
-                (bloc.state as ScheduleLoaded).selectedDate.add(duration);
+            final date = (bloc.state as ScheduleLoaded).date.add(duration);
             bloc.add(_formEvent(date));
           }
           return Future.value(false);
         },
-        child: BlocBuilder<HomeworkBloc, ScheduleState>(
+        child: BlocBuilder<SheduleBloc, ScheduleState>(
           builder: (context, state) {
             if (state is ScheduleLoaded) {
-              return _buildAnimatedListView(context, state.schedule);
+              return _buildAnimatedListView(context, state.classes);
             } else if (state is ScheduleError) {
               return _buildErrorWidget(context, state.message);
             } else if (state is ScheduleLoading) {
@@ -199,7 +199,7 @@ class ScheduleScreen extends StatelessWidget {
   //   }
   // }
 
-  Widget _buildAnimatedListView(BuildContext context, List<Schedule> schedule) {
+  Widget _buildAnimatedListView(BuildContext context, List<String> schedule) {
     // change to ISNOTEMPTY
     if (schedule.isEmpty) {
       return AnimationLimiter(
