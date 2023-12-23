@@ -24,9 +24,7 @@ class ScheduleScreen extends StatelessWidget {
 
   const ScheduleScreen(this.request, {Key? key}) : super(key: key);
 
-  // ЗДЕСЬ НУЖНО НАПИСАТЬ РЕКВЕСТЫ К ГРУППЕ, КУРСУ, АУДИТОРИИ, УЧИЛКЕ (ПОКА ХЗ КАК)
   ScheduleEvent _formEvent(DateTime dateTime) {
-    // maybe u need refactore this code, because i dunno what is it)))
     if (request.keys.contains('group')) {
       return GetScheduleForGroup(
         group: request['group']!,
@@ -44,14 +42,12 @@ class ScheduleScreen extends StatelessWidget {
       );
     }
   }
-// PEREDELAT!!!!!!!!!!!!!!1
-//////////////////////////////////////////////////////////////////////////
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SheduleBloc>(
+    return BlocProvider<ScheduleBloc>(
       create: (context) {
-        return SheduleBloc()..add(_formEvent(DateTime.now()));
+        return ScheduleBloc()..add(_formEvent(DateTime.now()));
       },
       child: Builder(
         builder: (context) {
@@ -61,10 +57,6 @@ class ScheduleScreen extends StatelessWidget {
                 InkWell(
                   child: const Padding(
                     padding: EdgeInsets.only(right: 20),
-                    // child: Icon(
-                    //   Icons.notifications,
-                    //   size: 27,
-                    // ),
                   ),
                   onTap: () {
                     pushToCanteenScreenWithLoading(context);
@@ -95,8 +87,7 @@ class ScheduleScreen extends StatelessWidget {
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Theme.of(context)
-                  .primaryColor, // Use your app's primary color
+              color: Theme.of(context).primaryColor,
             ),
             child: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,7 +149,7 @@ class ScheduleScreen extends StatelessWidget {
         key: ValueKey(currentIndex),
         movementDuration: const Duration(milliseconds: 0),
         confirmDismiss: (dismiss) {
-          final bloc = context.read<SheduleBloc>();
+          final bloc = context.read<ScheduleBloc>();
           var duration = const Duration();
           if (dismiss == DismissDirection.endToStart) {
             duration = const Duration(days: 1);
@@ -171,7 +162,7 @@ class ScheduleScreen extends StatelessWidget {
           }
           return Future.value(false);
         },
-        child: BlocBuilder<SheduleBloc, ScheduleState>(
+        child: BlocBuilder<ScheduleBloc, ScheduleState>(
           builder: (context, state) {
             if (state is ScheduleLoaded) {
               return _buildAnimatedListView(context, state.classes);

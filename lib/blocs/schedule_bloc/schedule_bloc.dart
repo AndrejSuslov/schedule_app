@@ -12,15 +12,17 @@ import 'package:sqflite/sqflite.dart';
 part 'schedule_event.dart';
 part 'schedule_state.dart';
 
-class SheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
-  late final DateTime currentDay;
+class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
+  late DateTime currentDay;
   late final Map<DateTime, List<String>> loadedClassesForFirstGroup;
 
-  SheduleBloc() : super(ScheduleInitial()) {
+  ScheduleBloc() : super(ScheduleInitial()) {
     on<ScheduleEvent>(
-        (event, emit) {}); // I dunno bro what is it and what it does
-    on<ChangeDateOfClasses>(
-        _onChangeDate); // if u chanfed the date, go to the this method
+      (event, emit) {},
+    );
+    on<ChangeDateOfClasses>(_onChangeDate);
+    on<LoadScheduleFromFile>(_loadScheduleFromFile); // Добавим новое событие
+    _loadSchedule();
   }
 
   void _loadSchedule() async {
@@ -36,11 +38,27 @@ class SheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
 
   FutureOr<void> _onChangeDate(
       ChangeDateOfClasses event, Emitter<ScheduleState> emit) {
-    // change date and return the classes for group,
-    //but we need to add into settings a choosing of group and quantity of group
     emit(ScheduleInitial());
     currentDay = event.selectedDay;
-    emit(ScheduleLoaded(
-        loadedClassesForFirstGroup[currentDay]!.toList(), currentDay));
+
+    if (loadedClassesForFirstGroup[currentDay] != null) {
+      emit(ScheduleLoaded(
+          loadedClassesForFirstGroup[currentDay]!.toList(), currentDay));
+    } else {
+      emit(const ScheduleError('Classes for the selected day are null'));
+    }
+  }
+
+  FutureOr<void> _loadScheduleFromFile(
+      LoadScheduleFromFile event, Emitter<ScheduleState> emit) async {
+    final parsedExcel = ExcelParsing(6, 2);
+    final data = await parsedExcel.parseForAllGroups();
+    if (data != null) {
+      loadedClassesForFirstGroup = parsedExcel.getClassesForChoosedGroup(1);
+      emit(ScheduleLoaded(
+          loadedClassesForFirstGroup[currentDay]!.toList(), currentDay));
+    } else {
+      emit(const ScheduleError('Some troubles with file extension'));
+    }
   }
 }

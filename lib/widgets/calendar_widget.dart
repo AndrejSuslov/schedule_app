@@ -27,6 +27,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   CalendarFormat _format = CalendarFormat.week;
   DateTime _selectedDate = DateTime.now();
 
+// сейчас мы ссылаемся к этому говну. нужно к другому
   ScheduleEvent _formEvent(DateTime dateTime) {
     final request = widget.request;
     if (request.keys.contains('group')) {
@@ -65,7 +66,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       calendarFormatsWeek = 'Week';
     }
 
-    return BlocListener<SheduleBloc, ScheduleState>(
+    return BlocListener<ScheduleBloc, ScheduleState>(
       listener: (context, state) {
         if (state is ScheduleLoaded) {
           setState(() {
@@ -108,8 +109,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         onDaySelected: (prevDate, selDate) {
           setState(() {
             _selectedDate = selDate;
-            final bloc = context.read<SheduleBloc>();
-            bloc.add(_formEvent(selDate));
+            final bloc = context.read<ScheduleBloc>();
+            bloc.add(ChangeDateOfClasses(selDate));
             // we need add something here to preview our classes
           });
         },

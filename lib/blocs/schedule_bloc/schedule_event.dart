@@ -7,6 +7,10 @@ abstract class ScheduleEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class LoadScheduleFromFile extends ScheduleEvent {
+  const LoadScheduleFromFile();
+}
+
 class GetScheduleForGroup extends ScheduleEvent {
   final String group;
   final DateTime dateTime;
