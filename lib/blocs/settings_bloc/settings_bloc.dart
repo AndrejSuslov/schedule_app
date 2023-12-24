@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/settings.dart';
@@ -38,15 +39,14 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   ) {
     try {
       //ЗАМЕНИТЬ НА ISNOTEMPTY КОГДА ДОБАВИМ ГРУППЫ!!!!!!!!!!!!!!1
-      if (event.group.trim().isEmpty) {
-        emit(SettingsInitial());
-        settings.group = event.group;
-        settings.themeMode = event.themeMode;
-        emit(SettingsLoaded(settings));
-        Storage().saveSettings(settings);
-      } else {
-        emit(const SettingsError('Заполните поля'));
-      }
+      emit(SettingsInitial());
+      settings.group = event.group;
+      settings.themeMode = event.themeMode;
+      settings.numOfGroups = event.numOfGroups;
+      settings.file = event.file;
+      // settings.numOfGroups = event.numOfGroups;
+      emit(SettingsLoaded(settings));
+      Storage().saveSettings(settings);
     } catch (_) {
       emit(const SettingsError('Произошла ошибка'));
     }
