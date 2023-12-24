@@ -1,5 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,28 +19,34 @@ import '../generated/l10n.dart';
 import '../models/schedule.dart';
 import '../services/homework_screen.dart';
 import '../services/parse.dart';
+import '../services/parser.dart';
 import '../widgets/calendar_widget.dart';
 // import 'notification_screen.dart';
 
-class ScheduleScreen extends StatelessWidget {
+class ScheduleScreen extends StatefulWidget {
   final Map<String, String> request;
 
   const ScheduleScreen(this.request, {Key? key}) : super(key: key);
 
+  @override
+  State<ScheduleScreen> createState() => _ScheduleScreenState();
+}
+
+class _ScheduleScreenState extends State<ScheduleScreen> {
   ScheduleEvent _formEvent(DateTime dateTime) {
-    if (request.keys.contains('group')) {
+    if (widget.request.keys.contains('group')) {
       return GetScheduleForGroup(
-        group: request['group']!,
+        group: widget.request['group']!,
         dateTime: dateTime,
       );
-    } else if (request.keys.contains('teacher')) {
+    } else if (widget.request.keys.contains('teacher')) {
       return GetScheduleForTeacher(
-        teacher: request['teacher']!,
+        teacher: widget.request['teacher']!,
         dateTime: dateTime,
       );
     } else {
       return GetScheduleForAuditorium(
-        auditorium: request['auditorium']!,
+        auditorium: widget.request['auditorium']!,
         dateTime: dateTime,
       );
     }
@@ -63,7 +72,8 @@ class ScheduleScreen extends StatelessWidget {
                   },
                 ),
               ],
-              title: Text(S.of(context).scheduleOf(request.values.first)),
+              title:
+                  Text(S.of(context).scheduleOf(widget.request.values.first)),
             ),
             drawer: _buildDrawer(context),
             body: SafeArea(
@@ -74,6 +84,7 @@ class ScheduleScreen extends StatelessWidget {
                 ],
               ),
             ),
+            floatingActionButton: _buildFloatingActionButton(context),
           );
         },
       ),
@@ -139,7 +150,7 @@ class ScheduleScreen extends StatelessWidget {
   }
 
   Widget _buildCalendar(BuildContext context) {
-    return CalendarWidget(request);
+    return CalendarWidget(widget.request);
   }
 
   Widget _buildBlocListBuilder(BuildContext context) {
@@ -179,17 +190,8 @@ class ScheduleScreen extends StatelessWidget {
       ),
     );
   }
-  // ШЛЯПУ НИЖЕ НЕ ТРОГАТЬ ПОКА ЧТО!
-  //  Widget _buildWidgetDependOnRequest(Schedule schedule, int index) {
-  //   if (request.keys.contains('group')) {
-  //     return GroupScheduleWidget(schedule: schedule, index: index);
-  //   } else if (request.keys.contains('teacher')) {
-  //     return TeacherScheduleWidget(schedule: schedule, index: index);
-  //   } else {
-  //     return AuditoriumScheduleWidget(schedule: schedule, index: index);
-  //   }
-  // }
 
+  // ШЛЯПУ НИЖЕ НЕ ТРОГАТЬ ПОКА ЧТО!
   Widget _buildAnimatedListView(BuildContext context, List<String> schedule) {
     // change to ISNOTEMPTY
     if (schedule.isEmpty) {
@@ -222,6 +224,121 @@ class ScheduleScreen extends StatelessWidget {
           style: Theme.of(context).textTheme.titleMedium,
         ),
       ],
+    );
+  }
+
+  Widget _buildFloatingActionButton(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {
+        // Add logic to open the context menu here
+        _showContextMenu(context);
+      },
+      child: Icon(Icons.add, size: 36),
+      backgroundColor: Theme.of(context).primaryColor,
+    );
+  }
+
+  void _showContextMenu(BuildContext context) {
+    // Define variables to hold the selected group number and stream group count
+    int selectedGroupNumber = 1;
+    int selectedStreamGroupCount = 2; // Default value set to 2
+    FilePickerResult? excelFileResult;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return AlertDialog(
+              title: Text("тестим"),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Add file picker button
+                  ElevatedButton(
+                    onPressed: () async {
+                      excelFileResult = await FilePicker.platform.pickFiles(
+                        type: FileType.custom,
+                        allowedExtensions: ['xlsx'],
+                      );
+                      setState(() {}); // Trigger a rebuild after file selection
+                    },
+                    child: Text("Выбрать файл Excel"),
+                  ),
+                  if (excelFileResult != null)
+                    Text("Выбран файл: ${excelFileResult!.files.first.name}"),
+                  // First ListTile with DropdownButton for group number
+                  ListTile(
+                    title: Text("Номер вашей группы"),
+                    trailing: DropdownButton<int>(
+                      value: selectedGroupNumber,
+                      items: List.generate(5, (index) => index + 1)
+                          .map<DropdownMenuItem<int>>(
+                            (int value) => DropdownMenuItem<int>(
+                              value: value,
+                              child: Text(value.toString()),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (int? newValue) {
+                        if (newValue != null) {
+                          setState(() {
+                            selectedGroupNumber = newValue;
+                          });
+                        }
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: Text("Количество групп на потоке"),
+                    trailing: DropdownButton<int>(
+                      value: selectedStreamGroupCount,
+                      items: List.generate(4, (index) => index + 2)
+                          .map<DropdownMenuItem<int>>(
+                            (int value) => DropdownMenuItem<int>(
+                              value: value,
+                              child: Text(value.toString()),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (int? newValue) {
+                        if (newValue != null) {
+                          setState(() {
+                            selectedStreamGroupCount = newValue;
+                          });
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () async {
+                    if (excelFileResult != null) {
+                      ExcelParsing excelParsing = ExcelParsing(
+                        selectedStreamGroupCount,
+                        selectedGroupNumber,
+                      );
+                    }
+
+                    Navigator.pop(context);
+                  },
+                  child: Text("OK"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    // Handle the action for the "Cancel" button
+                    Navigator.pop(context);
+                  },
+                  child: Text("Cancel"),
+                ),
+              ],
+              contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            );
+          },
+        );
+      },
     );
   }
 }

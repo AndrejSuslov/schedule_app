@@ -28,7 +28,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   void _loadSchedule() async {
     emit(ScheduleLoading());
     final parsedExcel = ExcelParsing(6, 2);
-    if (await parsedExcel.parseForAllGroups() != null) {
+    {
       loadedClassesForFirstGroup = parsedExcel.getClassesForChoosedGroup(1);
       emit(ScheduleLoaded(
           loadedClassesForFirstGroup[currentDay]!.toList(), currentDay));
@@ -52,13 +52,10 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   FutureOr<void> _loadScheduleFromFile(
       LoadScheduleFromFile event, Emitter<ScheduleState> emit) async {
     final parsedExcel = ExcelParsing(6, 2);
-    final data = await parsedExcel.parseForAllGroups();
-    if (data != null) {
-      loadedClassesForFirstGroup = parsedExcel.getClassesForChoosedGroup(1);
-      emit(ScheduleLoaded(
-          loadedClassesForFirstGroup[currentDay]!.toList(), currentDay));
-    } else {
-      emit(const ScheduleError('Some troubles with file extension'));
-    }
+    // final data = await parsedExcel.parseForAllGroups();
+    loadedClassesForFirstGroup = parsedExcel.getClassesForChoosedGroup(1);
+    emit(ScheduleLoaded(
+        loadedClassesForFirstGroup[currentDay]!.toList(), currentDay));
+    emit(const ScheduleError('Some troubles with file extension'));
   }
 }

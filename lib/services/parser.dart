@@ -20,12 +20,14 @@ class ExcelParsing {
   ); // enter the quentity of classes and quentity of groups
 
   Future<Map<String, List<List<String>>>?> parseForAllGroups() async {
+    ////////////////////////////////////////////////
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['xlsx'],
     );
 
     PlatformFile file = result!.files.single;
+    ////////////////////////////////////
     final bytes = await File(file.path!).readAsBytes();
     var decodedExcel = Excel.decodeBytes(bytes);
 

@@ -17,3 +17,6 @@ class Storage {
     return null;
   }
 }
+
+// 1. save + read schedule;
+// 2. add the button to main screen (check TG) 
