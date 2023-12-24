@@ -46,7 +46,10 @@ class ScheduleApp extends StatelessWidget {
         },
         builder: (context, state) {
           if (state is SettingsLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+                child: CircularProgressIndicator(
+              color: Colors.amber,
+            ));
           } else if (state is SettingsLoaded) {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
@@ -65,7 +68,7 @@ class ScheduleApp extends StatelessWidget {
                 builder: (context) {
                   final bloc = context.read<SettingsBloc>();
                   //ИЗМЕНИТЬ НА ISNOTEMPTY КОГДА ДОБАВИМ ГРУППЫ!!!!!
-                  if (state.settings.group.isEmpty) {
+                  if (state.settings.group.isNotEmpty) {
                     return ScheduleScreen({'group': bloc.settings.group});
                   }
                   return Text("error");

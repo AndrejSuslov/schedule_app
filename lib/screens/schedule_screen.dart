@@ -243,7 +243,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     int selectedGroupNumber = 1;
     int selectedStreamGroupCount = 2; // Default value set to 2
     FilePickerResult? excelFileResult;
-
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -254,62 +253,21 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Add file picker button
+                  _buildGroupListTile(),
+                  _buildNumsOfGroupListTile(),
                   ElevatedButton(
                     onPressed: () async {
                       excelFileResult = await FilePicker.platform.pickFiles(
                         type: FileType.custom,
                         allowedExtensions: ['xlsx'],
                       );
-                      setState(() {}); // Trigger a rebuild after file selection
+                      setState(
+                          () {}); // после выбора файла нужно чето делать или нет хз
                     },
                     child: Text("Выбрать файл Excel"),
                   ),
                   if (excelFileResult != null)
                     Text("Выбран файл: ${excelFileResult!.files.first.name}"),
-                  // First ListTile with DropdownButton for group number
-                  ListTile(
-                    title: Text("Номер вашей группы"),
-                    trailing: DropdownButton<int>(
-                      value: selectedGroupNumber,
-                      items: List.generate(5, (index) => index + 1)
-                          .map<DropdownMenuItem<int>>(
-                            (int value) => DropdownMenuItem<int>(
-                              value: value,
-                              child: Text(value.toString()),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (int? newValue) {
-                        if (newValue != null) {
-                          setState(() {
-                            selectedGroupNumber = newValue;
-                          });
-                        }
-                      },
-                    ),
-                  ),
-                  ListTile(
-                    title: Text("Количество групп на потоке"),
-                    trailing: DropdownButton<int>(
-                      value: selectedStreamGroupCount,
-                      items: List.generate(4, (index) => index + 2)
-                          .map<DropdownMenuItem<int>>(
-                            (int value) => DropdownMenuItem<int>(
-                              value: value,
-                              child: Text(value.toString()),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (int? newValue) {
-                        if (newValue != null) {
-                          setState(() {
-                            selectedStreamGroupCount = newValue;
-                          });
-                        }
-                      },
-                    ),
-                  ),
                 ],
               ),
               actions: [
@@ -328,7 +286,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 ),
                 TextButton(
                   onPressed: () {
-                    // Handle the action for the "Cancel" button
                     Navigator.pop(context);
                   },
                   child: Text("Cancel"),
@@ -337,6 +294,90 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             );
           },
+        );
+      },
+    );
+  }
+
+  Widget _buildGroupListTile() {
+    final bloc = context.read<SettingsBloc>();
+    List<int> groups = [1, 2, 3, 4, 5];
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      bloc: bloc,
+      builder: (context, state) {
+        return ListTile(
+          title: const Text('Группа'),
+          trailing: DropdownButton<String>(
+            value: bloc.settings.group,
+            items: [
+              DropdownMenuItem(
+                value: groups.elementAt(0).toString(),
+                child: const Text('1'),
+              ),
+              DropdownMenuItem(
+                value: groups.elementAt(1).toString(),
+                child: const Text('2'),
+              ),
+              DropdownMenuItem(
+                value: groups.elementAt(2).toString(),
+                child: const Text('3'),
+              ),
+              DropdownMenuItem(
+                value: groups.elementAt(3).toString(),
+                child: const Text('4'),
+              ),
+              DropdownMenuItem(
+                value: groups.elementAt(4).toString(),
+                child: const Text('5'),
+              ),
+            ],
+            onChanged: (group) {
+              if (group != null) {
+                bloc.add(ChangeSettings(bloc.settings.themeMode, group,
+                    bloc.settings.numOfGroups, bloc.settings.file));
+              }
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildNumsOfGroupListTile() {
+    final bloc = context.read<SettingsBloc>();
+    List<int> groups = [2, 3, 4, 5];
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      bloc: bloc,
+      builder: (context, state) {
+        return ListTile(
+          title: const Text('Кол-во групп на потоке'),
+          trailing: DropdownButton<String>(
+            value: bloc.settings.numOfGroups,
+            items: [
+              DropdownMenuItem(
+                value: groups.elementAt(0).toString(),
+                child: const Text('2'),
+              ),
+              DropdownMenuItem(
+                value: groups.elementAt(1).toString(),
+                child: const Text('3'),
+              ),
+              DropdownMenuItem(
+                value: groups.elementAt(2).toString(),
+                child: const Text('4'),
+              ),
+              DropdownMenuItem(
+                value: groups.elementAt(3).toString(),
+                child: const Text('5'),
+              ),
+            ],
+            onChanged: (numOfGroups) {
+              if (numOfGroups != null) {
+                bloc.add(ChangeSettings(bloc.settings.themeMode,
+                    bloc.settings.group, numOfGroups, bloc.settings.file));
+              }
+            },
+          ),
         );
       },
     );

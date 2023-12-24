@@ -128,7 +128,8 @@ class _CanteenScreenState extends State<CanteenScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => ScheduleScreen({'group': bloc.settings.group}),
+        builder: (_) =>
+            ScheduleScreen({'group': bloc.settings.group as String}),
       ),
     );
   }

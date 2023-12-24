@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_project/screens/schedule_screen.dart';
@@ -43,11 +44,14 @@ class SettingsScreen extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       _buildThemeListTile(),
+                      _buildGroupListTile(),
+                      _buildNumsOfGroupListTile(),
+                      _buildExcelPickerListTile(context),
                       _buildClearCacheListTile(context),
                     ],
                   ),
                 ),
-                const Spacer(),
+                const Spacer(), // Добавлен Spacer для создания пространства
                 Container(
                   padding: const EdgeInsets.all(8.0),
                   child: RichText(
@@ -89,6 +93,27 @@ class SettingsScreen extends StatelessWidget {
       title: Text(S.of(context).clearCache),
       onTap: () {
         bloc.add(const ClearCache());
+      },
+    );
+  }
+
+  Widget _buildExcelPickerListTile(BuildContext context) {
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      bloc: bloc,
+      builder: (context, state) {
+        return ListTile(
+          title: Text(
+              'Выбрать файл (${bloc.settings.file})'), // тут надо чето придумать
+          onTap: () async {
+            FilePickerResult? result = await FilePicker.platform.pickFiles(
+              type: FileType.custom,
+              allowedExtensions: ['xlsx'],
+            );
+            PlatformFile file = result!.files.single;
+            bloc.add(ChangeSettings(bloc.settings.themeMode,
+                bloc.settings.group, bloc.settings.numOfGroups, file));
+          },
+        );
       },
     );
   }
@@ -142,7 +167,90 @@ class SettingsScreen extends StatelessWidget {
             ],
             onChanged: (themeMode) {
               if (themeMode != null) {
-                bloc.add(ChangeSettings(themeMode, bloc.settings.group));
+                bloc.add(ChangeSettings(themeMode, bloc.settings.group,
+                    bloc.settings.numOfGroups, bloc.settings.file));
+              }
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildGroupListTile() {
+    List<int> groups = [1, 2, 3, 4, 5];
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      bloc: bloc,
+      builder: (context, state) {
+        return ListTile(
+          title: const Text('Группа'),
+          trailing: DropdownButton<String>(
+            value: bloc.settings.group,
+            items: [
+              DropdownMenuItem(
+                value: groups.elementAt(0).toString(),
+                child: const Text('1'),
+              ),
+              DropdownMenuItem(
+                value: groups.elementAt(1).toString(),
+                child: const Text('2'),
+              ),
+              DropdownMenuItem(
+                value: groups.elementAt(2).toString(),
+                child: const Text('3'),
+              ),
+              DropdownMenuItem(
+                value: groups.elementAt(3).toString(),
+                child: const Text('4'),
+              ),
+              DropdownMenuItem(
+                value: groups.elementAt(4).toString(),
+                child: const Text('5'),
+              ),
+            ],
+            onChanged: (group) {
+              if (group != null) {
+                bloc.add(ChangeSettings(bloc.settings.themeMode, group,
+                    bloc.settings.numOfGroups, bloc.settings.file));
+              }
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildNumsOfGroupListTile() {
+    List<int> groups = [2, 3, 4, 5];
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      bloc: bloc,
+      builder: (context, state) {
+        return ListTile(
+          title: const Text('Кол-во групп на потоке'),
+          trailing: DropdownButton<String>(
+            value: bloc.settings.numOfGroups,
+            items: [
+              DropdownMenuItem(
+                value: groups.elementAt(0).toString(),
+                child: const Text('2'),
+              ),
+              DropdownMenuItem(
+                value: groups.elementAt(1).toString(),
+                child: const Text('3'),
+              ),
+              DropdownMenuItem(
+                value: groups.elementAt(2).toString(),
+                child: const Text('4'),
+              ),
+              DropdownMenuItem(
+                value: groups.elementAt(3).toString(),
+                child: const Text('5'),
+              ),
+            ],
+            onChanged: (numOfGroups) {
+              if (numOfGroups != null) {
+                bloc.add(ChangeSettings(bloc.settings.themeMode,
+                    bloc.settings.group, numOfGroups, bloc.settings.file));
               }
             },
           ),
