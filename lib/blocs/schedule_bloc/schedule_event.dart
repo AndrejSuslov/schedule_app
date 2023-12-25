@@ -22,10 +22,7 @@ class LoadSchedule extends ScheduleEvent {
   LoadSchedule();
 }
 
-class SaveSchedule extends ScheduleEvent {
-  late final PlatformFile file;
-  SaveSchedule(this.file);
-}
+class SaveSchedule extends ScheduleEvent {}
 
 ////////////////////////////////////////////////////////////////////////////////
 

@@ -43,11 +43,13 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         teacher: widget.request['teacher']!,
         dateTime: dateTime,
       );
-    } else {
+    } else if (widget.request.keys.contains('auditorium')) {
       return GetScheduleForAuditorium(
         auditorium: widget.request['auditorium']!,
         dateTime: dateTime,
       );
+    } else {
+      return LoadSchedule();
     }
   }
 
@@ -270,10 +272,12 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               ),
               actions: [
                 TextButton(
-                  onPressed: () async {
+                  onPressed: () {
                     final bloc = context.read<ScheduleBloc>();
+                    final settingBloc = context.read<SettingsBloc>();
                     // i don't understand how it works motherfuckers
                     bloc.add(const PickFile());
+                    bloc.add(SaveSchedule());
                     Navigator.pop(context);
                   },
                   child: Text("Выбрать файл"),

@@ -14,6 +14,7 @@ part 'schedule_state.dart';
 
 class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   late DateTime currentDay = DateTime.now();
+  late final PlatformFile globalFile;
   late final Map<DateTime, List<String>> loadedClassesFromCache;
 
   ScheduleBloc() : super(ScheduleInitial()) {
@@ -58,7 +59,8 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     );
     if (result != null) {
       PlatformFile file = result.files.single;
-      emit(PickedFile(file));
+      globalFile = file;
+      emit(PickedFile(globalFile));
     } else {
       emit(const ScheduleError('Something went wrong'));
     }
@@ -69,10 +71,11 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     emit(SavingSchedule());
 
     final parsedExcel = ExcelParsing(int.parse(SettingsBloc().settings.group));
-    if (await parsedExcel.parseForAllGroups(event.file) != null) {
+    if (await parsedExcel.parseForAllGroups(globalFile) != null) {
       final loadedClassesForGroup = parsedExcel.getClassesForChoosedGroup(
           int.parse(SettingsBloc().settings.numOfGroups));
-      await Storage().saveClasses(loadedClassesForGroup);
+      await Storage().saveSchedule(loadedClassesForGroup);
+      print("EVERYTHING SHOULD BE ALL RIGHT");
       //final classes = Storage().readSchedule() as Map<DateTime, List<String>>;
       emit(SavedSchedule());
     } else {
