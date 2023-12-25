@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/settings.dart';
+// import '../models/schedule.dart';
 
 class Storage {
   Future<void> saveSettings(Settings settings) async {
@@ -14,6 +15,18 @@ class Storage {
     if (settings != null) {
       return Settings.fromMap(jsonDecode(settings));
     }
+    return null;
+  }
+
+  Future<void> saveClasses(Map<DateTime, List<String>> schedule) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('schedule', jsonEncode(schedule));
+  }
+
+  Future<Map<DateTime, List<String>>?> readSchedule() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final schedule = prefs.getString('schedule');
+    if (schedule != null) return jsonDecode(schedule);
     return null;
   }
 }

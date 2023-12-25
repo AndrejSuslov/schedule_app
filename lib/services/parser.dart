@@ -1,32 +1,30 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:excel/excel.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:flutter_test_project/services/events.dart';
 
 class ExcelParsing {
   Map<String, List<List<String>>> finalData = {};
   Map<DateTime, List<String>> classesForOneGroup = {};
   List<List<String>> _tempData = []; // временно для двумерного списка
   List<String> _timeOfClasses = [];
-  final int _quentityOfClasses;
+  static const int _quentityOfClasses = 6;
   final int _quentityOfGroups;
   //final int _quentityOfWeeks;
 
   ExcelParsing(
-    this._quentityOfClasses,
     this._quentityOfGroups,
     /*this._quentityOfWeeks*/
   ); // enter the quentity of classes and quentity of groups
 
-  Future<Map<String, List<List<String>>>?> parseForAllGroups() async {
+  Future<Map<String, List<List<String>>>?> parseForAllGroups(
+      PlatformFile file) async {
     ////////////////////////////////////////////////
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['xlsx'],
-    );
+    // FilePickerResult? result = await FilePicker.platform.pickFiles(
+    //   type: FileType.custom,
+    //   allowedExtensions: ['xlsx'],
+    // );
 
-    PlatformFile file = result!.files.single;
+    // PlatformFile file = result!.files.single;
     ////////////////////////////////////
     final bytes = await File(file.path!).readAsBytes();
     var decodedExcel = Excel.decodeBytes(bytes);

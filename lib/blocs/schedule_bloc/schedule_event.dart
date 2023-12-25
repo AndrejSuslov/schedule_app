@@ -7,9 +7,27 @@ abstract class ScheduleEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadScheduleFromFile extends ScheduleEvent {
-  const LoadScheduleFromFile();
+class ChangeDateOfClasses extends ScheduleEvent {
+  final DateTime selectedDay;
+
+  const ChangeDateOfClasses(this.selectedDay);
 }
+
+class PickFile extends ScheduleEvent {
+  const PickFile();
+}
+
+class LoadSchedule extends ScheduleEvent {
+  late final Storage cache;
+  LoadSchedule();
+}
+
+class SaveSchedule extends ScheduleEvent {
+  late final PlatformFile file;
+  SaveSchedule(this.file);
+}
+
+////////////////////////////////////////////////////////////////////////////////
 
 class GetScheduleForGroup extends ScheduleEvent {
   final String group;
@@ -57,11 +75,4 @@ class GetAuditoriumFromQuery extends ScheduleEvent {
   final String query;
 
   const GetAuditoriumFromQuery(this.query);
-}
-
-class ChangeDateOfClasses extends ScheduleEvent {
-  // i added this class for changing
-  final DateTime selectedDay;
-
-  const ChangeDateOfClasses(this.selectedDay);
 }

@@ -1,67 +1,97 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
-import 'package:excel/excel.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_test_project/models/schedule.dart';
-import 'package:flutter_test_project/services/events.dart';
+import 'package:flutter_test_project/blocs/settings_bloc/settings_bloc.dart';
 import 'package:flutter_test_project/services/parser.dart';
+import 'package:flutter_test_project/services/storage.dart';
 import 'package:intl/intl.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'schedule_event.dart';
 part 'schedule_state.dart';
 
 class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   late DateTime currentDay = DateTime.now();
-  late final Map<DateTime, List<String>> loadedClassesForFirstGroup;
+  late final Map<DateTime, List<String>> loadedClassesFromCache;
 
   ScheduleBloc() : super(ScheduleInitial()) {
     on<ScheduleEvent>(
       (event, emit) {},
     );
+    on<PickFile>(_pickFile); // Добавим новое событие
+    //on<ScheduleLoading>(_loadSchedule);
     on<ChangeDateOfClasses>(_onChangeDate);
-    //on<LoadScheduleFromFile>(_loadScheduleFromFile); // Добавим новое событие
-    _loadSchedule();
+    on<SaveSchedule>(_saveScheduleToCache);
+    on<LoadSchedule>(_loadSchedule);
   }
 
-  void _loadSchedule() async {
-    emit(ScheduleLoading());
-    final parsedExcel = ExcelParsing(6, 2);
-    await parsedExcel.parseForAllGroups();
-    {
-      loadedClassesForFirstGroup = parsedExcel.getClassesForChoosedGroup(1);
-      if (currentDay.weekday == 7) {
-        emit(
-            /* here will be emit to the state void day with animation */ somevoiddaystate);
-      }
-      emit(ScheduleLoaded(
-          loadedClassesForFirstGroup[currentDay]!.toList(), currentDay));
-    }
-    emit(const ScheduleError('Some troubles with file extension'));
-  }
+  // FutureOr <void> _loadSchedule(LoadingSchedule event, Emitter<ScheduleState> emit) {
+
+  // }
 
   FutureOr<void> _onChangeDate(
       ChangeDateOfClasses event, Emitter<ScheduleState> emit) {
     emit(ScheduleInitial());
     currentDay = event.selectedDay;
-
-    if (loadedClassesForFirstGroup[currentDay] != null) {
-      emit(ScheduleLoaded(
-          loadedClassesForFirstGroup[currentDay]!.toList(), currentDay));
+    //final readData = Storage().readSchedule() as Map<DateTime, List<String>>;
+    //loadedClassesFromCache = readData;
+    if (loadedClassesFromCache != null) {
+      if (currentDay.weekday != DateTime.sunday) {
+        emit(ScheduleLoaded(
+            loadedClassesFromCache[currentDay]!.toList(), currentDay));
+      } else {
+        const ScheduleDayIsEmpty('There aren\'t classes. Chill out, bro');
+      }
     } else {
-      emit(const ScheduleError('Classes for the selected day are null'));
+      emit(const ScheduleError('Data is not downloaded'));
     }
   }
 
-  FutureOr<void> _loadScheduleFromFile(
-      LoadScheduleFromFile event, Emitter<ScheduleState> emit) async {
-    final parsedExcel = ExcelParsing(6, 2);
-    await parsedExcel.parseForAllGroups();
-    loadedClassesForFirstGroup = parsedExcel.getClassesForChoosedGroup(1);
+  FutureOr<void> _pickFile(PickFile event, Emitter<ScheduleState> emit) async {
+    emit(const PickingFile());
+
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['xlsx'],
+    );
+    if (result != null) {
+      PlatformFile file = result.files.single;
+      emit(PickedFile(file));
+    } else {
+      emit(const ScheduleError('Something went wrong'));
+    }
+  }
+
+  FutureOr<void> _saveScheduleToCache(
+      SaveSchedule event, Emitter<ScheduleState> emit) async {
+    emit(SavingSchedule());
+
+    final parsedExcel = ExcelParsing(int.parse(SettingsBloc().settings.group));
+    if (await parsedExcel.parseForAllGroups(event.file) != null) {
+      final loadedClassesForGroup = parsedExcel.getClassesForChoosedGroup(
+          int.parse(SettingsBloc().settings.numOfGroups));
+      await Storage().saveClasses(loadedClassesForGroup);
+      //final classes = Storage().readSchedule() as Map<DateTime, List<String>>;
+      emit(SavedSchedule());
+    } else {
+      emit(const ScheduleError(
+          'Some troubles with parsing. Clear the cache and try again.'));
+    }
+  }
+
+  FutureOr<void> _loadSchedule(
+      LoadSchedule event, Emitter<ScheduleState> emit) {
+    emit(ScheduleLoading());
+    loadedClassesFromCache =
+        Storage().readSchedule() as Map<DateTime, List<String>>;
     emit(ScheduleLoaded(
-        loadedClassesForFirstGroup[currentDay]!.toList(), currentDay));
-    emit(const ScheduleError('Some troubles with file extension'));
+        loadedClassesFromCache[currentDay] as List<String>, currentDay));
   }
 }
+
+// мне нужно разделить файл пикер на другой стейт и добавить ивент туда
+// сделать сохранение данных в кэш тоже стейт и ивент
+// попробовать вмонтировать все это в ту клавишу
+

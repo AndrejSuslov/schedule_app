@@ -16,7 +16,6 @@ import 'package:rive/rive.dart';
 import '../blocs/schedule_bloc/schedule_bloc.dart';
 import '../blocs/settings_bloc/settings_bloc.dart';
 import '../generated/l10n.dart';
-import '../models/schedule.dart';
 import '../services/homework_screen.dart';
 import '../services/parse.dart';
 import '../services/parser.dart';
@@ -155,6 +154,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 
   Widget _buildBlocListBuilder(BuildContext context) {
     int currentIndex = 0;
+    late List<String> schedule;
     return Expanded(
       child: Dismissible(
         key: ValueKey(currentIndex),
@@ -169,6 +169,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           }
           if (bloc.state is ScheduleLoaded) {
             final date = (bloc.state as ScheduleLoaded).date.add(duration);
+            schedule = (bloc.state as ScheduleLoaded).classes;
             bloc.add(_formEvent(date));
           }
           return Future.value(false);
@@ -242,47 +243,40 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     // Define variables to hold the selected group number and stream group count
     int selectedGroupNumber = 1;
     int selectedStreamGroupCount = 2; // Default value set to 2
-    FilePickerResult? excelFileResult;
+    //FilePickerResult? excelFileResult;
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return AlertDialog(
-              title: Text("тестим"),
+              title: Text("Меню выбора"),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   _buildGroupListTile(),
                   _buildNumsOfGroupListTile(),
-                  ElevatedButton(
-                    onPressed: () async {
-                      excelFileResult = await FilePicker.platform.pickFiles(
-                        type: FileType.custom,
-                        allowedExtensions: ['xlsx'],
-                      );
-                      setState(
-                          () {}); // после выбора файла нужно чето делать или нет хз
-                    },
-                    child: Text("Выбрать файл Excel"),
-                  ),
-                  if (excelFileResult != null)
-                    Text("Выбран файл: ${excelFileResult!.files.first.name}"),
+                  // ElevatedButton(
+                  //   onPressed: () async {
+
+                  //     setState(
+                  //         () {}); // после выбора файла нужно чето делать или нет хз
+                  //   },
+                  //   child: Text("Выбрать файл Excel"),
+                  // ),
+                  // if (excelFileResult != null)
+                  //   Text("Выбран файл: ${excelFileResult!.files.first.name}"),
                 ],
               ),
               actions: [
                 TextButton(
                   onPressed: () async {
-                    if (excelFileResult != null) {
-                      ExcelParsing excelParsing = ExcelParsing(
-                        selectedStreamGroupCount,
-                        selectedGroupNumber,
-                      );
-                    }
-
+                    final bloc = context.read<ScheduleBloc>();
+                    // i don't understand how it works motherfuckers
+                    bloc.add(const PickFile());
                     Navigator.pop(context);
                   },
-                  child: Text("OK"),
+                  child: Text("Выбрать файл"),
                 ),
                 TextButton(
                   onPressed: () {
