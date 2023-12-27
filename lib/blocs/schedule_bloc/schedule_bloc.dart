@@ -1,7 +1,7 @@
 import 'dart:async';
-
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_project/blocs/settings_bloc/settings_bloc.dart';
 import 'package:flutter_test_project/services/parser.dart';
@@ -21,7 +21,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     on<ScheduleEvent>(
       (event, emit) {},
     );
-    on<PickFile>(_pickFile); // Добавим новое событие
+    on<PickFile>(_pickFile);
     //on<ScheduleLoading>(_loadSchedule);
     on<ChangeDateOfClasses>(_onChangeDate);
     on<SaveSchedule>(_saveScheduleToCache);
@@ -60,7 +60,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     if (result != null) {
       PlatformFile file = result.files.single;
       globalFile = file;
-      emit(PickedFile(globalFile));
+      emit(PickedFile(file));
     } else {
       emit(const ScheduleError('Something went wrong'));
     }
@@ -69,19 +69,17 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   FutureOr<void> _saveScheduleToCache(
       SaveSchedule event, Emitter<ScheduleState> emit) async {
     emit(SavingSchedule());
-
-    final parsedExcel = ExcelParsing(int.parse(SettingsBloc().settings.group));
-    if (await parsedExcel.parseForAllGroups(globalFile) != null) {
-      final loadedClassesForGroup = parsedExcel.getClassesForChoosedGroup(
-          int.parse(SettingsBloc().settings.numOfGroups));
-      await Storage().saveSchedule(loadedClassesForGroup);
-      print("EVERYTHING SHOULD BE ALL RIGHT");
-      //final classes = Storage().readSchedule() as Map<DateTime, List<String>>;
-      emit(SavedSchedule());
-    } else {
-      emit(const ScheduleError(
-          'Some troubles with parsing. Clear the cache and try again.'));
-    }
+    final parsedExcel = ExcelParsing(int.parse(event.numOfGroups));
+    await parsedExcel.parseForAllGroups(globalFile);
+    final loadedClassesForGroup =
+        parsedExcel.getClassesForChoosedGroup(int.parse(event.group));
+    await Storage().saveSchedule(loadedClassesForGroup);
+    //final classes = Storage().readSchedule() as Map<DateTime, List<String>>;
+    emit(SavedSchedule());
+    // } else {
+    //   emit(const ScheduleError(
+    //       'Some troubles with parsing. Clear the cache and try again.'));
+    // }
   }
 
   FutureOr<void> _loadSchedule(

@@ -18,13 +18,18 @@ class PickFile extends ScheduleEvent {
 }
 
 class LoadSchedule extends ScheduleEvent {
-  late final Storage cache;
-  LoadSchedule();
+  const LoadSchedule();
 }
 
-class SaveSchedule extends ScheduleEvent {}
+class SaveSchedule extends ScheduleEvent {
+  final String group;
+  final String numOfGroups;
 
-////////////////////////////////////////////////////////////////////////////////
+  const SaveSchedule({
+    required this.group,
+    required this.numOfGroups,
+  });
+}
 
 class GetScheduleForGroup extends ScheduleEvent {
   final String group;

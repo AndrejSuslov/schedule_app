@@ -49,7 +49,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         dateTime: dateTime,
       );
     } else {
-      return LoadSchedule();
+      return const LoadSchedule();
     }
   }
 
@@ -236,7 +236,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         // Add logic to open the context menu here
         _showContextMenu(context);
       },
-      child: Icon(Icons.add, size: 36),
+      child: const Icon(Icons.add, size: 36),
       backgroundColor: Theme.of(context).primaryColor,
     );
   }
@@ -249,47 +249,46 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        final bloc = context.read<ScheduleBloc>();
+        final settingsBloc = context.read<SettingsBloc>();
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return AlertDialog(
-              title: Text("Меню выбора"),
+              title: const Text("Меню выбора"),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   _buildGroupListTile(),
                   _buildNumsOfGroupListTile(),
-                  // ElevatedButton(
-                  //   onPressed: () async {
-
-                  //     setState(
-                  //         () {}); // после выбора файла нужно чето делать или нет хз
-                  //   },
-                  //   child: Text("Выбрать файл Excel"),
-                  // ),
-                  // if (excelFileResult != null)
-                  //   Text("Выбран файл: ${excelFileResult!.files.first.name}"),
+                  ElevatedButton(
+                    onPressed: () async {
+                      bloc.add(const PickFile());
+                    },
+                    child: Text("Выбрать файл Excel"),
+                  ),
                 ],
               ),
               actions: [
                 TextButton(
                   onPressed: () {
-                    final bloc = context.read<ScheduleBloc>();
-                    final settingBloc = context.read<SettingsBloc>();
                     // i don't understand how it works motherfuckers
-                    bloc.add(const PickFile());
-                    bloc.add(SaveSchedule());
+                    // bloc.add(const PickFile());
+                    bloc.add(SaveSchedule(
+                        group: settingsBloc.settings.group,
+                        numOfGroups: settingsBloc.settings.numOfGroups));
                     Navigator.pop(context);
                   },
-                  child: Text("Выбрать файл"),
+                  child: const Text("Выбрать файл"),
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text("Cancel"),
+                  child: const Text("Cancel"),
                 ),
               ],
-              contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             );
           },
         );
