@@ -44,9 +44,8 @@ class ExcelParsing {
 
       for (int j = 0; j < _quentityOfClasses * 6; j += _quentityOfClasses) {
         List<List<String>> tempClasses = [[], [], [], [], []];
-        tempDateOfClasses = this
-            ._tempData[j][i]
-            .replaceRange(10, this._tempData[j][i].length, '');
+        tempDateOfClasses = this._tempData[j][i];
+        // .replaceRange(10, this._tempData[j][i].length, '');
 
         for (int q = 0; q < _quentityOfGroups; q++) {
           List<String> temp = [];

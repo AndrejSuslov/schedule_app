@@ -73,9 +73,12 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     await parsedExcel.parseForAllGroups(globalFile);
     final loadedClassesForGroup =
         parsedExcel.getClassesForChoosedGroup(int.parse(event.group));
-    await Storage().saveSchedule(loadedClassesForGroup);
+    // await Storage().saveSchedule(loadedClassesForGroup);
+    loadedClassesFromCache = loadedClassesForGroup;
     //final classes = Storage().readSchedule() as Map<DateTime, List<String>>;
     emit(SavedSchedule());
+    emit(ScheduleLoaded(
+        loadedClassesFromCache[currentDay]!.toList(), currentDay));
     // } else {
     //   emit(const ScheduleError(
     //       'Some troubles with parsing. Clear the cache and try again.'));
@@ -95,4 +98,3 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
 // мне нужно разделить файл пикер на другой стейт и добавить ивент туда
 // сделать сохранение данных в кэш тоже стейт и ивент
 // попробовать вмонтировать все это в ту клавишу
-

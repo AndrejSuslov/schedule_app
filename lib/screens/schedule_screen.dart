@@ -1,10 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_test_project/screens/canteen_screen.dart';
@@ -18,9 +14,7 @@ import '../blocs/settings_bloc/settings_bloc.dart';
 import '../generated/l10n.dart';
 import '../services/homework_screen.dart';
 import '../services/parse.dart';
-import '../services/parser.dart';
 import '../widgets/calendar_widget.dart';
-// import 'notification_screen.dart';
 
 class ScheduleScreen extends StatefulWidget {
   final Map<String, String> request;
@@ -49,7 +43,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         dateTime: dateTime,
       );
     } else {
-      return const LoadSchedule();
+      return ChangeDateOfClasses(dateTime);
     }
   }
 
@@ -197,7 +191,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   // ШЛЯПУ НИЖЕ НЕ ТРОГАТЬ ПОКА ЧТО!
   Widget _buildAnimatedListView(BuildContext context, List<String> schedule) {
     // change to ISNOTEMPTY
-    if (schedule.isEmpty) {
+    if (schedule.isNotEmpty) {
       return AnimationLimiter(
         child: ListView.builder(
           itemBuilder: (_, index) {
@@ -390,24 +384,6 @@ void pushToNotificationScreen(BuildContext context) {
     ),
   );
 }
-
-// Future<void> pushToCanteenScreen(BuildContext context) async {
-//   Canteen? canteen = await MenuLoader(
-//           "https://script.google.com/macros/s/AKfycbxU0kHQHz5ozY262ZR-1veg0ZQFn0Z7KdBVgqNgMZG4wnMy-OKK86srjOoawl9goZ5N3w/exec")
-//       .loadMenu();
-//   SchedulerBinding.instance.addPostFrameCallback((_) {
-//     Navigator.of(context).popUntil((route) => route.isFirst);
-//     Navigator.pushReplacement(
-//       context,
-//       MaterialPageRoute(
-//         builder: (_) => CanteenScreen(
-//           canteen: canteen!,
-//           dateTime: DateTime.now(),
-//         ),
-//       ),
-//     );
-//   });
-// }
 
 void pushToErrorScreen(BuildContext context) {
   Navigator.of(context).popUntil((route) => route.isFirst);

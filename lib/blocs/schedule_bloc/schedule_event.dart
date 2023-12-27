@@ -21,6 +21,8 @@ class LoadSchedule extends ScheduleEvent {
   const LoadSchedule();
 }
 
+class GetSchedule extends ScheduleEvent {}
+
 class SaveSchedule extends ScheduleEvent {
   final String group;
   final String numOfGroups;
