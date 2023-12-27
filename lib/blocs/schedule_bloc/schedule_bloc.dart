@@ -1,7 +1,7 @@
 import 'dart:async';
-
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_project/blocs/settings_bloc/settings_bloc.dart';
 import 'package:flutter_test_project/services/parser.dart';
@@ -14,13 +14,14 @@ part 'schedule_state.dart';
 
 class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   late DateTime currentDay = DateTime.now();
+  late final PlatformFile globalFile;
   late final Map<DateTime, List<String>> loadedClassesFromCache;
 
   ScheduleBloc() : super(ScheduleInitial()) {
     on<ScheduleEvent>(
       (event, emit) {},
     );
-    on<PickFile>(_pickFile); // Добавим новое событие
+    on<PickFile>(_pickFile);
     //on<ScheduleLoading>(_loadSchedule);
     on<ChangeDateOfClasses>(_onChangeDate);
     on<SaveSchedule>(_saveScheduleToCache);
@@ -32,11 +33,10 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   // }
 
   FutureOr<void> _onChangeDate(
-      ChangeDateOfClasses event, Emitter<ScheduleState> emit) {
+      ChangeDateOfClasses event, Emitter<ScheduleState> emit) async {
     emit(ScheduleInitial());
     currentDay = event.selectedDay;
-    //final readData = Storage().readSchedule() as Map<DateTime, List<String>>;
-    //loadedClassesFromCache = readData;
+    //loadedClassesFromCache = await Storage().readSchedule() ?? {};
     if (loadedClassesFromCache != null) {
       if (currentDay.weekday != DateTime.sunday) {
         emit(ScheduleLoaded(
@@ -58,6 +58,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     );
     if (result != null) {
       PlatformFile file = result.files.single;
+      globalFile = file;
       emit(PickedFile(file));
     } else {
       emit(const ScheduleError('Something went wrong'));
@@ -67,25 +68,27 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   FutureOr<void> _saveScheduleToCache(
       SaveSchedule event, Emitter<ScheduleState> emit) async {
     emit(SavingSchedule());
-
-    final parsedExcel = ExcelParsing(int.parse(SettingsBloc().settings.group));
-    if (await parsedExcel.parseForAllGroups(event.file) != null) {
-      final loadedClassesForGroup = parsedExcel.getClassesForChoosedGroup(
-          int.parse(SettingsBloc().settings.numOfGroups));
-      await Storage().saveClasses(loadedClassesForGroup);
-      //final classes = Storage().readSchedule() as Map<DateTime, List<String>>;
-      emit(SavedSchedule());
-    } else {
-      emit(const ScheduleError(
-          'Some troubles with parsing. Clear the cache and try again.'));
-    }
+    final parsedExcel = ExcelParsing(int.parse(event.numOfGroups));
+    await parsedExcel.parseForAllGroups(globalFile);
+    final loadedClassesForGroup =
+        parsedExcel.getClassesForChoosedGroup(int.parse(event.group));
+    // await Storage().saveSchedule(loadedClassesForGroup);
+    loadedClassesFromCache = loadedClassesForGroup;
+    //final classes = Storage().readSchedule() as Map<DateTime, List<String>>;
+    emit(SavedSchedule());
+    emit(ScheduleLoaded(
+        loadedClassesFromCache[currentDay]!.toList(), currentDay));
+    // } else {
+    //   emit(const ScheduleError(
+    //       'Some troubles with parsing. Clear the cache and try again.'));
+    // }
   }
 
   FutureOr<void> _loadSchedule(
-      LoadSchedule event, Emitter<ScheduleState> emit) {
-    emit(ScheduleLoading());
+      LoadSchedule event, Emitter<ScheduleState> emit) async {
+    emit(SavedSchedule());
     loadedClassesFromCache =
-        Storage().readSchedule() as Map<DateTime, List<String>>;
+        await Storage().readSchedule() ?? {}; //as Map<DateTime, List<String>>;
     emit(ScheduleLoaded(
         loadedClassesFromCache[currentDay] as List<String>, currentDay));
   }
@@ -94,4 +97,3 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
 // мне нужно разделить файл пикер на другой стейт и добавить ивент туда
 // сделать сохранение данных в кэш тоже стейт и ивент
 // попробовать вмонтировать все это в ту клавишу
-

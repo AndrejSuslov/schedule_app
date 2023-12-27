@@ -18,9 +18,10 @@ class PickFile extends ScheduleEvent {
 }
 
 class LoadSchedule extends ScheduleEvent {
-  late final Storage cache;
-  LoadSchedule();
+  const LoadSchedule();
 }
+
+class GetSchedule extends ScheduleEvent {}
 
 class SaveSchedule extends ScheduleEvent {
   late final PlatformFile file;

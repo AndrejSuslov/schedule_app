@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test_project/blocs/schedule_bloc/schedule_bloc.dart';
 import 'package:flutter_test_project/screens/schedule_screen.dart';
 import 'package:flutter_test_project/services/homework_screen.dart';
 import 'package:flutter_test_project/services/parse.dart';
@@ -39,6 +40,9 @@ class ScheduleApp extends StatelessWidget {
         BlocProvider<SettingsBloc>(
           create: (context) => SettingsBloc(),
         ),
+        BlocProvider<ScheduleBloc>(
+          create: (context) => ScheduleBloc(),
+        )
       ],
       child: BlocBuilder<SettingsBloc, SettingsState>(
         buildWhen: (prevState, newState) {

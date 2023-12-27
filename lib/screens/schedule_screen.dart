@@ -1,10 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_test_project/screens/canteen_screen.dart';
@@ -18,9 +14,7 @@ import '../blocs/settings_bloc/settings_bloc.dart';
 import '../generated/l10n.dart';
 import '../services/homework_screen.dart';
 import '../services/parse.dart';
-import '../services/parser.dart';
 import '../widgets/calendar_widget.dart';
-// import 'notification_screen.dart';
 
 class ScheduleScreen extends StatefulWidget {
   final Map<String, String> request;
@@ -43,11 +37,13 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         teacher: widget.request['teacher']!,
         dateTime: dateTime,
       );
-    } else {
+    } else if (widget.request.keys.contains('auditorium')) {
       return GetScheduleForAuditorium(
         auditorium: widget.request['auditorium']!,
         dateTime: dateTime,
       );
+    } else {
+      return ChangeDateOfClasses(dateTime);
     }
   }
 
@@ -195,7 +191,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   // ШЛЯПУ НИЖЕ НЕ ТРОГАТЬ ПОКА ЧТО!
   Widget _buildAnimatedListView(BuildContext context, List<String> schedule) {
     // change to ISNOTEMPTY
-    if (schedule.isEmpty) {
+    if (schedule.isNotEmpty) {
       return AnimationLimiter(
         child: ListView.builder(
           itemBuilder: (_, index) {
@@ -234,7 +230,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         // Add logic to open the context menu here
         _showContextMenu(context);
       },
-      child: Icon(Icons.add, size: 36),
+      child: const Icon(Icons.add, size: 36),
       backgroundColor: Theme.of(context).primaryColor,
     );
   }
@@ -243,49 +239,52 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     // Define variables to hold the selected group number and stream group count
     int selectedGroupNumber = 1;
     int selectedStreamGroupCount = 2; // Default value set to 2
+    final bloc = context.read<ScheduleBloc>();
     //FilePickerResult? excelFileResult;
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        final bloc = context.read<ScheduleBloc>();
+        final settingsBloc = context.read<SettingsBloc>();
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return AlertDialog(
-              title: Text("Меню выбора"),
+              title: const Text("Меню выбора"),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   _buildGroupListTile(),
                   _buildNumsOfGroupListTile(),
-                  // ElevatedButton(
-                  //   onPressed: () async {
-
-                  //     setState(
-                  //         () {}); // после выбора файла нужно чето делать или нет хз
-                  //   },
-                  //   child: Text("Выбрать файл Excel"),
-                  // ),
-                  // if (excelFileResult != null)
-                  //   Text("Выбран файл: ${excelFileResult!.files.first.name}"),
+                  ElevatedButton(
+                    onPressed: () async {
+                      bloc.add(const PickFile());
+                    },
+                    child: Text("Выбрать файл Excel"),
+                  ),
                 ],
               ),
               actions: [
                 TextButton(
-                  onPressed: () async {
-                    final bloc = context.read<ScheduleBloc>();
+                  onPressed: () {
                     // i don't understand how it works motherfuckers
-                    bloc.add(const PickFile());
+                    // bloc.add(const PickFile());
+                    bloc.add(SaveSchedule(
+                        group: settingsBloc.settings.group,
+                        numOfGroups: settingsBloc.settings.numOfGroups));
                     Navigator.pop(context);
                   },
-                  child: Text("Выбрать файл"),
+                  child: const Text("Выбрать файл"),
                 ),
                 TextButton(
                   onPressed: () {
+                    bloc.add(SaveSchedule());
                     Navigator.pop(context);
                   },
-                  child: Text("Cancel"),
+                  child: const Text("Cancel"),
                 ),
               ],
-              contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             );
           },
         );
@@ -387,24 +386,6 @@ void pushToNotificationScreen(BuildContext context) {
     ),
   );
 }
-
-// Future<void> pushToCanteenScreen(BuildContext context) async {
-//   Canteen? canteen = await MenuLoader(
-//           "https://script.google.com/macros/s/AKfycbxU0kHQHz5ozY262ZR-1veg0ZQFn0Z7KdBVgqNgMZG4wnMy-OKK86srjOoawl9goZ5N3w/exec")
-//       .loadMenu();
-//   SchedulerBinding.instance.addPostFrameCallback((_) {
-//     Navigator.of(context).popUntil((route) => route.isFirst);
-//     Navigator.pushReplacement(
-//       context,
-//       MaterialPageRoute(
-//         builder: (_) => CanteenScreen(
-//           canteen: canteen!,
-//           dateTime: DateTime.now(),
-//         ),
-//       ),
-//     );
-//   });
-// }
 
 void pushToErrorScreen(BuildContext context) {
   Navigator.of(context).popUntil((route) => route.isFirst);
