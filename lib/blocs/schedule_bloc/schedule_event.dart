@@ -24,10 +24,14 @@ class LoadSchedule extends ScheduleEvent {
 class GetSchedule extends ScheduleEvent {}
 
 class SaveSchedule extends ScheduleEvent {
-  late final PlatformFile file;
-  SaveSchedule(this.file);
-}
+  final String group;
+  final String numOfGroups;
 
+  const SaveSchedule({
+    required this.group,
+    required this.numOfGroups,
+  });
+}
 ////////////////////////////////////////////////////////////////////////////////
 
 class GetScheduleForGroup extends ScheduleEvent {

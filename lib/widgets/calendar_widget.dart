@@ -110,7 +110,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           setState(() {
             _selectedDate = selDate;
             final bloc = context.read<ScheduleBloc>();
-            bloc.add(ChangeDateOfClasses(selDate));
+            bloc.add(ChangeDateOfClasses(_selectedDate));
             // we need add something here to preview our classes
           });
         },

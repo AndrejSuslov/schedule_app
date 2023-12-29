@@ -265,19 +265,17 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               ),
               actions: [
                 TextButton(
-                  onPressed: () {
-                    // i don't understand how it works motherfuckers
-                    // bloc.add(const PickFile());
+                  onPressed: () async {
                     bloc.add(SaveSchedule(
                         group: settingsBloc.settings.group,
                         numOfGroups: settingsBloc.settings.numOfGroups));
+                    bloc.add(const LoadSchedule());
                     Navigator.pop(context);
                   },
-                  child: const Text("Выбрать файл"),
+                  child: const Text("Ок"),
                 ),
                 TextButton(
                   onPressed: () {
-                    bloc.add(SaveSchedule());
                     Navigator.pop(context);
                   },
                   child: const Text("Cancel"),
