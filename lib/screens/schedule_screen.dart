@@ -6,6 +6,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_test_project/screens/canteen_screen.dart';
 import 'package:flutter_test_project/screens/error_screen.dart';
 import 'package:flutter_test_project/screens/settings_screen.dart';
+import 'package:flutter_test_project/widgets/schedule_widget.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:rive/rive.dart';
@@ -181,7 +182,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             }
             // не забыть поменять!
             // return _buildAnimatedListView(context, []);
-            return _buildEmptyListWidget(context);
+            return _buildAnimatedListView(context, []);
           },
         ),
       ),
@@ -191,13 +192,13 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   // ШЛЯПУ НИЖЕ НЕ ТРОГАТЬ ПОКА ЧТО!
   Widget _buildAnimatedListView(BuildContext context, List<String> schedule) {
     // change to ISNOTEMPTY
-    if (schedule.isNotEmpty) {
+    if (schedule.isEmpty) {
       return AnimationLimiter(
         child: ListView.builder(
           itemBuilder: (_, index) {
-            // return _buildWidgetDependOnRequest(schedule[index], index);
+            return GroupScheduleWidget(index: 3);
           },
-          itemCount: schedule.length,
+          itemCount: 4,
           shrinkWrap: true,
         ),
       );
