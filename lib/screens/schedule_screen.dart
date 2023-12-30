@@ -239,7 +239,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     // Define variables to hold the selected group number and stream group count
     int selectedGroupNumber = 1;
     int selectedStreamGroupCount = 2; // Default value set to 2
-    final bloc = context.read<ScheduleBloc>();
+
     //FilePickerResult? excelFileResult;
     showDialog(
       context: context,

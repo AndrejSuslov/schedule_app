@@ -15,7 +15,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   final String date = DateTime.now().toString().replaceRange(10, 26, '');
   late DateTime currentDay = DateTime.parse(date);
   late final PlatformFile globalFile;
-  Map<DateTime, List<String>> loadedClassesFromCache = {};
+  //late final Map<DateTime, List<String>> loadedClassesFromCache;
 
   ScheduleBloc() : super(ScheduleInitial()) {
     on<ScheduleEvent>(
@@ -30,11 +30,10 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
 
   FutureOr<void> _onChangeDate(
       ChangeDateOfClasses event, Emitter<ScheduleState> emit) {
-    emit(SchedulereeloadDate());
+    emit(ScheduleReeloadDate());
     currentDay = event.selectedDay;
     if (currentDay.weekday != DateTime.sunday) {
-      emit(
-          ScheduleLoaded(loadedClassesFromCache[currentDay] ?? [], currentDay));
+      emit(ChangedDate());
     } else {
       const ScheduleDayIsEmpty('There aren\'t classes. Chill out, bro');
     }
@@ -87,13 +86,11 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
         debugPrint('Ошибка при разборе JSON: $e');
       }
     });
-    loadedClassesFromCache = loadedClassesFromCache1;
     // Map<String, List<String>> decodedStringMap = Map<String, List<String>>.from(
     //     jsonDecode(Storage().readSchedule().toString()));
     // loadedClassesFromCache = decodedStringMap.map((key, value) =>
     //     MapEntry(DateTime.parse(key), value)); //  DateTime.parse(key)
-    emit(ScheduleLoaded(
-        loadedClassesFromCache[currentDay]!.toList(), currentDay));
+    emit(ScheduleLoaded(loadedClassesFromCache1[currentDay] ?? [], currentDay));
   }
 }
 
