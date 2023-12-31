@@ -18,15 +18,14 @@ class Storage {
     return null;
   }
 
-  Future<void> saveSchedule(Map<DateTime, List<String>> schedule) async {
+  Future<void> saveSchedule(String jsonFromBloc) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('schedule1', jsonEncode(schedule));
+    prefs.setString('schedule2', jsonFromBloc);
   }
 
-  Future<Map<DateTime, List<String>>?> readSchedule() async {
+  Future<String> readSchedule() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final schedule = prefs.getString('schedule1');
-    if (schedule != null) return jsonDecode(schedule);
-    return null;
+    final schedule = prefs.getString('schedule2').toString();
+    return schedule;
   }
 }

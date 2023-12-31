@@ -46,8 +46,8 @@ class GroupScheduleWidget extends StatelessWidget {
       builder: (context) => Container(
         padding: const EdgeInsets.only(
           top: 20,
-          left: 20,
-          right: 20,
+          left: 10,
+          right: 10,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

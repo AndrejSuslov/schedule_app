@@ -192,7 +192,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   // ШЛЯПУ НИЖЕ НЕ ТРОГАТЬ ПОКА ЧТО!
   Widget _buildAnimatedListView(BuildContext context, List<String> schedule) {
     // change to ISNOTEMPTY
-    if (schedule.isEmpty) {
+    if (schedule.isNotEmpty) {
       return AnimationLimiter(
         child: ListView.builder(
           itemBuilder: (_, index) {
@@ -240,6 +240,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     // Define variables to hold the selected group number and stream group count
     int selectedGroupNumber = 1;
     int selectedStreamGroupCount = 2; // Default value set to 2
+    final bloc = context.read<ScheduleBloc>();
     //FilePickerResult? excelFileResult;
     showDialog(
       context: context,
@@ -265,15 +266,14 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               ),
               actions: [
                 TextButton(
-                  onPressed: () {
-                    // i don't understand how it works motherfuckers
-                    // bloc.add(const PickFile());
+                  onPressed: () async {
                     bloc.add(SaveSchedule(
                         group: settingsBloc.settings.group,
                         numOfGroups: settingsBloc.settings.numOfGroups));
+                    bloc.add(const LoadSchedule());
                     Navigator.pop(context);
                   },
-                  child: const Text("Выбрать файл"),
+                  child: const Text("Ок"),
                 ),
                 TextButton(
                   onPressed: () {
