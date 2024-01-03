@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test_project/blocs/schedule_bloc/schedule_bloc.dart';
 import 'package:flutter_test_project/services/homework_screen.dart';
 import 'package:intl/intl.dart';
 
 class GroupScheduleWidget extends StatelessWidget {
   final int index;
+  final List<String> schedule;
 
-  const GroupScheduleWidget({Key? key, required this.index}) : super(key: key);
+  const GroupScheduleWidget(
+      {Key? key, required this.index, required this.schedule})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,13 +19,12 @@ class GroupScheduleWidget extends StatelessWidget {
         onTap: () {
           _showScheduleFullDialog(context);
         },
-        title: const Text('Дискретная математика'),
+        title:
+            schedule[index] == "null" ? Text('') : Text('${schedule[index]}'),
         subtitle: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Плющ О.Б.'),
-          ],
+          children: [],
         ),
         trailing: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -35,7 +39,6 @@ class GroupScheduleWidget extends StatelessWidget {
     widgets.add(const Text('10.05'));
     widgets.addAll([
       const SizedBox(height: 5),
-      const Icon(Icons.warning),
     ]);
     return widgets;
   }

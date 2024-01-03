@@ -189,16 +189,17 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     );
   }
 
-  // ШЛЯПУ НИЖЕ НЕ ТРОГАТЬ ПОКА ЧТО!
   Widget _buildAnimatedListView(BuildContext context, List<String> schedule) {
-    // change to ISNOTEMPTY
     if (schedule.isNotEmpty) {
       return AnimationLimiter(
         child: ListView.builder(
           itemBuilder: (_, index) {
-            return GroupScheduleWidget(index: 3);
+            return GroupScheduleWidget(
+              index: index,
+              schedule: schedule,
+            );
           },
-          itemCount: 4,
+          itemCount: schedule.length,
           shrinkWrap: true,
         ),
       );
