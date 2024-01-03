@@ -28,4 +28,9 @@ class Storage {
     final schedule = prefs.getString('schedule2').toString();
     return schedule;
   }
+
+  Future<void> clearStorage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+  }
 }

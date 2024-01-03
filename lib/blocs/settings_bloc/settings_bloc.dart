@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../models/settings.dart';
 import '../../services/storage.dart';
@@ -43,7 +44,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       settings.group = event.group;
       settings.themeMode = event.themeMode;
       settings.numOfGroups = event.numOfGroups;
-      settings.file = event.file;
+
       // settings.numOfGroups = event.numOfGroups;
       emit(SettingsLoaded(settings));
       Storage().saveSettings(settings);
@@ -57,9 +58,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     Emitter<SettingsState> emit,
   ) async {
     emit(SettingsInitial());
-    //RE - DO!!!! SHITTY CODE;
-    // ignore: await_only_futures
-    await ();
+    await Storage().clearStorage();
     emit(const CachedDataDeleted('Кэшированые данные были удалены'));
     emit(SettingsLoaded(settings));
   }

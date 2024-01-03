@@ -46,7 +46,6 @@ class SettingsScreen extends StatelessWidget {
                       _buildThemeListTile(),
                       _buildGroupListTile(),
                       _buildNumsOfGroupListTile(),
-                      _buildExcelPickerListTile(context),
                       _buildClearCacheListTile(context),
                     ],
                   ),
@@ -93,27 +92,6 @@ class SettingsScreen extends StatelessWidget {
       title: Text(S.of(context).clearCache),
       onTap: () {
         bloc.add(const ClearCache());
-      },
-    );
-  }
-
-  Widget _buildExcelPickerListTile(BuildContext context) {
-    return BlocBuilder<SettingsBloc, SettingsState>(
-      bloc: bloc,
-      builder: (context, state) {
-        return ListTile(
-          title: Text(
-              'Выбрать файл (${bloc.settings.file})'), // тут надо чето придумать
-          onTap: () async {
-            FilePickerResult? result = await FilePicker.platform.pickFiles(
-              type: FileType.custom,
-              allowedExtensions: ['xlsx'],
-            );
-            PlatformFile file = result!.files.single;
-            bloc.add(ChangeSettings(bloc.settings.themeMode,
-                bloc.settings.group, bloc.settings.numOfGroups, file));
-          },
-        );
       },
     );
   }
@@ -167,8 +145,8 @@ class SettingsScreen extends StatelessWidget {
             ],
             onChanged: (themeMode) {
               if (themeMode != null) {
-                bloc.add(ChangeSettings(themeMode, bloc.settings.group,
-                    bloc.settings.numOfGroups, bloc.settings.file));
+                bloc.add(ChangeSettings(
+                    themeMode, bloc.settings.group, bloc.settings.numOfGroups));
               }
             },
           ),
@@ -210,8 +188,8 @@ class SettingsScreen extends StatelessWidget {
             ],
             onChanged: (group) {
               if (group != null) {
-                bloc.add(ChangeSettings(bloc.settings.themeMode, group,
-                    bloc.settings.numOfGroups, bloc.settings.file));
+                bloc.add(ChangeSettings(
+                    bloc.settings.themeMode, group, bloc.settings.numOfGroups));
               }
             },
           ),
@@ -249,8 +227,8 @@ class SettingsScreen extends StatelessWidget {
             ],
             onChanged: (numOfGroups) {
               if (numOfGroups != null) {
-                bloc.add(ChangeSettings(bloc.settings.themeMode,
-                    bloc.settings.group, numOfGroups, bloc.settings.file));
+                bloc.add(ChangeSettings(
+                    bloc.settings.themeMode, bloc.settings.group, numOfGroups));
               }
             },
           ),

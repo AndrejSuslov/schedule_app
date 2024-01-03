@@ -11,10 +11,9 @@ class ChangeSettings extends SettingsEvent {
   final ThemeMode themeMode;
   final String group;
   final String numOfGroups;
-  final PlatformFile? file;
   // final ScheduleBloc? bloc;
 
-  const ChangeSettings(this.themeMode, this.group, this.numOfGroups, this.file);
+  const ChangeSettings(this.themeMode, this.group, this.numOfGroups);
 }
 
 class ClearCache extends SettingsEvent {

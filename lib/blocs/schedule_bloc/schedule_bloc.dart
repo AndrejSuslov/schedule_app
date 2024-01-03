@@ -83,7 +83,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
         loadedClassesFromCache1 = decodedStringMap.map((key, value) =>
             MapEntry(DateTime.parse(key), value.cast<String>().toList()));
       } catch (e) {
-        debugPrint('Ошибка при разборе JSON: $e');
+        emit(const ScheduleError('Ошибка при чтении файла'));
       }
     });
     // Map<String, List<String>> decodedStringMap = Map<String, List<String>>.from(

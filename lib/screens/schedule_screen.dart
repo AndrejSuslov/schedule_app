@@ -110,7 +110,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'FCKNG SHIT',
+                  '',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -165,9 +165,10 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             duration = const Duration(days: -1);
           }
           if (bloc.state is ScheduleLoaded) {
-            final date = (bloc.state as ScheduleLoaded).date.add(duration);
+            final _date = (bloc.state as ScheduleLoaded).date.add(duration);
             schedule = (bloc.state as ScheduleLoaded).classes;
-            bloc.add(_formEvent(date));
+            bloc.add(ChangeDateOfClasses(_date));
+            bloc.add(const LoadSchedule());
           }
           return Future.value(false);
         },
@@ -326,8 +327,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             ],
             onChanged: (group) {
               if (group != null) {
-                bloc.add(ChangeSettings(bloc.settings.themeMode, group,
-                    bloc.settings.numOfGroups, bloc.settings.file));
+                bloc.add(ChangeSettings(
+                    bloc.settings.themeMode, group, bloc.settings.numOfGroups));
               }
             },
           ),
@@ -366,8 +367,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             ],
             onChanged: (numOfGroups) {
               if (numOfGroups != null) {
-                bloc.add(ChangeSettings(bloc.settings.themeMode,
-                    bloc.settings.group, numOfGroups, bloc.settings.file));
+                bloc.add(ChangeSettings(
+                    bloc.settings.themeMode, bloc.settings.group, numOfGroups));
               }
             },
           ),

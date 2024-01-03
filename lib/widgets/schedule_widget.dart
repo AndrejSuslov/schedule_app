@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_test_project/blocs/schedule_bloc/schedule_bloc.dart';
 import 'package:flutter_test_project/services/homework_screen.dart';
 import 'package:intl/intl.dart';
@@ -14,29 +15,46 @@ class GroupScheduleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        onTap: () {
-          _showScheduleFullDialog(context);
-        },
-        title:
-            schedule[index] == "null" ? Text('') : Text('${schedule[index]}'),
-        subtitle: const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [],
+    if (schedule[index] == 'null') {
+      return Container();
+    } else {
+      return AnimationConfiguration.staggeredList(
+        position: index,
+        duration: const Duration(milliseconds: 375),
+        child: SlideAnimation(
+          verticalOffset: 50.0,
+          child: Card(
+            child: ListTile(
+              onTap: () {
+                _showScheduleFullDialog(context);
+              },
+              title: Text(schedule[index]),
+              subtitle: const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Text(''),
+                  // Text('Преподаватель: -'),
+                ],
+              ),
+              trailing: Flex(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                direction: Axis.vertical,
+                children: _buildTrailingListWidget(),
+              ),
+            ),
+          ),
         ),
-        trailing: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: _buildTrailingListWidget(),
-        ),
-      ),
-    );
+      );
+    }
   }
 
   List<Widget> _buildTrailingListWidget() {
     List<Widget> widgets = [];
-    widgets.add(const Text('10.05'));
+    widgets.add(const Text(
+      'some info',
+      style: TextStyle(fontSize: 14),
+    ));
     widgets.addAll([
       const SizedBox(height: 5),
     ]);
@@ -101,18 +119,18 @@ class GroupScheduleWidget extends StatelessWidget {
       child: ListView.builder(
         itemCount: 2, // Placeholder count
         itemBuilder: (context, index) {
-          return ListTile(
-            onTap: () {},
-            title: const Text(''),
-            subtitle: const Text(
-              'Андронио Суслини',
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-            ),
-            trailing: Text(
-              DateFormat.yMMMd('ru').format(DateTime.now()),
-            ),
-          );
+          // return ListTile(
+          //   onTap: () {},
+          //   // title: const Text(''),
+          //   // subtitle: const Text(
+          //   //   '-',
+          //   //   overflow: TextOverflow.ellipsis,
+          //   //   maxLines: 2,
+          //   // ),
+          //   // trailing: Text(
+          //   //   DateFormat.yMMMd('ru').format(DateTime.now()),
+          //   // ),
+          // );
         },
       ),
     );
@@ -133,27 +151,23 @@ class GroupScheduleWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Дискретная математика',
-          style: Theme.of(context).textTheme.headline5,
+          '-',
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
         const SizedBox(
           height: 15,
         ),
         Text(
-          'Преподаватель: Плющ О.Б.',
-          style: Theme.of(context).textTheme.subtitle1,
+          'Преподаватель: -',
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         Text(
-          'Тип: Лекция',
-          style: Theme.of(context).textTheme.subtitle1,
+          'Тип: -',
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         Text(
-          'Аудитория: не ебу',
-          style: Theme.of(context).textTheme.subtitle1,
-        ),
-        Text(
-          'Время: как придет старый',
-          style: Theme.of(context).textTheme.subtitle1,
+          'Время: -',
+          style: Theme.of(context).textTheme.titleMedium,
         ),
       ],
     );

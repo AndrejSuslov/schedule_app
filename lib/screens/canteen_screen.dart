@@ -55,7 +55,8 @@ class _CanteenScreenState extends State<CanteenScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Canteen Menu'),
+          title: Text('Canteen Menu ${widget.canteen.date}'),
+          titleTextStyle: const TextStyle(fontSize: 21),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
