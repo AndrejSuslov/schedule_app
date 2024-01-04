@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_project/screens/schedule_screen.dart';
 import '../blocs/settings_bloc/settings_bloc.dart';
 import '../generated/l10n.dart';
+import '../services/app_alerts.dart';
 
 class SettingsScreen extends StatelessWidget {
   final SettingsBloc bloc;
@@ -29,7 +30,7 @@ class SettingsScreen extends StatelessWidget {
             BlocListener<SettingsBloc, SettingsState>(
               listener: (context, state) {
                 if (state is CachedDataDeleted) {
-                  _showSnackBar(context, state.message);
+                  AppAlerts.displaySnackbar(context, state.message);
                 }
               },
             ),
