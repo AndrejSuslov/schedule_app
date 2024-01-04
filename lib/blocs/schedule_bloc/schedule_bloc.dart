@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_project/services/parser.dart';
 import 'package:flutter_test_project/services/storage.dart';
@@ -58,22 +57,27 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   FutureOr<void> _saveScheduleToCache(
       SaveSchedule event, Emitter<ScheduleState> emit) async {
     emit(SavingSchedule());
+
     final parsedExcel = ExcelParsing(int.parse(event.numOfGroups));
     await parsedExcel.parseForAllGroups(globalFile);
-    // loadedClassesFromCache =
-    //     parsedExcel.getClassesForChoosedGroup(int.parse(event.group));
+    //List<String> timeOfClasses = parsedExcel.getTimeOfClasses();
+    //Storage().saveTime(timeOfClasses);
 
     Map<String, List<String>> stringMap = parsedExcel
         .getClassesForChoosedGroup(int.parse(event.group))
         .map((key, value) => MapEntry(key.toString(), value));
     String jsonString = jsonEncode(stringMap);
     Storage().saveSchedule(jsonString);
+
     emit(SavedSchedule());
+    // emit(ScheduleLoaded(
+    //     stringMapTemp[currentDay] ?? [], currentDay, timeOfClasses));
   }
 
   FutureOr<void> _loadSchedule(
       LoadSchedule event, Emitter<ScheduleState> emit) async {
     emit(ScheduleLoading());
+
     var futureString = Storage().readSchedule();
     late final Map<DateTime, List<String>> loadedClassesFromCache1;
     await futureString.then((string) {
@@ -86,14 +90,18 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
         emit(const ScheduleError('Ошибка при чтении файла'));
       }
     });
-    // Map<String, List<String>> decodedStringMap = Map<String, List<String>>.from(
-    //     jsonDecode(Storage().readSchedule().toString()));
-    // loadedClassesFromCache = decodedStringMap.map((key, value) =>
-    //     MapEntry(DateTime.parse(key), value)); //  DateTime.parse(key)
-    emit(ScheduleLoaded(loadedClassesFromCache1[currentDay] ?? [], currentDay));
+
+    // var futureListStringWithTime = Storage().readTime();
+    // late final List<String> timeOfClasses;
+    // await futureListStringWithTime.then((time) {
+    //   try {
+    //     timeOfClasses = time.toList();
+    //   } catch (e) {
+    //     emit(const ScheduleError('Ошибка при чтении файла'));
+    //   }
+    // });
+//////////////////////////////////////////////////////////////////////////
+    emit(ScheduleLoaded(loadedClassesFromCache1[currentDay] ?? [],
+        currentDay /*timeOfClasses*/));
   }
 }
-
-
-// map((key, value) =>
-//             MapEntry(DateTime.parse(key), value.cast<String>()));

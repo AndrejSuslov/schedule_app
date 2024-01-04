@@ -18,8 +18,13 @@ class ScheduleLoading extends ScheduleState {}
 class ScheduleLoaded extends ScheduleState {
   final List<String> classes;
   final DateTime date;
+  //final List<String> time;
 
-  const ScheduleLoaded(this.classes, this.date);
+  const ScheduleLoaded(
+    this.classes,
+    this.date,
+    /*this.time*/
+  );
 }
 
 class ScheduleError extends ScheduleState {

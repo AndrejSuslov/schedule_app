@@ -20,17 +20,28 @@ class Storage {
 
   Future<void> saveSchedule(String jsonFromBloc) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('schedule2', jsonFromBloc);
+    prefs.setString('schedule22', jsonFromBloc);
   }
 
   Future<String> readSchedule() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final schedule = prefs.getString('schedule2').toString();
+    final schedule = prefs.getString('schedule22').toString();
     return schedule;
   }
 
   Future<void> clearStorage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
+  }
+
+  Future<void> saveTime(List<String> time) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setStringList('time1', time);
+  }
+
+  Future<List<String>> readTime() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final time = prefs.getStringList('time1') ?? [];
+    return time;
   }
 }

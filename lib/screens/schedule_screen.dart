@@ -262,7 +262,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                     onPressed: () async {
                       bloc.add(const PickFile());
                     },
-                    child: Text("Выбрать файл Excel"),
+                    child: const Text("Выбрать файл Excel"),
                   ),
                 ],
               ),
