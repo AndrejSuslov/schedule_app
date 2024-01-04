@@ -60,18 +60,14 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
 
     final parsedExcel = ExcelParsing(int.parse(event.numOfGroups));
     await parsedExcel.parseForAllGroups(globalFile);
-    //List<String> timeOfClasses = parsedExcel.getTimeOfClasses();
-    //Storage().saveTime(timeOfClasses);
-
     Map<String, List<String>> stringMap = parsedExcel
         .getClassesForChoosedGroup(int.parse(event.group))
         .map((key, value) => MapEntry(key.toString(), value));
     String jsonString = jsonEncode(stringMap);
     Storage().saveSchedule(jsonString);
-
+    var time = await parsedExcel.getTimeOfClasses();
+    Storage().saveTime(time);
     emit(SavedSchedule());
-    // emit(ScheduleLoaded(
-    //     stringMapTemp[currentDay] ?? [], currentDay, timeOfClasses));
   }
 
   FutureOr<void> _loadSchedule(
@@ -90,18 +86,17 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
         emit(const ScheduleError('Ошибка при чтении файла'));
       }
     });
+    List<String> lastTime = [];
+    var time = Storage().readTime();
+    await time.then((listWithTime) {
+      try {
+        lastTime = listWithTime;
+      } catch (e) {
+        emit(const ScheduleError('Ошибка при чтении файла'));
+      }
+    });
 
-    // var futureListStringWithTime = Storage().readTime();
-    // late final List<String> timeOfClasses;
-    // await futureListStringWithTime.then((time) {
-    //   try {
-    //     timeOfClasses = time.toList();
-    //   } catch (e) {
-    //     emit(const ScheduleError('Ошибка при чтении файла'));
-    //   }
-    // });
-//////////////////////////////////////////////////////////////////////////
-    emit(ScheduleLoaded(loadedClassesFromCache1[currentDay] ?? [],
-        currentDay /*timeOfClasses*/));
+    emit(ScheduleLoaded(
+        loadedClassesFromCache1[currentDay] ?? [], currentDay, lastTime));
   }
 }

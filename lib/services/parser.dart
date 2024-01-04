@@ -8,7 +8,6 @@ class ExcelParsing {
   Map<DateTime, List<String>> classesForOneGroup = {};
   late final List<List<String>> _tempData =
       []; // временно для двумерного списка
-  late final List<String> _timeOfClasses;
   static const int _quentityOfClasses = 6;
   final int _quentityOfGroups;
   //final int _quentityOfWeeks;
@@ -20,14 +19,6 @@ class ExcelParsing {
 
   Future<Map<String, List<List<String>>>?> parseForAllGroups(
       PlatformFile file) async {
-    ////////////////////////////////////////////////
-    // FilePickerResult? result = await FilePicker.platform.pickFiles(
-    //   type: FileType.custom,
-    //   allowedExtensions: ['xlsx'],
-    // );
-
-    // PlatformFile file = result!.files.single;
-    ////////////////////////////////////
     final bytes = await File(file.path ?? '').readAsBytes();
     var decodedExcel = Excel.decodeBytes(bytes);
 
@@ -66,10 +57,11 @@ class ExcelParsing {
   }
 
   List<String> getTimeOfClasses() {
+    List<String> timeOfClasses = [];
     for (int i = 0; i < _quentityOfClasses; i++) {
-      _timeOfClasses[i] = _tempData[i + 3][1];
+      timeOfClasses.add(_tempData[i][1]);
     }
-    return _timeOfClasses;
+    return timeOfClasses;
   }
 
   Map<DateTime, List<String>> getClassesForChoosedGroup(int numberOfGroup) {
