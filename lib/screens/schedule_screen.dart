@@ -87,6 +87,16 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     );
   }
 
+  Widget _buildImage(BuildContext context) {
+    return Center(
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.1,
+        width: double.infinity,
+        child: Image.asset('assets/images/logo.png'),
+      ),
+    );
+  }
+
   Widget _buildDrawer(BuildContext context) {
     return Drawer(
       child: ListView(
@@ -96,26 +106,27 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,
             ),
-            child: const Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // You can add your app's logo or any other header content here
-                Text(
-                  'Расписание АУППРБ',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  '',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                ),
+                const SizedBox(height: 14),
+                // const Text(
+                //   '',
+                //   style: TextStyle(
+                //     color: Colors.white,
+                //     fontSize: 22,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                // ),
+                const SizedBox(height: 6),
+                _buildImage(context),
+                // const Text(
+                //   '',
+                //   style: TextStyle(
+                //     color: Colors.white,
+                //     fontSize: 16,
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -262,7 +273,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                     onPressed: () async {
                       bloc.add(const PickFile());
                     },
-                    child: Text("Выбрать файл Excel"),
+                    child: const Text("Выбрать файл Excel"),
                   ),
                 ],
               ),

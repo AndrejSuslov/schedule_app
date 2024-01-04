@@ -52,6 +52,8 @@ flutter:
       - assets/anims/sleep.riv
       - assets/anims/empty.riv
       - assets/anims/error.riv
+      - assets/images/logo.png
+      - assets/images/academy.png
 
   # fonts:
   #   - family: Product-Sans
