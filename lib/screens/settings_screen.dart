@@ -93,6 +93,7 @@ class SettingsScreen extends StatelessWidget {
       title: Text(S.of(context).clearCache),
       onTap: () {
         bloc.add(const ClearCache());
+        _showSnackBar(context, 'Cache has been deleted.');
       },
     );
   }

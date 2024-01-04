@@ -186,7 +186,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         child: BlocBuilder<ScheduleBloc, ScheduleState>(
           builder: (context, state) {
             if (state is ScheduleLoaded) {
-              return _buildAnimatedListView(context, state.classes);
+              return _buildAnimatedListView(context, state.classes, state.time);
             } else if (state is ScheduleError) {
               return _buildErrorWidget(context, state.message);
             } else if (state is ScheduleLoading) {
@@ -194,14 +194,15 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             }
             // не забыть поменять!
             // return _buildAnimatedListView(context, []);
-            return _buildAnimatedListView(context, []);
+            return _buildAnimatedListView(context, [], []);
           },
         ),
       ),
     );
   }
 
-  Widget _buildAnimatedListView(BuildContext context, List<String> schedule) {
+  Widget _buildAnimatedListView(
+      BuildContext context, List<String> schedule, List<String> time) {
     if (schedule.isNotEmpty) {
       return AnimationLimiter(
         child: ListView.builder(
@@ -209,6 +210,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             return GroupScheduleWidget(
               index: index,
               schedule: schedule,
+              time: time,
             );
           },
           itemCount: schedule.length,
