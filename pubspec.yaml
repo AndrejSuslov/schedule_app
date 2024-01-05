@@ -29,6 +29,11 @@ dependencies:
   path_provider: ^2.1.1
   gap: ^3.0.1
   font_awesome_flutter: ^10.6.0
+  package_info_plus: ^5.0.1
+  get_it: ^7.6.4
+  url_launcher: ^6.2.2
+  unicons: ^2.1.1
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -40,6 +45,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  json_serializable: ^6.7.1
 
 dependency_overrides:
   intl: ^0.18.1
@@ -54,13 +60,25 @@ flutter:
       - assets/anims/error.riv
       - assets/images/logo.png
       - assets/images/academy.png
+      - assets/images/max.png
+      - assets/images/computer-engineer.png
+      - assets/images/schedule.png
 
-  # fonts:
-  #   - family: Product-Sans
-  #     fonts:
-  #       - asset: assets/fonts/Product Sans Regular.ttf
-  #       - asset: assets/fonts/Product Sans Italic.ttf
-  #         style: italic
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat/Montserrat-SemiBold.ttf
+          weight: 600
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter/Inter-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Inter/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Inter/Inter-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Inter/Inter-Bold.ttf
+          weight: 700
 
 flutter_intl:
   enabled: true

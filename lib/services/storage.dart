@@ -6,12 +6,12 @@ import '../models/settings.dart';
 class Storage {
   Future<void> saveSettings(Settings settings) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('settsNew55', jsonEncode(settings.toMap()));
+    prefs.setString('settsNew67', jsonEncode(settings.toMap()));
   }
 
   Future<Settings?> readSettings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final settings = prefs.getString('settsNew55');
+    final settings = prefs.getString('settsNew67');
     if (settings != null) {
       return Settings.fromMap(jsonDecode(settings));
     }
@@ -20,28 +20,29 @@ class Storage {
 
   Future<void> saveSchedule(String jsonFromBloc) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('schedule22', jsonFromBloc);
+    prefs.setString('schedule24', jsonFromBloc);
   }
 
   Future<String> readSchedule() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final schedule = prefs.getString('schedule22').toString();
+    final schedule = prefs.getString('schedule24').toString();
     return schedule;
   }
 
   Future<void> clearStorage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.clear();
+    prefs.remove('time3');
+    prefs.remove('schedule24');
   }
 
   Future<void> saveTime(List<String> time) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setStringList('time1', time);
+    prefs.setStringList('time3', time);
   }
 
   Future<List<String>> readTime() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final time = prefs.getStringList('time1') ?? [];
+    final time = prefs.getStringList('time3') ?? [];
     return time;
   }
 }

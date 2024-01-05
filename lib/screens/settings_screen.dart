@@ -147,8 +147,8 @@ class SettingsScreen extends StatelessWidget {
             ],
             onChanged: (themeMode) {
               if (themeMode != null) {
-                bloc.add(ChangeSettings(
-                    themeMode, bloc.settings.group, bloc.settings.numOfGroups));
+                bloc.add(ChangeSettings(themeMode, bloc.settings.group,
+                    bloc.settings.numOfGroups, bloc.settings.isFirstLaunch));
               }
             },
           ),
@@ -190,8 +190,8 @@ class SettingsScreen extends StatelessWidget {
             ],
             onChanged: (group) {
               if (group != null) {
-                bloc.add(ChangeSettings(
-                    bloc.settings.themeMode, group, bloc.settings.numOfGroups));
+                bloc.add(ChangeSettings(bloc.settings.themeMode, group,
+                    bloc.settings.numOfGroups, bloc.settings.isFirstLaunch));
               }
             },
           ),
@@ -230,7 +230,10 @@ class SettingsScreen extends StatelessWidget {
             onChanged: (numOfGroups) {
               if (numOfGroups != null) {
                 bloc.add(ChangeSettings(
-                    bloc.settings.themeMode, bloc.settings.group, numOfGroups));
+                    bloc.settings.themeMode,
+                    bloc.settings.group,
+                    numOfGroups,
+                    bloc.settings.isFirstLaunch));
               }
             },
           ),

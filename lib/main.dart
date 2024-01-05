@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test_project/blocs/schedule_bloc/schedule_bloc.dart';
+import 'package:flutter_test_project/screens/onboarding_screen.dart';
 import 'package:flutter_test_project/screens/schedule_screen.dart';
 import 'package:flutter_test_project/themes/dark_theme/dark_theme.dart';
 import 'package:flutter_test_project/themes/light_theme/light_theme.dart';
@@ -46,6 +47,7 @@ class ScheduleApp extends StatelessWidget {
           return newState is! SettingsError;
         },
         builder: (context, state) {
+          final bloc = context.read<SettingsBloc>();
           if (state is SettingsLoading) {
             return const Center(
                 child: CircularProgressIndicator(
@@ -67,12 +69,11 @@ class ScheduleApp extends StatelessWidget {
               ],
               home: Builder(
                 builder: (context) {
-                  final bloc = context.read<SettingsBloc>();
-                  //ИЗМЕНИТЬ НА ISNOTEMPTY КОГДА ДОБАВИМ ГРУППЫ!!!!!
-                  if (state.settings.group.isNotEmpty) {
+                  if (state.settings.group.isNotEmpty &&
+                      state.settings.isFirstLaunch == false) {
                     return ScheduleScreen({'group': bloc.settings.group});
                   }
-                  return Text("error");
+                  return const OnBoardingPage();
                 },
               ),
             );

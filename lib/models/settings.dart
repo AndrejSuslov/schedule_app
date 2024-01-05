@@ -6,18 +6,21 @@ class Settings {
   ThemeMode themeMode;
   String group;
   String numOfGroups;
+  bool isFirstLaunch = true;
   // String course;
 
   static Settings defaultSettings = Settings(
     ThemeMode.system,
     '1',
     '2',
+    true,
   );
 
   Settings(
     this.themeMode,
     this.group,
     this.numOfGroups,
+    this.isFirstLaunch,
     // this.course,
   );
 
@@ -26,6 +29,7 @@ class Settings {
       'themeMode': themeMode.index,
       'group': group,
       'numOfGroups': numOfGroups,
+      'isFirstLaunch': isFirstLaunch,
       // 'course': course,
     };
   }
@@ -35,6 +39,7 @@ class Settings {
       ThemeMode.values[map['themeMode']],
       map['group'],
       map['numOfGroups'],
+      map['isFirstLaunch'],
       // map['course'],
     );
   }
