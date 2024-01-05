@@ -324,7 +324,7 @@ class CategoryTileContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpansionTile(
       title: Text(
-        category.cname,
+        category.cname.replaceAll(RegExp(r','), ', '),
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       children: category.item.map((item) {

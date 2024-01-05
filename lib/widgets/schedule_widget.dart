@@ -7,14 +7,18 @@ import 'package:flutter_test_project/services/homework_screen.dart';
 class GroupScheduleWidget extends StatelessWidget {
   final int index;
   final List<String> schedule;
+  final List<String> time;
 
   const GroupScheduleWidget(
-      {Key? key, required this.index, required this.schedule})
+      {Key? key,
+      required this.index,
+      required this.schedule,
+      required this.time})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (schedule[index] == 'null') {
+    if (schedule[index] == 'null' || schedule[index].isEmpty) {
       return Container();
     } else {
       return AnimationConfiguration.staggeredList(
@@ -27,7 +31,11 @@ class GroupScheduleWidget extends StatelessWidget {
               onTap: () {
                 _showScheduleFullDialog(context);
               },
-              title: Text(schedule[index]),
+              title: (schedule[index].contains('(лк.)') ||
+                      schedule[index].contains('КЧ') ||
+                      schedule[index].contains('Зачет'))
+                  ? Text(schedule[index])
+                  : Text('${schedule[index]} (пз.)'),
               subtitle: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -50,9 +58,9 @@ class GroupScheduleWidget extends StatelessWidget {
 
   List<Widget> _buildTrailingListWidget() {
     List<Widget> widgets = [];
-    widgets.add(const Text(
-      'some info',
-      style: TextStyle(fontSize: 14),
+    widgets.add(Text(
+      time[index].replaceAll(RegExp(r' - '), '\n'),
+      style: const TextStyle(fontSize: 14),
     ));
     widgets.addAll([
       const SizedBox(height: 5),

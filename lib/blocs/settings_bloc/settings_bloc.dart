@@ -43,10 +43,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       settings.group = event.group;
       settings.themeMode = event.themeMode;
       settings.numOfGroups = event.numOfGroups;
+      settings.isFirstLaunch = event.isFirstLaunch;
 
       // settings.numOfGroups = event.numOfGroups;
-      emit(SettingsLoaded(settings));
       Storage().saveSettings(settings);
+      emit(SettingsLoaded(settings));
     } catch (_) {
       emit(const SettingsError('Произошла ошибка'));
     }

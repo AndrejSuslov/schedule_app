@@ -3,13 +3,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:flutter_test_project/screens/app_info_screen.dart';
 import 'package:flutter_test_project/screens/canteen_screen.dart';
 import 'package:flutter_test_project/screens/error_screen.dart';
+import 'package:flutter_test_project/screens/onboarding_screen.dart';
 import 'package:flutter_test_project/screens/settings_screen.dart';
 import 'package:flutter_test_project/widgets/schedule_widget.dart';
+import 'package:flutter_test_project/widgets/typography.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:rive/rive.dart';
+import 'package:unicons/unicons.dart';
 import '../blocs/schedule_bloc/schedule_bloc.dart';
 import '../blocs/settings_bloc/settings_bloc.dart';
 import '../generated/l10n.dart';
@@ -68,8 +72,10 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                   },
                 ),
               ],
-              title:
-                  Text(S.of(context).scheduleOf(widget.request.values.first)),
+              title: Text(
+                S.of(context).scheduleOf(widget.request.values.first),
+                style: AppTextStyle.h5,
+              ),
             ),
             drawer: _buildDrawer(context),
             body: SafeArea(
@@ -145,6 +151,14 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             },
           ),
           ListTile(
+            leading:
+                const Icon(UniconsLine.info_circle), // Icon for the second item
+            title: Text('О приложении'),
+            onTap: () {
+              pushToAppInfoScreen(context);
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.settings), // Icon for the second item
             title: Text(S.of(context).settings),
             onTap: () {
@@ -186,7 +200,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         child: BlocBuilder<ScheduleBloc, ScheduleState>(
           builder: (context, state) {
             if (state is ScheduleLoaded) {
-              return _buildAnimatedListView(context, state.classes);
+              return _buildAnimatedListView(context, state.classes, state.time);
             } else if (state is ScheduleError) {
               return _buildErrorWidget(context, state.message);
             } else if (state is ScheduleLoading) {
@@ -194,14 +208,15 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             }
             // не забыть поменять!
             // return _buildAnimatedListView(context, []);
-            return _buildAnimatedListView(context, []);
+            return _buildAnimatedListView(context, [], []);
           },
         ),
       ),
     );
   }
 
-  Widget _buildAnimatedListView(BuildContext context, List<String> schedule) {
+  Widget _buildAnimatedListView(
+      BuildContext context, List<String> schedule, List<String> time) {
     if (schedule.isNotEmpty) {
       int forNullCheking = 0;
       for (var element in schedule) {
@@ -218,6 +233,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             return GroupScheduleWidget(
               index: index,
               schedule: schedule,
+              time: time,
             );
           },
           itemCount: schedule.length,
@@ -347,8 +363,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             ],
             onChanged: (group) {
               if (group != null) {
-                bloc.add(ChangeSettings(
-                    bloc.settings.themeMode, group, bloc.settings.numOfGroups));
+                bloc.add(ChangeSettings(bloc.settings.themeMode, group,
+                    bloc.settings.numOfGroups, bloc.settings.isFirstLaunch));
               }
             },
           ),
@@ -388,7 +404,10 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             onChanged: (numOfGroups) {
               if (numOfGroups != null) {
                 bloc.add(ChangeSettings(
-                    bloc.settings.themeMode, bloc.settings.group, numOfGroups));
+                    bloc.settings.themeMode,
+                    bloc.settings.group,
+                    numOfGroups,
+                    bloc.settings.isFirstLaunch));
               }
             },
           ),
@@ -404,6 +423,16 @@ void pushToNotificationScreen(BuildContext context) {
     context,
     MaterialPageRoute(
       builder: (_) => const HomeScreen(),
+    ),
+  );
+}
+
+void pushToAppInfoScreen(BuildContext context) {
+  Navigator.of(context).popUntil((route) => route.isFirst);
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+      builder: (_) => const AboutAppPage(),
     ),
   );
 }

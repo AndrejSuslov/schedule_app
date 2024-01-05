@@ -79,8 +79,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         calendarFormat: _format,
         focusedDay: _selectedDate,
         currentDay: _selectedDate,
-        firstDay: DateTime.utc(2010, 10, 16),
-        lastDay: DateTime.utc(2030, 3, 14),
+        firstDay: DateTime.utc(2020, 08, 09),
+        lastDay: DateTime.utc(2033, 1, 1),
         weekendDays: const [DateTime.sunday],
         startingDayOfWeek: StartingDayOfWeek.monday,
         calendarStyle: CalendarStyle(
