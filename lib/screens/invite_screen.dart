@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_project/screens/schedule_screen.dart';
 import '../blocs/settings_bloc/settings_bloc.dart';
 import '../generated/l10n.dart';
-import '../widgets/bottom_navigation_bar.dart';
 
 class InviteScreen extends StatelessWidget {
   final SettingsBloc bloc;

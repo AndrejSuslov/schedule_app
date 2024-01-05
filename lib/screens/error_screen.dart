@@ -4,7 +4,6 @@ import 'package:flutter_test_project/screens/schedule_screen.dart';
 import 'package:rive/rive.dart';
 
 import '../blocs/settings_bloc/settings_bloc.dart';
-import '../widgets/bottom_navigation_bar.dart';
 
 class ErrorScreen extends StatelessWidget {
   const ErrorScreen({super.key});

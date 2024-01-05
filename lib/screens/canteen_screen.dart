@@ -6,7 +6,6 @@ import 'package:rive/rive.dart';
 import '../blocs/settings_bloc/settings_bloc.dart';
 import '../generated/l10n.dart';
 import '../services/parse.dart';
-import '../widgets/bottom_navigation_bar.dart';
 
 class CanteenScreen extends StatefulWidget {
   final Canteen canteen;
