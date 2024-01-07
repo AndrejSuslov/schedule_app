@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:flutter_test_project/screens/contributor/contributor.dart';
 import 'package:flutter_test_project/screens/contributor/contributor_card.dart';
-import 'package:flutter_test_project/screens/contributor/skeleton_contributor_card.dart';
 
 class ContributorsView extends StatelessWidget {
   ContributorsView({Key? key}) : super(key: key);

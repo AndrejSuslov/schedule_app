@@ -6,7 +6,6 @@ import 'package:flutter_test_project/screens/contributor/contributors_view.dart'
 import 'package:flutter_test_project/screens/schedule_screen.dart';
 import 'package:flutter_test_project/widgets/icon_button.dart';
 import 'package:flutter_test_project/widgets/typography.dart';
-import 'package:get_it/get_it.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:unicons/unicons.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -66,7 +65,7 @@ class AboutAppPage extends StatelessWidget {
                                             ),
                                             const SizedBox(height: 4),
                                             Text(
-                                              versionName!,
+                                              versionName,
                                               style: AppTextStyle.bodyRegular,
                                             ),
                                           ],
@@ -122,10 +121,10 @@ class AboutAppPage extends StatelessWidget {
                               text: TextSpan(
                                 children: [
                                   TextSpan(
-                                      text: 'Приложение разработано ',
+                                      text: 'Приложение разработали ',
                                       style: AppTextStyle.bodyRegular),
                                   TextSpan(
-                                    text: 'Владиславом Пономаренко',
+                                    text: 'Владислав Пономаренко',
                                     style: AppTextStyle.bodyRegular
                                         .copyWith(color: Colors.blue),
                                     recognizer: TapGestureRecognizer()
@@ -138,7 +137,7 @@ class AboutAppPage extends StatelessWidget {
                                       text: ' и ',
                                       style: AppTextStyle.bodyRegular),
                                   TextSpan(
-                                    text: 'Андреем Сусловым.',
+                                    text: 'Андрей Суслов.',
                                     style: AppTextStyle.bodyRegular
                                         .copyWith(color: Colors.blue),
                                     recognizer: TapGestureRecognizer()

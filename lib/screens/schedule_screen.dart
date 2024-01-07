@@ -6,7 +6,6 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_test_project/screens/app_info_screen.dart';
 import 'package:flutter_test_project/screens/canteen_screen.dart';
 import 'package:flutter_test_project/screens/error_screen.dart';
-import 'package:flutter_test_project/screens/onboarding_screen.dart';
 import 'package:flutter_test_project/screens/settings_screen.dart';
 import 'package:flutter_test_project/widgets/schedule_widget.dart';
 import 'package:flutter_test_project/widgets/typography.dart';
@@ -153,7 +152,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           ListTile(
             leading:
                 const Icon(UniconsLine.info_circle), // Icon for the second item
-            title: Text('О приложении'),
+            title: const Text('О приложении'),
             onTap: () {
               pushToAppInfoScreen(context);
             },
@@ -190,9 +189,9 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             duration = const Duration(days: -1);
           }
           if (bloc.state is ScheduleLoaded) {
-            final _date = (bloc.state as ScheduleLoaded).date.add(duration);
+            final date = (bloc.state as ScheduleLoaded).date.add(duration);
             schedule = (bloc.state as ScheduleLoaded).classes;
-            bloc.add(ChangeDateOfClasses(_date));
+            bloc.add(ChangeDateOfClasses(date));
             bloc.add(const LoadSchedule());
           }
           return Future.value(false);
