@@ -7,6 +7,7 @@ import 'package:flutter_test_project/screens/app_info_screen.dart';
 import 'package:flutter_test_project/screens/canteen_screen.dart';
 import 'package:flutter_test_project/screens/error_screen.dart';
 import 'package:flutter_test_project/screens/onboarding_screen.dart';
+import 'package:flutter_test_project/screens/services_screen.dart';
 import 'package:flutter_test_project/screens/settings_screen.dart';
 import 'package:flutter_test_project/widgets/schedule_widget.dart';
 import 'package:flutter_test_project/widgets/typography.dart';
@@ -74,7 +75,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               ],
               title: Text(
                 S.of(context).scheduleOf(widget.request.values.first),
-                style: AppTextStyle.h5,
+                style: Style.h5,
               ),
             ),
             drawer: _buildDrawer(context),
@@ -137,7 +138,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.fastfood), // Icon for the first item
+            leading:
+                const Icon(Icons.fastfood_outlined), // Icon for the first item
             title: const Text('Столовая'),
             onTap: () {
               pushToCanteenScreenWithLoading(context);
@@ -148,6 +150,14 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             title: const Text('Домашние задания'),
             onTap: () {
               pushToNotificationScreen(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(
+                Icons.supervised_user_circle_sharp), // Icon for the second item
+            title: Text('Сервисы'),
+            onTap: () {
+              pushToServicesScreen(context);
             },
           ),
           ListTile(
@@ -434,6 +444,16 @@ void pushToErrorScreen(BuildContext context) {
     context,
     MaterialPageRoute(
       builder: (_) => const ErrorScreen(),
+    ),
+  );
+}
+
+void pushToServicesScreen(BuildContext context) {
+  Navigator.of(context).popUntil((route) => route.isFirst);
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+      builder: (_) => const ServicesScreen(),
     ),
   );
 }

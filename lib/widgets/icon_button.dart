@@ -46,7 +46,7 @@ class SocialIconButton extends StatelessWidget {
               children: [
                 Text(
                   text!,
-                  style: AppTextStyle.buttonS.copyWith(),
+                  style: Style.buttonS.copyWith(),
                 ),
                 const SizedBox(width: 8),
                 assetPath != null

@@ -49,7 +49,7 @@ class AboutAppPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text('Open Source', style: AppTextStyle.h4),
+                                Text('Open Source', style: Style.h4),
                                 PopupMenuButton<String>(
                                   // color: AppTheme.colors.background03,
                                   onSelected: (value) {},
@@ -62,12 +62,12 @@ class AboutAppPage extends StatelessWidget {
                                           children: [
                                             Text(
                                               'Версия приложения:',
-                                              style: AppTextStyle.body,
+                                              style: Style.body,
                                             ),
                                             const SizedBox(height: 4),
                                             Text(
                                               versionName!,
-                                              style: AppTextStyle.bodyRegular,
+                                              style: Style.bodyRegular,
                                             ),
                                           ],
                                         ),
@@ -80,12 +80,12 @@ class AboutAppPage extends StatelessWidget {
                                           children: [
                                             Text(
                                               'Номер сборки:',
-                                              style: AppTextStyle.body,
+                                              style: Style.body,
                                             ),
                                             const SizedBox(height: 4),
                                             Text(
                                               versionCode!,
-                                              style: AppTextStyle.bodyRegular,
+                                              style: Style.bodyRegular,
                                             ),
                                           ],
                                         ),
@@ -103,7 +103,7 @@ class AboutAppPage extends StatelessWidget {
                                     ),
                                     child: Text(
                                       versionName!,
-                                      style: AppTextStyle.buttonS,
+                                      style: Style.buttonS,
                                     ),
                                   ),
                                 ),
@@ -111,11 +111,11 @@ class AboutAppPage extends StatelessWidget {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'Это приложение и все относящиеся к нему сервисы являются '
-                              '100% бесплатными и Open Source продуктами. Мы с огромным '
-                              'удовольствием примем любые ваши предложения и сообщения, а '
+                              'Данное приложение и все связанные с ним сервисы '
+                              'полностью бесплатные и Open Source продукты. Мы будем '
+                              'рады услышать ваши идеи и отзывы, а '
                               'также мы рады любому вашему участию в проекте!',
-                              style: AppTextStyle.bodyRegular,
+                              style: Style.bodyRegular,
                             ),
                             const SizedBox(height: 16),
                             RichText(
@@ -123,10 +123,10 @@ class AboutAppPage extends StatelessWidget {
                                 children: [
                                   TextSpan(
                                       text: 'Приложение разработано ',
-                                      style: AppTextStyle.bodyRegular),
+                                      style: Style.bodyRegular),
                                   TextSpan(
                                     text: 'Владиславом Пономаренко',
-                                    style: AppTextStyle.bodyRegular
+                                    style: Style.bodyRegular
                                         .copyWith(color: Colors.blue),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
@@ -135,11 +135,10 @@ class AboutAppPage extends StatelessWidget {
                                       },
                                   ),
                                   TextSpan(
-                                      text: ' и ',
-                                      style: AppTextStyle.bodyRegular),
+                                      text: ' и ', style: Style.bodyRegular),
                                   TextSpan(
                                     text: 'Андреем Сусловым.',
-                                    style: AppTextStyle.bodyRegular
+                                    style: Style.bodyRegular
                                         .copyWith(color: Colors.blue),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
@@ -183,7 +182,7 @@ class AboutAppPage extends StatelessWidget {
                                               .onBackground),
                                       onClick: () {
                                         launchUrlString(
-                                          '',
+                                          'https://t.me/schedulepacby',
                                           mode: LaunchMode.externalApplication,
                                         );
                                       }),
@@ -204,8 +203,7 @@ class AboutAppPage extends StatelessWidget {
                       const SizedBox(height: 24),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child:
-                            Text('Участники проекта', style: AppTextStyle.h6),
+                        child: Text('Разработчики проекта', style: Style.h6),
                       ),
                       const SizedBox(height: 16),
                       ContributorsView(),

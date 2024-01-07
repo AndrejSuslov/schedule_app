@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-abstract class AppTextStyle {
+abstract class Style {
   static const _headline = TextStyle(
     fontFamily: "Montserrat",
     fontWeight: FontWeight.w600,
@@ -16,11 +16,6 @@ abstract class AppTextStyle {
     textBaseline: TextBaseline.alphabetic,
   );
 
-  // When height is non-null, the line height of the span of text will be a
-  // multiple of font Size and be exactly fontSize * height logical pixels tall.
-
-  // For example, if want to have height 24.0, with font-size 20.0, we should
-  // have height property 1.2
   static final h0 = _headline.copyWith(fontSize: 60, height: 1);
   static final h1 = _headline.copyWith(fontSize: 48, height: 1.1);
   static final h2 = _headline.copyWith(fontSize: 40, height: 1.2);

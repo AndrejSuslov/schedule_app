@@ -7,7 +7,6 @@ import 'package:flutter_test_project/widgets/next_button.dart';
 import 'package:flutter_test_project/widgets/typography.dart';
 import 'package:provider/provider.dart';
 
-/// OnBoarding screen that greets new users
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({Key? key}) : super(key: key);
 
@@ -18,7 +17,6 @@ class OnBoardingPage extends StatefulWidget {
 class _OnBoardingPageState extends State<OnBoardingPage> {
   final int _numPages = 3;
 
-  /// Main images
   static const List<Image> containersImages = [
     Image(
       image: AssetImage('assets/images/max.png'),
@@ -35,16 +33,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       height: 315.0,
       width: 315.0,
     ),
-    // Image(
-    //   image: AssetImage('assets/images/Saly-4.png'),
-    //   height: 375.0,
-    //   width: 315.0,
-    // ),
-    // Image(
-    //   image: AssetImage('assets/images/Saly-5.png'),
-    //   height: 315.0,
-    //   width: 315.0,
-    // ),
   ];
 
   static const List titlesTexts = [
@@ -53,14 +41,12 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     'Будь в курсе в любой момент!',
   ];
 
-  /// Bottom text strings
   static const List contentTexts = [
     'Это приложение было создано студентами для студентов',
-    'Как же легко, оказывается, можно смотреть расписание, а главное – быстро',
+    'В столовой ты или на парах - оказывается, расписание можно смотреть без и всяких файлов',
     'Иногда так лень открывать файл в Excel и искать нужную тебе информацию, мы это исправили',
   ];
 
-  /// Top padding for every image
   double getImageTopPadding(int page) {
     switch (page) {
       case 0:
@@ -78,12 +64,10 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     }
   }
 
-  /// Page controller, that will execute Cubit method
   final PageController _pageController = PageController(initialPage: 0);
 
   int _currentPage = 0;
 
-  /// Build block with image and texts
   List<Widget> _buildPageView() {
     return List.generate(_numPages, (index) {
       return Padding(
@@ -112,10 +96,10 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                   SizedBox(height: 12),
                   Text(
                     titlesTexts[index],
-                    style: AppTextStyle.h4,
+                    style: Style.h4,
                   ),
                   const SizedBox(height: 8.0),
-                  Text(contentTexts[index], style: AppTextStyle.bodyL),
+                  Text(contentTexts[index], style: Style.bodyL),
                 ],
               ),
             ),
@@ -180,7 +164,6 @@ class PageIndicators extends StatefulWidget {
 }
 
 class _PageIndicatorsState extends State<PageIndicators> {
-  /// Build indicators depending on current opened page
   List<Widget> _buildPageIndicators(int currentPage) {
     List<Widget> list = [];
     for (int i = 0; i < widget.dotsNum; i++) {
@@ -218,7 +201,7 @@ class _PageIndicatorsState extends State<PageIndicators> {
                   },
                   child: Text(
                     "Пропустить",
-                    style: AppTextStyle.buttonS.copyWith(),
+                    style: Style.buttonS.copyWith(),
                   ),
                 ),
           Row(

@@ -89,40 +89,15 @@ class _CanteenScreenState extends State<CanteenScreen> {
   }
 
   Widget _buildBody(BuildContext context) {
-    if (widget.dateTime.weekday != 6 && widget.dateTime.weekday != 7) {
-      return ListView.builder(
-        itemCount: widget.canteen.cat.length,
-        itemBuilder: (context, index) {
-          return CategoryTileContent(
-            category: widget.canteen.cat[index],
-            selectedItems: selectedItems,
-            toggleItemInCart: toggleItemInCart,
-          );
-        },
-      );
-    } else {
-      return _buildEmptyListWidget(context);
-    }
-  }
-
-  Widget _buildEmptyListWidget(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Center(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.5,
-            width: MediaQuery.of(context).size.width * 0.7,
-            child: const RiveAnimation.asset(
-              'assets/anims/empty.riv',
-            ),
-          ),
-        ),
-        Text(
-          S.of(context).emptyCanteen,
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-      ],
+    return ListView.builder(
+      itemCount: widget.canteen.cat.length,
+      itemBuilder: (context, index) {
+        return CategoryTileContent(
+          category: widget.canteen.cat[index],
+          selectedItems: selectedItems,
+          toggleItemInCart: toggleItemInCart,
+        );
+      },
     );
   }
 

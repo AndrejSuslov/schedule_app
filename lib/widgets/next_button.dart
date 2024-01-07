@@ -41,7 +41,7 @@ class NextPageViewButton extends StatelessWidget {
         child: isLastPage
             ? Text(
                 "Начать!",
-                style: AppTextStyle.buttonS.copyWith(
+                style: Style.buttonS.copyWith(
                     // color: AppTheme.colors.white,
                     ),
               )
