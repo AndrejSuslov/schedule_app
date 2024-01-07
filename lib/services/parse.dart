@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:flutter_test_project/screens/error_screen.dart';
+
 import 'package:http/http.dart' as http;
-import 'package:rive/rive.dart';
 
 class MenuLoader {
   String jsonUrl;

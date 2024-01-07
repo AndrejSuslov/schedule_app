@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_project/generated/l10n.dart';
 import 'package:flutter_test_project/screens/invite_screen.dart';
 import 'package:flutter_test_project/screens/schedule_screen.dart';
+
 import 'package:flutter_test_project/services/homework_screen.dart';
 import '../blocs/settings_bloc/settings_bloc.dart';
-import '../screens/error_screen.dart';
+
 import '../screens/settings_screen.dart';
 
 class BottomNavBar extends StatefulWidget {

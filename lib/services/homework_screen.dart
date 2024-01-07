@@ -9,11 +9,9 @@ import '../blocs/settings_bloc/settings_bloc.dart';
 import '../generated/l10n.dart';
 import '../hometaskproviders/hometask_provider.dart';
 import '../screens/schedule_screen.dart';
-import '../widgets/app_back.dart';
-import '../widgets/bottom_navigation_bar.dart';
+
 import '../widgets/disp_list_of_tasks.dart';
 import 'date_provider.dart';
-import 'helpers.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});

@@ -228,6 +228,15 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   Widget _buildAnimatedListView(
       BuildContext context, List<String> schedule, List<String> time) {
     if (schedule.isNotEmpty) {
+      int forNullCheking = 0;
+      for (var element in schedule) {
+        if (element == 'null') {
+          forNullCheking++;
+        }
+      }
+      if (forNullCheking >= 6) {
+        return _buildEmptyListWidget(context);
+      }
       return AnimationLimiter(
         child: ListView.builder(
           itemBuilder: (_, index) {
