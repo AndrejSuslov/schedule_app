@@ -44,13 +44,13 @@ class SettingsScreen extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       _buildThemeListTile(),
-                      _buildGroupListTile(),
-                      _buildNumsOfGroupListTile(),
+                      // _buildGroupListTile(),
+                      // _buildNumsOfGroupListTile(),
                       _buildClearCacheListTile(context),
                     ],
                   ),
                 ),
-                const Spacer(), // Добавлен Spacer для создания пространства
+                const Spacer(),
                 Container(
                   padding: const EdgeInsets.all(8.0),
                   child: RichText(
@@ -108,20 +108,6 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  // Widget _buildGroupListTile(BuildContext context) {
-  //   return ListTile(
-  //     title: Text(S.of(context).changeGroup),
-  //     onTap: () {
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (_) => InviteScreen(bloc),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
   Widget _buildThemeListTile() {
     return BlocBuilder<SettingsBloc, SettingsState>(
       bloc: bloc,
@@ -156,88 +142,88 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildGroupListTile() {
-    List<int> groups = [1, 2, 3, 4, 5];
-    return BlocBuilder<SettingsBloc, SettingsState>(
-      bloc: bloc,
-      builder: (context, state) {
-        return ListTile(
-          title: const Text('Группа'),
-          trailing: DropdownButton<String>(
-            value: bloc.settings.group,
-            items: [
-              DropdownMenuItem(
-                value: groups.elementAt(0).toString(),
-                child: const Text('1'),
-              ),
-              DropdownMenuItem(
-                value: groups.elementAt(1).toString(),
-                child: const Text('2'),
-              ),
-              DropdownMenuItem(
-                value: groups.elementAt(2).toString(),
-                child: const Text('3'),
-              ),
-              DropdownMenuItem(
-                value: groups.elementAt(3).toString(),
-                child: const Text('4'),
-              ),
-              DropdownMenuItem(
-                value: groups.elementAt(4).toString(),
-                child: const Text('5'),
-              ),
-            ],
-            onChanged: (group) {
-              if (group != null) {
-                bloc.add(ChangeSettings(bloc.settings.themeMode, group,
-                    bloc.settings.numOfGroups, bloc.settings.isFirstLaunch));
-              }
-            },
-          ),
-        );
-      },
-    );
-  }
+  // Widget _buildGroupListTile() {
+  //   List<int> groups = [1, 2, 3, 4, 5];
+  //   return BlocBuilder<SettingsBloc, SettingsState>(
+  //     bloc: bloc,
+  //     builder: (context, state) {
+  //       return ListTile(
+  //         title: const Text('Группа'),
+  //         trailing: DropdownButton<String>(
+  //           value: bloc.settings.group,
+  //           items: [
+  //             DropdownMenuItem(
+  //               value: groups.elementAt(0).toString(),
+  //               child: const Text('1'),
+  //             ),
+  //             DropdownMenuItem(
+  //               value: groups.elementAt(1).toString(),
+  //               child: const Text('2'),
+  //             ),
+  //             DropdownMenuItem(
+  //               value: groups.elementAt(2).toString(),
+  //               child: const Text('3'),
+  //             ),
+  //             DropdownMenuItem(
+  //               value: groups.elementAt(3).toString(),
+  //               child: const Text('4'),
+  //             ),
+  //             DropdownMenuItem(
+  //               value: groups.elementAt(4).toString(),
+  //               child: const Text('5'),
+  //             ),
+  //           ],
+  //           onChanged: (group) {
+  //             if (group != null) {
+  //               bloc.add(ChangeSettings(bloc.settings.themeMode, group,
+  //                   bloc.settings.numOfGroups, bloc.settings.isFirstLaunch));
+  //             }
+  //           },
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
-  Widget _buildNumsOfGroupListTile() {
-    List<int> groups = [2, 3, 4, 5];
-    return BlocBuilder<SettingsBloc, SettingsState>(
-      bloc: bloc,
-      builder: (context, state) {
-        return ListTile(
-          title: const Text('Кол-во групп на потоке'),
-          trailing: DropdownButton<String>(
-            value: bloc.settings.numOfGroups,
-            items: [
-              DropdownMenuItem(
-                value: groups.elementAt(0).toString(),
-                child: const Text('2'),
-              ),
-              DropdownMenuItem(
-                value: groups.elementAt(1).toString(),
-                child: const Text('3'),
-              ),
-              DropdownMenuItem(
-                value: groups.elementAt(2).toString(),
-                child: const Text('4'),
-              ),
-              DropdownMenuItem(
-                value: groups.elementAt(3).toString(),
-                child: const Text('5'),
-              ),
-            ],
-            onChanged: (numOfGroups) {
-              if (numOfGroups != null) {
-                bloc.add(ChangeSettings(
-                    bloc.settings.themeMode,
-                    bloc.settings.group,
-                    numOfGroups,
-                    bloc.settings.isFirstLaunch));
-              }
-            },
-          ),
-        );
-      },
-    );
-  }
+  // Widget _buildNumsOfGroupListTile() {
+  //   List<int> groups = [2, 3, 4, 5];
+  //   return BlocBuilder<SettingsBloc, SettingsState>(
+  //     bloc: bloc,
+  //     builder: (context, state) {
+  //       return ListTile(
+  //         title: const Text('Кол-во групп на потоке'),
+  //         trailing: DropdownButton<String>(
+  //           value: bloc.settings.numOfGroups,
+  //           items: [
+  //             DropdownMenuItem(
+  //               value: groups.elementAt(0).toString(),
+  //               child: const Text('2'),
+  //             ),
+  //             DropdownMenuItem(
+  //               value: groups.elementAt(1).toString(),
+  //               child: const Text('3'),
+  //             ),
+  //             DropdownMenuItem(
+  //               value: groups.elementAt(2).toString(),
+  //               child: const Text('4'),
+  //             ),
+  //             DropdownMenuItem(
+  //               value: groups.elementAt(3).toString(),
+  //               child: const Text('5'),
+  //             ),
+  //           ],
+  //           onChanged: (numOfGroups) {
+  //             if (numOfGroups != null) {
+  //               bloc.add(ChangeSettings(
+  //                   bloc.settings.themeMode,
+  //                   bloc.settings.group,
+  //                   numOfGroups,
+  //                   bloc.settings.isFirstLaunch));
+  //             }
+  //           },
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 }

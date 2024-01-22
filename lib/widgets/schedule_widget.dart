@@ -158,22 +158,24 @@ class GroupScheduleWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '-',
+          schedule[index],
           style: Theme.of(context).textTheme.headlineSmall,
         ),
         const SizedBox(
           height: 15,
         ),
         Text(
-          'Преподаватель: -',
+          schedule[index].contains('(лк.)')
+              ? "Тип: лекция"
+              : schedule[index].contains('Зачет')
+                  ? "Тип: зачет"
+                  : schedule[index].contains('КЧ')
+                      ? "Тип: кураторский час"
+                      : "Тип: практическое занятие",
           style: Theme.of(context).textTheme.titleMedium,
         ),
         Text(
-          'Тип: -',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        Text(
-          'Время: -',
+          'Время: ${time[index]}',
           style: Theme.of(context).textTheme.titleMedium,
         ),
       ],

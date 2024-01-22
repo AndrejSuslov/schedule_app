@@ -12,7 +12,7 @@ class ErrorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ANDRON I LOVE YOU'),
+        title: const Text('Error screen'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {

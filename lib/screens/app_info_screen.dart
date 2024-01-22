@@ -6,7 +6,6 @@ import 'package:flutter_test_project/screens/contributor/contributors_view.dart'
 import 'package:flutter_test_project/screens/schedule_screen.dart';
 import 'package:flutter_test_project/widgets/icon_button.dart';
 import 'package:flutter_test_project/widgets/typography.dart';
-import 'package:get_it/get_it.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:unicons/unicons.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -118,14 +117,15 @@ class AboutAppPage extends StatelessWidget {
                               style: Style.bodyRegular,
                             ),
                             const SizedBox(height: 16),
+                            Text(
+                              'Приложение разработали',
+                              style: Style.bodyRegular,
+                            ),
                             RichText(
                               text: TextSpan(
                                 children: [
                                   TextSpan(
-                                      text: 'Приложение разработано ',
-                                      style: Style.bodyRegular),
-                                  TextSpan(
-                                    text: 'Владиславом Пономаренко',
+                                    text: 'Владислав Пономаренко',
                                     style: Style.bodyRegular
                                         .copyWith(color: Colors.blue),
                                     recognizer: TapGestureRecognizer()
@@ -137,7 +137,7 @@ class AboutAppPage extends StatelessWidget {
                                   TextSpan(
                                       text: ' и ', style: Style.bodyRegular),
                                   TextSpan(
-                                    text: 'Андреем Сусловым.',
+                                    text: 'Андрей Суслов.',
                                     style: Style.bodyRegular
                                         .copyWith(color: Colors.blue),
                                     recognizer: TapGestureRecognizer()

@@ -1,12 +1,10 @@
-// ignore_for_file: use_build_context_synchronously
-
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_test_project/screens/app_info_screen.dart';
 import 'package:flutter_test_project/screens/canteen_screen.dart';
 import 'package:flutter_test_project/screens/error_screen.dart';
-import 'package:flutter_test_project/screens/onboarding_screen.dart';
 import 'package:flutter_test_project/screens/services_screen.dart';
 import 'package:flutter_test_project/screens/settings_screen.dart';
 import 'package:flutter_test_project/widgets/schedule_widget.dart';
@@ -479,6 +477,14 @@ void pushToSettingsScreen(BuildContext context) {
 }
 
 Future<void> pushToCanteenScreenWithLoading(BuildContext context) async {
+  List<String> canteenLoadingPhrases = [
+    "Ищем печеньки...",
+    "Тетя Зина накрывает на стол...",
+    "Греем сосиски в тесте...",
+    "Нарезаем салаты...",
+    "Разгоняем заочников...",
+    "Занимаем очередь..."
+  ];
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -494,7 +500,8 @@ Future<void> pushToCanteenScreenWithLoading(BuildContext context) async {
               ),
             ),
             const SizedBox(height: 8),
-            const Text("Finding cookies..."),
+            Text(canteenLoadingPhrases[
+                Random().nextInt(canteenLoadingPhrases.length)]),
           ],
         ),
       );
