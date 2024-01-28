@@ -105,7 +105,7 @@ class SettingsScreen extends StatelessWidget {
       title: Text(S.of(context).clearCache),
       onTap: () {
         bloc.add(const ClearCache());
-        _showSnackBar(context, 'Cache has been deleted.');
+        _showSnackBar(context, S.of(context).cacheDeleted);
       },
     );
   }
@@ -116,7 +116,8 @@ class SettingsScreen extends StatelessWidget {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => ScheduleScreen({'group': bloc.settings.group}),
+        builder: (_) =>
+            ScheduleScreen({S.of(context).group: bloc.settings.group}),
       ),
     );
   }

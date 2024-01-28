@@ -1,8 +1,6 @@
-// ignore_for_file: use_build_context_synchronously
-
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_test_project/screens/app_info_screen.dart';
 import 'package:flutter_test_project/screens/canteen_screen.dart';
@@ -11,7 +9,6 @@ import 'package:flutter_test_project/screens/services_screen.dart';
 import 'package:flutter_test_project/screens/settings_screen.dart';
 import 'package:flutter_test_project/widgets/schedule_widget.dart';
 import 'package:flutter_test_project/widgets/typography.dart';
-import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:rive/rive.dart';
@@ -19,7 +16,7 @@ import 'package:unicons/unicons.dart';
 import '../blocs/schedule_bloc/schedule_bloc.dart';
 import '../blocs/settings_bloc/settings_bloc.dart';
 import '../generated/l10n.dart';
-import '../screens/homework_screen.dart';
+import 'homework_screen.dart';
 import '../services/parse.dart';
 import '../widgets/calendar_widget.dart';
 
@@ -76,7 +73,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               ],
               title: Text(
                 S.of(context).scheduleOf(widget.request.values.first),
-                style: Style.h5,
+                style: Style.h6,
               ),
             ),
             drawer: _buildDrawer(context),
@@ -141,14 +138,14 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           ListTile(
             leading:
                 const Icon(Icons.fastfood_outlined), // Icon for the first item
-            title: const Text('Столовая'),
+            title: Text(S.of(context).canteen),
             onTap: () {
               pushToCanteenScreenWithLoading(context);
             },
           ),
           ListTile(
             leading: const Icon(Icons.task_alt), // Icon for the second item
-            title: const Text('Домашние задания'),
+            title: Text(S.of(context).hometasks),
             onTap: () {
               pushToNotificationScreen(context);
             },
@@ -156,7 +153,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           ListTile(
             leading: const Icon(
                 Icons.supervised_user_circle_sharp), // Icon for the second item
-            title: Text('Сервисы'),
+            title: Text(S.of(context).services),
             onTap: () {
               pushToServicesScreen(context);
             },
@@ -164,7 +161,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           ListTile(
             leading:
                 const Icon(UniconsLine.info_circle), // Icon for the second item
-            title: const Text('О приложении'),
+            title: Text(S.of(context).aboutApp),
             onTap: () {
               pushToAppInfoScreen(context);
             },
@@ -201,9 +198,9 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             duration = const Duration(days: -1);
           }
           if (bloc.state is ScheduleLoaded) {
-            final date = (bloc.state as ScheduleLoaded).date.add(duration);
+            final _date = (bloc.state as ScheduleLoaded).date.add(duration);
             schedule = (bloc.state as ScheduleLoaded).classes;
-            bloc.add(ChangeDateOfClasses(date));
+            bloc.add(ChangeDateOfClasses(_date));
             bloc.add(const LoadSchedule());
           }
           return Future.value(false);
@@ -217,6 +214,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             } else if (state is ScheduleLoading) {
               return const Center(child: CircularProgressIndicator());
             }
+            // не забыть поменять!
+            // return _buildAnimatedListView(context, []);
             return _buildAnimatedListView(context, [], []);
           },
         ),
@@ -284,9 +283,11 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   }
 
   void _showContextMenu(BuildContext context) {
+    // Define variables to hold the selected group number and stream group count
     int selectedGroupNumber = 1;
     int selectedStreamGroupCount = 2; // Default value set to 2
 
+    //FilePickerResult? excelFileResult;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -311,13 +312,12 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               ),
               actions: [
                 TextButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    bloc.add(SaveSchedule(
+                        group: settingsBloc.settings.group,
+                        numOfGroups: settingsBloc.settings.numOfGroups));
+                    bloc.add(const LoadSchedule());
                     Navigator.pop(context);
-                    setState(() {
-                      bloc.add(SaveSchedule(
-                          group: settingsBloc.settings.group,
-                          numOfGroups: settingsBloc.settings.numOfGroups));
-                    });
                   },
                   child: const Text("Ок"),
                 ),
@@ -477,6 +477,14 @@ void pushToSettingsScreen(BuildContext context) {
 }
 
 Future<void> pushToCanteenScreenWithLoading(BuildContext context) async {
+  List<String> canteenLoadingPhrases = [
+    "Ищем печеньки...",
+    "Тетя Зина накрывает на стол...",
+    "Греем сосиски в тесте...",
+    "Нарезаем салаты...",
+    "Разгоняем заочников...",
+    "Занимаем очередь..."
+  ];
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -492,7 +500,8 @@ Future<void> pushToCanteenScreenWithLoading(BuildContext context) async {
               ),
             ),
             const SizedBox(height: 8),
-            const Text("Finding cookies..."),
+            Text(canteenLoadingPhrases[
+                Random().nextInt(canteenLoadingPhrases.length)]),
           ],
         ),
       );
