@@ -176,7 +176,7 @@ class GroupScheduleWidget extends StatelessWidget {
           style: Theme.of(context).textTheme.titleMedium,
         ),
         Text(
-          'Время: ${time[index]}',
+          '${S.of(context).time}: ${time[index]}',
           style: Theme.of(context).textTheme.titleMedium,
         ),
       ],

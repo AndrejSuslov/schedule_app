@@ -103,5 +103,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "andron": MessageLookupByLibrary.simpleMessage('Андрей Суслов'),
         "group": MessageLookupByLibrary.simpleMessage('Группа'),
         "today": MessageLookupByLibrary.simpleMessage('Сегодня'),
+        "cacheDeleted": MessageLookupByLibrary.simpleMessage('Кэш был очищен'),
       };
 }

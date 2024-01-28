@@ -627,6 +627,15 @@ class S {
       args: [],
     );
   }
+
+  String get cacheDeleted {
+    return Intl.message(
+      'Cache has been deleted',
+      name: 'cacheDeleted',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
