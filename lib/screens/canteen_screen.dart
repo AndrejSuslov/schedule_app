@@ -88,40 +88,15 @@ class _CanteenScreenState extends State<CanteenScreen> {
   }
 
   Widget _buildBody(BuildContext context) {
-    if (widget.dateTime.weekday != 6 && widget.dateTime.weekday != 7) {
-      return ListView.builder(
-        itemCount: widget.canteen.cat.length,
-        itemBuilder: (context, index) {
-          return CategoryTileContent(
-            category: widget.canteen.cat[index],
-            selectedItems: selectedItems,
-            toggleItemInCart: toggleItemInCart,
-          );
-        },
-      );
-    } else {
-      return _buildEmptyListWidget(context);
-    }
-  }
-
-  Widget _buildEmptyListWidget(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Center(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.5,
-            width: MediaQuery.of(context).size.width * 0.7,
-            child: const RiveAnimation.asset(
-              'assets/anims/empty.riv',
-            ),
-          ),
-        ),
-        Text(
-          S.of(context).emptyCanteen,
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-      ],
+    return ListView.builder(
+      itemCount: widget.canteen.cat.length,
+      itemBuilder: (context, index) {
+        return CategoryTileContent(
+          category: widget.canteen.cat[index],
+          selectedItems: selectedItems,
+          toggleItemInCart: toggleItemInCart,
+        );
+      },
     );
   }
 
@@ -184,6 +159,7 @@ class ShoppingCartDialog extends StatefulWidget {
   final ValueChanged<bool> onStudentDiscountChanged;
 
   const ShoppingCartDialog({
+    super.key,
     required this.isStudentDiscount,
     required this.selectedItems,
     required this.onStudentDiscountChanged,
@@ -276,6 +252,7 @@ class _ShoppingCartDialogState extends State<ShoppingCartDialog> {
         TextButton(
           onPressed: () {
             clearCart();
+            Navigator.pop(context);
           },
           child: const Text('Clear'),
         ),
@@ -285,7 +262,9 @@ class _ShoppingCartDialogState extends State<ShoppingCartDialog> {
 
   void clearCart() {
     setState(() {
-      widget.selectedItems.clear();
+      selectedItems.clear();
+      itemColors.clear();
+      itemIconColors.clear();
     });
   }
 
@@ -338,7 +317,7 @@ class CategoryTileContent extends StatelessWidget {
                 subtitle: Text('Порция: ${item.iport}\nЦена: ${item.iprice}'),
                 trailing: IconButton(
                   icon: Icon(
-                    selectedItems.contains(item)
+                    (selectedItems.contains(item))
                         ? Icons.remove_circle_outline
                         : Icons.add_circle_outline,
                     color: selectedItems.contains(item) ? Colors.red : null,

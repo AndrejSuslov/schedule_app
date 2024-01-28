@@ -33,12 +33,12 @@ class ContributorCard extends StatelessWidget {
               const SizedBox(height: 16),
               Text(
                 contributor.login,
-                style: AppTextStyle.bodyBold,
+                style: Style.bodyBold,
               ),
-              Text(
-                '${contributor.contributions} ${Intl.plural(contributor.contributions, one: 'коммит', few: 'коммита', many: 'коммитов', other: 'коммитов')}',
-                style: AppTextStyle.bodyRegular,
-              ),
+              // Text(
+              //   // '${contributor.contributions} ${Intl.plural(contributor.contributions, one: 'коммит', few: 'коммита', many: 'коммитов', other: 'коммитов')}',
+              //   style: Style.bodyRegular,
+              // ),
             ],
           ),
         ),

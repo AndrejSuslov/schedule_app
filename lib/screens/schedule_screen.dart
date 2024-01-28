@@ -2,13 +2,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_test_project/screens/app_info_screen.dart';
 import 'package:flutter_test_project/screens/canteen_screen.dart';
 import 'package:flutter_test_project/screens/error_screen.dart';
+import 'package:flutter_test_project/screens/services_screen.dart';
 import 'package:flutter_test_project/screens/settings_screen.dart';
 import 'package:flutter_test_project/widgets/schedule_widget.dart';
 import 'package:flutter_test_project/widgets/typography.dart';
+import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:rive/rive.dart';
@@ -73,7 +76,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               ],
               title: Text(
                 S.of(context).scheduleOf(widget.request.values.first),
-                style: AppTextStyle.h5,
+                style: Style.h5,
               ),
             ),
             drawer: _buildDrawer(context),
@@ -136,7 +139,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.fastfood), // Icon for the first item
+            leading:
+                const Icon(Icons.fastfood_outlined), // Icon for the first item
             title: const Text('Столовая'),
             onTap: () {
               pushToCanteenScreenWithLoading(context);
@@ -147,6 +151,14 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             title: const Text('Домашние задания'),
             onTap: () {
               pushToNotificationScreen(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(
+                Icons.supervised_user_circle_sharp), // Icon for the second item
+            title: Text('Сервисы'),
+            onTap: () {
+              pushToServicesScreen(context);
             },
           ),
           ListTile(
@@ -205,8 +217,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             } else if (state is ScheduleLoading) {
               return const Center(child: CircularProgressIndicator());
             }
-            // не забыть поменять!
-            // return _buildAnimatedListView(context, []);
             return _buildAnimatedListView(context, [], []);
           },
         ),
@@ -274,11 +284,9 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   }
 
   void _showContextMenu(BuildContext context) {
-    // Define variables to hold the selected group number and stream group count
     int selectedGroupNumber = 1;
     int selectedStreamGroupCount = 2; // Default value set to 2
 
-    //FilePickerResult? excelFileResult;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -307,7 +315,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                     bloc.add(SaveSchedule(
                         group: settingsBloc.settings.group,
                         numOfGroups: settingsBloc.settings.numOfGroups));
-                    bloc.add(const LoadSchedule());
+                    bloc.add(LoadSchedule());
                     Navigator.pop(context);
                   },
                   child: const Text("Ок"),
@@ -442,6 +450,16 @@ void pushToErrorScreen(BuildContext context) {
     context,
     MaterialPageRoute(
       builder: (_) => const ErrorScreen(),
+    ),
+  );
+}
+
+void pushToServicesScreen(BuildContext context) {
+  Navigator.of(context).popUntil((route) => route.isFirst);
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+      builder: (_) => const ServicesScreen(),
     ),
   );
 }

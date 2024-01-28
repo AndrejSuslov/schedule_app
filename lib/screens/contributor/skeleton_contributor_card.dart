@@ -7,8 +7,8 @@ class SkeletonContributorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Color(0xFF1F222A),
-      highlightColor: Color(0xFF262A34),
+      baseColor: const Color(0xFF1F222A),
+      highlightColor: const Color(0xFF262A34),
       child: Card(
         // color: AppTheme.colors.background02,
         shape: RoundedRectangleBorder(
@@ -22,7 +22,7 @@ class SkeletonContributorCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 37,
                   // backgroundColor: AppTheme.colors.deactive,
                 ),

@@ -65,7 +65,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
         .map((key, value) => MapEntry(key.toString(), value));
     String jsonString = jsonEncode(stringMap);
     Storage().saveSchedule(jsonString);
-    var time = await parsedExcel.getTimeOfClasses();
+    var time = parsedExcel.getTimeOfClasses();
     Storage().saveTime(time);
     emit(SavedSchedule());
   }
@@ -83,16 +83,16 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
         loadedClassesFromCache1 = decodedStringMap.map((key, value) =>
             MapEntry(DateTime.parse(key), value.cast<String>().toList()));
       } catch (e) {
-        emit(const ScheduleError('Ошибка при чтении файла'));
+        emit(const ScheduleError('Необходимо выбрать файл'));
       }
     });
-    List<String> lastTime = [];
+    late final List<String> lastTime;
     var time = Storage().readTime();
     await time.then((listWithTime) {
       try {
         lastTime = listWithTime;
       } catch (e) {
-        emit(const ScheduleError('Ошибка при чтении файла'));
+        emit(const ScheduleError('Необходимо выбрать файл'));
       }
     });
 
