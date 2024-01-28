@@ -69,5 +69,18 @@ class MessageLookup extends MessageLookupByLibrary {
             'Are you sure you want to delete this task?'),
         "yes": MessageLookupByLibrary.simpleMessage('YES'),
         "no": MessageLookupByLibrary.simpleMessage('NO'),
+        "emptyCanteen":
+            MessageLookupByLibrary.simpleMessage('Canteen is closed today'),
+        "canteen": MessageLookupByLibrary.simpleMessage('Canteen'),
+        "services": MessageLookupByLibrary.simpleMessage('Services'),
+        "aboutApp": MessageLookupByLibrary.simpleMessage('About app'),
+        "tryAgain": MessageLookupByLibrary.simpleMessage('Try again'),
+        "checkConn": MessageLookupByLibrary.simpleMessage(
+            'There is no internet connection. Please, check your connection and try again.'),
+        "communities": MessageLookupByLibrary.simpleMessage('Communities'),
+        "main": MessageLookupByLibrary.simpleMessage('Important'),
+        "developers": MessageLookupByLibrary.simpleMessage('Developers'),
+        "add": MessageLookupByLibrary.simpleMessage('Add'),
+        "price": MessageLookupByLibrary.simpleMessage('Price'),
       };
 }

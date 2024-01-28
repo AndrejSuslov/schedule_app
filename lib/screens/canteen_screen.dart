@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_project/screens/schedule_screen.dart';
+import 'package:flutter_test_project/widgets/typography.dart';
 import 'package:rive/rive.dart';
 
 import '../blocs/settings_bloc/settings_bloc.dart';
@@ -56,7 +57,7 @@ class _CanteenScreenState extends State<CanteenScreen> {
         appBar: AppBar(
           title: Text(
             'Canteen Menu ${widget.canteen.date}',
-            style: const TextStyle(fontSize: 21),
+            style: Style.h6,
           ),
           // titleTextStyle: const TextStyle(fontSize: 21),
           leading: IconButton(
@@ -181,7 +182,10 @@ class _ShoppingCartDialogState extends State<ShoppingCartDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Cart'),
+      title: Text(
+        'Cart',
+        style: Style.bodyL.copyWith(fontSize: 22),
+      ),
       content: SizedBox(
         width: double.maxFinite,
         child: ListView(
@@ -189,14 +193,17 @@ class _ShoppingCartDialogState extends State<ShoppingCartDialog> {
           children: [
             for (Item item in widget.selectedItems)
               ListTile(
-                title: Text(item.iname),
+                title: Text(item.iname,
+                    style: Style.captionL.copyWith(fontSize: 16)),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Price: ${item.iprice}'),
+                    Text('Price: ${item.iprice}',
+                        style: Style.captionL.copyWith(fontSize: 14)),
                     Row(
                       children: [
-                        Text('Quantity: ${item.quantity}'),
+                        Text('Quantity: ${item.quantity}',
+                            style: Style.captionL.copyWith(fontSize: 13)),
                         IconButton(
                           icon: const Icon(Icons.remove),
                           onPressed: () {
@@ -223,12 +230,13 @@ class _ShoppingCartDialogState extends State<ShoppingCartDialog> {
             const SizedBox(height: 10),
             Text(
               'Total: ${calculateTotal()}',
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Style.captionL.copyWith(fontSize: 15),
             ),
             const SizedBox(height: 10),
             Row(
               children: [
-                const Text('Student Discount (10%)'),
+                Text('Student Discount (10%)',
+                    style: Style.captionL.copyWith(fontSize: 14)),
                 Switch(
                   value: _switchController.text == 'true',
                   onChanged: (value) {
@@ -246,13 +254,16 @@ class _ShoppingCartDialogState extends State<ShoppingCartDialog> {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: const Text('Close'),
+          child: Text('Close', style: Style.buttonS),
         ),
         TextButton(
           onPressed: () {
             clearCart();
           },
-          child: const Text('Clear'),
+          child: Text(
+            'Clear',
+            style: Style.buttonS,
+          ),
         ),
       ],
     );
@@ -300,7 +311,7 @@ class CategoryTileContent extends StatelessWidget {
     return ExpansionTile(
       title: Text(
         category.cname.replaceAll(RegExp(r','), ', '),
-        style: const TextStyle(fontWeight: FontWeight.bold),
+        style: Style.bodyBold.copyWith(fontSize: 16),
       ),
       children: category.item.map((item) {
         return Column(
@@ -309,8 +320,14 @@ class CategoryTileContent extends StatelessWidget {
               elevation: 3,
               margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: ListTile(
-                title: Text(item.iname),
-                subtitle: Text('Порция: ${item.iport}\nЦена: ${item.iprice}'),
+                title: Text(
+                  item.iname,
+                  style: Style.bodyL,
+                ),
+                subtitle: Text(
+                  'Порция: ${item.iport}\nЦена: ${item.iprice}',
+                  style: Style.body,
+                ),
                 trailing: IconButton(
                   icon: Icon(
                     selectedItems.contains(item)

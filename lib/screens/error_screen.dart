@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test_project/generated/l10n.dart';
 import 'package:flutter_test_project/screens/schedule_screen.dart';
 import 'package:rive/rive.dart';
 
@@ -10,31 +11,38 @@ class ErrorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Error screen'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            pushToMainScreen(context);
-          },
+    return WillPopScope(
+      onWillPop: () async {
+        // Handle the back button press here
+        pushToMainScreen(context);
+        return false; // Return false to disable the default back button behavior
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Error screen'),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              pushToMainScreen(context);
+            },
+          ),
         ),
-      ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          // Background
-          Container(
-            decoration: const BoxDecoration(),
-          ),
-          // Error Widget
-          Center(
-            child: _buildErrorWidget(
-              context,
-              'Отсутствует подключение к интернету. Пожалуйста, проверьте свое соединение и повторите попытку.',
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            // Background
+            Container(
+              decoration: const BoxDecoration(),
             ),
-          ),
-        ],
+            // Error Widget
+            Center(
+              child: _buildErrorWidget(
+                context,
+                S.of(context).checkConn,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -61,7 +69,7 @@ class ErrorScreen extends StatelessWidget {
           onPressed: () {
             pushToCanteenScreenWithLoading(context);
           },
-          child: const Text('Повторить попытку'),
+          child: Text(S.of(context).tryAgain),
         ),
       ],
     );

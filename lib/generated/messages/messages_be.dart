@@ -69,5 +69,17 @@ class MessageLookup extends MessageLookupByLibrary {
             'Вы ўпэўнены, што жадаеце выдаліць гэта заданне?'),
         "yes": MessageLookupByLibrary.simpleMessage('ТАК'),
         "no": MessageLookupByLibrary.simpleMessage('НЕ'),
+        "canteen": MessageLookupByLibrary.simpleMessage('Сталовая'),
+        "services": MessageLookupByLibrary.simpleMessage('Сэрвісы'),
+        "aboutApp": MessageLookupByLibrary.simpleMessage('костыль!'),
+        "tryAgain":
+            MessageLookupByLibrary.simpleMessage('Паспрабаваць яшчэ раз'),
+        "checkConn": MessageLookupByLibrary.simpleMessage(
+            'Адсутнічае падключэнне да інтэрнэту. Калі ласка, праверце сваю сетку і паспрабуйце яшчэ раз.'),
+        "communities": MessageLookupByLibrary.simpleMessage('Супольніцтвы'),
+        "main": MessageLookupByLibrary.simpleMessage('Галоўныя'),
+        "developers": MessageLookupByLibrary.simpleMessage('Разработчыкі'),
+        "add": MessageLookupByLibrary.simpleMessage('Дабавіць'),
+        "price": MessageLookupByLibrary.simpleMessage('Кошт'),
       };
 }

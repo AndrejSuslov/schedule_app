@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_project/screens/schedule_screen.dart';
+import 'package:flutter_test_project/widgets/typography.dart';
 import '../blocs/settings_bloc/settings_bloc.dart';
 import '../generated/l10n.dart';
 import '../services/app_alerts.dart';
@@ -12,66 +13,75 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SettingsBloc>(
-      create: (_) => SettingsBloc(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(S.of(context).settings),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              pushToMainScreen(context);
-            },
-          ),
-        ),
-        body: MultiBlocListener(
-          listeners: [
-            BlocListener<SettingsBloc, SettingsState>(
-              listener: (context, state) {
-                if (state is CachedDataDeleted) {
-                  AppAlerts.displaySnackbar(context, state.message);
-                }
+    return WillPopScope(
+      onWillPop: () async {
+        pushToMainScreen(context);
+        return false;
+      },
+      child: BlocProvider<SettingsBloc>(
+        create: (_) => SettingsBloc(),
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              S.of(context).settings,
+              style: Style.h6,
+            ),
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                pushToMainScreen(context);
               },
             ),
-          ],
-          child: SafeArea(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _buildThemeListTile(),
-                      // _buildGroupListTile(),
-                      // _buildNumsOfGroupListTile(),
-                      _buildClearCacheListTile(context),
-                    ],
-                  ),
-                ),
-                const Spacer(),
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  child: RichText(
-                    textAlign: TextAlign.center,
-                    text: const TextSpan(
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 12,
-                      ),
+          ),
+          body: MultiBlocListener(
+            listeners: [
+              BlocListener<SettingsBloc, SettingsState>(
+                listener: (context, state) {
+                  if (state is CachedDataDeleted) {
+                    AppAlerts.displaySnackbar(context, state.message);
+                  }
+                },
+              ),
+            ],
+            child: SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Card(
+                    margin: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        TextSpan(
-                          text: "App was created by\n",
-                        ),
-                        TextSpan(
-                          text: "Vladislav Ponomarenko & Andrey Suslov",
-                        ),
+                        _buildThemeListTile(),
+                        // _buildGroupListTile(),
+                        // _buildNumsOfGroupListTile(),
+                        _buildClearCacheListTile(context),
                       ],
                     ),
                   ),
-                ),
-              ],
+                  const Spacer(),
+                  Container(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: const TextSpan(
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: "App was made by UIR-2022",
+                          ),
+                          // TextSpan(
+                          //   text: "UIR-2022",
+                          // ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -82,7 +92,10 @@ class SettingsScreen extends StatelessWidget {
   void _showSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: Text(
+          message,
+          style: Style.captionL,
+        ),
       ),
     );
   }

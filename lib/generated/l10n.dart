@@ -393,6 +393,96 @@ class S {
       args: [],
     );
   }
+
+  String get canteen {
+    return Intl.message(
+      'Canteen',
+      name: 'canteen',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get services {
+    return Intl.message(
+      'Services',
+      name: 'services',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get aboutApp {
+    return Intl.message(
+      'About app',
+      name: 'aboutApp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get tryAgain {
+    return Intl.message(
+      'Try again',
+      name: 'tryAgain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get checkConn {
+    return Intl.message(
+      'There is no internet connection. Please, check your connection and try again',
+      name: 'checkConn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get communities {
+    return Intl.message(
+      'Communities',
+      name: 'communities',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get main {
+    return Intl.message(
+      'Important',
+      name: 'main',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get developers {
+    return Intl.message(
+      'Developers',
+      name: 'developers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get add {
+    return Intl.message(
+      'Add',
+      name: 'add',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get price {
+    return Intl.message(
+      'Price',
+      name: 'price',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

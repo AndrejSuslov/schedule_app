@@ -1,209 +1,125 @@
-// import 'package:flutter/material.dart';
-// import '../models/homework.dart';
-// import '../models/schedule.dart';
-// import '../services/database.dart';
-// import 'homework_update.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test_project/models/homework.dart';
+import 'package:flutter_test_project/screens/create_screen_task.dart';
+import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
+import '../blocs/settings_bloc/settings_bloc.dart';
+import '../generated/l10n.dart';
+import '../hometaskproviders/hometask_provider.dart';
+import 'schedule_screen.dart';
 
-// class HomeworkScreenBeta extends StatefulWidget {
-//   const HomeworkScreenBeta({Key? key});
+import '../widgets/disp_list_of_tasks.dart';
+import '../services/date_provider.dart';
 
-//   @override
-//   State<HomeworkScreenBeta> createState() => _HomeworkScreenBetaState();
-// }
+class HomeScreen extends ConsumerWidget {
+  const HomeScreen({super.key});
 
-// class _HomeworkScreenBetaState extends State<HomeworkScreenBeta> {
-//   DatabaseHelper0? _databaseHelper0;
-//   late Future<List<Homework>> dataList;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final date = ref.watch(dateProvider);
+    final taskState = ref.watch(tasksProvider);
+    final inCompletedTasks = _incompltedTask(taskState.tasks, ref);
+    final completedTasks = _compltedTask(taskState.tasks, ref);
 
-//   @override
-//   void initState() {
-//     super.initState();
-//     _databaseHelper0 = DatabaseHelper0();
-//     loadData();
-//   }
+    return WillPopScope(
+      onWillPop: () async {
+        // Handle the back button press here
+        pushToMainScreen(context);
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(S.of(context).hometasks),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              pushToMainScreen(context);
+            },
+          ),
+        ),
+        body: ListView(
+          padding: const EdgeInsets.all(20.0),
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Gap(10),
+                InkWell(
+                  child: Text(
+                    'Today is ${(DateFormat.yMMMd().format(DateTime.now()).toString())}',
+                  ),
+                ),
+              ],
+            ),
+            const Gap(20),
+            DisplayListOfTasks(
+              tasks: inCompletedTasks,
+            ),
+            const Gap(20),
+            Text(
+              S.of(context).completed,
+            ),
+            const Gap(20),
+            DisplayListOfTasks(
+              isCompletedTasks: true,
+              tasks: completedTasks,
+            ),
+            ElevatedButton(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  S.of(context).addNewTask,
+                ),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CreateTaskScreen(),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
-//   loadData() async {
-//     dataList = _databaseHelper0!.getDataList();
-//   }
+  List<Homework> _incompltedTask(List<Homework> tasks, WidgetRef ref) {
+    final date = ref.watch(dateProvider);
+    final List<Homework> filteredTask = [];
 
-//   @override
-//   Widget build(BuildContext context) {
-//     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    for (var task in tasks) {
+      if (!task.isCompleted) {
+        filteredTask.add(task);
+      }
+    }
+    return filteredTask;
+  }
 
-//     return Scaffold(
-//       backgroundColor: isDarkMode ? Colors.black : Colors.white,
-//       appBar: AppBar(
-//         backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
-//         elevation: 0,
-//         leading: Icon(
-//           Icons.menu,
-//           color: isDarkMode ? Colors.white : Colors.black,
-//           size: 30,
-//         ),
-//         actions: [
-//           Padding(
-//             padding: const EdgeInsets.only(right: 20),
-//             child: Icon(
-//               Icons.help_outline_rounded,
-//               size: 30,
-//               color: isDarkMode ? Colors.white : Colors.black,
-//             ),
-//           ),
-//         ],
-//       ),
-//       body: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Padding(
-//             padding: const EdgeInsets.all(20.0),
-//             child: Text(
-//               'Tasks',
-//               style: TextStyle(
-//                 fontSize: 36,
-//                 fontWeight: FontWeight.bold,
-//                 color: isDarkMode ? Colors.white : Colors.black,
-//               ),
-//             ),
-//           ),
-//           Expanded(
-//             child: FutureBuilder(
-//               future: dataList,
-//               builder: (context, AsyncSnapshot<List<Homework>> snapshot) {
-//                 if (!snapshot.hasData || snapshot.data == null) {
-//                   return Center(
-//                     child: CircularProgressIndicator(
-//                       color: isDarkMode ? Colors.white : Colors.black,
-//                     ),
-//                   );
-//                 } else if (snapshot.data!.isEmpty) {
-//                   return Center(
-//                     child: Text(
-//                       "No tasks found",
-//                       style: TextStyle(
-//                         color: isDarkMode ? Colors.white : Colors.black,
-//                         fontSize: 18,
-//                       ),
-//                     ),
-//                   );
-//                 } else {
-//                   return ListView.builder(
-//                     itemCount: snapshot.data?.length,
-//                     itemBuilder: (context, index) {
-//                       int ID = snapshot.data![index].id.toInt();
-//                       String title = snapshot.data![index].title.toString();
-//                       String desc =
-//                           snapshot.data![index].description.toString();
-//                       DateTime DT = snapshot.data![index].dateTime;
+  List<Homework> _compltedTask(List<Homework> tasks, WidgetRef ref) {
+    final date = ref.watch(dateProvider);
+    final List<Homework> filteredTask = [];
 
-//                       return Padding(
-//                         padding: const EdgeInsets.all(20.0),
-//                         child: Container(
-//                           padding: EdgeInsets.all(20),
-//                           decoration: BoxDecoration(
-//                             color: isDarkMode
-//                                 ? Colors.grey[800]
-//                                 : Colors.grey[200],
-//                             borderRadius: BorderRadius.circular(20),
-//                           ),
-//                           child: Column(
-//                             crossAxisAlignment: CrossAxisAlignment.start,
-//                             children: [
-//                               Text(
-//                                 title,
-//                                 style: TextStyle(
-//                                   fontSize: 22,
-//                                   fontWeight: FontWeight.bold,
-//                                   color:
-//                                       isDarkMode ? Colors.white : Colors.black,
-//                                 ),
-//                               ),
-//                               SizedBox(height: 10),
-//                               Text(
-//                                 desc,
-//                                 style: TextStyle(
-//                                   fontSize: 18,
-//                                   color:
-//                                       isDarkMode ? Colors.white : Colors.black,
-//                                 ),
-//                               ),
-//                               SizedBox(height: 10),
-//                               Row(
-//                                 mainAxisAlignment:
-//                                     MainAxisAlignment.spaceBetween,
-//                                 children: [
-//                                   Text(
-//                                     DT.toString(),
-//                                     style: TextStyle(
-//                                       color: isDarkMode
-//                                           ? Colors.grey[400]
-//                                           : Colors.grey[600],
-//                                     ),
-//                                   ),
-//                                   Row(
-//                                     children: [
-//                                       GestureDetector(
-//                                         onTap: () {
-//                                           Navigator.push(
-//                                             context,
-//                                             MaterialPageRoute(
-//                                               builder: (context) =>
-//                                                   AddUpdateTask(),
-//                                             ),
-//                                           );
-//                                         },
-//                                         child: Icon(
-//                                           Icons.edit,
-//                                           color: isDarkMode
-//                                               ? Colors.blue
-//                                               : Colors.green,
-//                                           size: 30,
-//                                         ),
-//                                       ),
-//                                       SizedBox(width: 10),
-//                                       GestureDetector(
-//                                         onTap: () {
-//                                           setState(() {
-//                                             _databaseHelper0!.deleteRecord(ID);
-//                                             dataList =
-//                                                 _databaseHelper0!.getDataList();
-//                                             snapshot.data!
-//                                                 .remove(snapshot.data![index]);
-//                                           });
-//                                         },
-//                                         child: Icon(
-//                                           Icons.delete,
-//                                           color: Colors.red,
-//                                           size: 30,
-//                                         ),
-//                                       ),
-//                                     ],
-//                                   ),
-//                                 ],
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                       );
-//                     },
-//                   );
-//                 }
-//               },
-//             ),
-//           ),
-//         ],
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: () {
-//           Navigator.push(
-//             context,
-//             MaterialPageRoute(
-//               builder: (context) => AddUpdateTask(),
-//             ),
-//           );
-//         },
-//         child: Icon(Icons.add),
-//         backgroundColor: isDarkMode ? Colors.blue : Colors.green,
-//       ),
-//     );
-//   }
-// }
+    for (var task in tasks) {
+      if (task.isCompleted) {
+        filteredTask.add(task);
+      }
+    }
+    return filteredTask;
+  }
+
+  void pushToMainScreen(BuildContext context) {
+    final bloc = context.read<SettingsBloc>();
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ScheduleScreen({'group': bloc.settings.group}),
+      ),
+    );
+  }
+}

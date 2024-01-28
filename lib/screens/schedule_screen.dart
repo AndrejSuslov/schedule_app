@@ -16,7 +16,7 @@ import 'package:unicons/unicons.dart';
 import '../blocs/schedule_bloc/schedule_bloc.dart';
 import '../blocs/settings_bloc/settings_bloc.dart';
 import '../generated/l10n.dart';
-import '../services/homework_screen.dart';
+import 'homework_screen.dart';
 import '../services/parse.dart';
 import '../widgets/calendar_widget.dart';
 
@@ -73,7 +73,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               ],
               title: Text(
                 S.of(context).scheduleOf(widget.request.values.first),
-                style: Style.h5,
+                style: Style.h6,
               ),
             ),
             drawer: _buildDrawer(context),
@@ -138,14 +138,14 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           ListTile(
             leading:
                 const Icon(Icons.fastfood_outlined), // Icon for the first item
-            title: const Text('Столовая'),
+            title: Text(S.of(context).canteen),
             onTap: () {
               pushToCanteenScreenWithLoading(context);
             },
           ),
           ListTile(
             leading: const Icon(Icons.task_alt), // Icon for the second item
-            title: const Text('Домашние задания'),
+            title: Text(S.of(context).hometasks),
             onTap: () {
               pushToNotificationScreen(context);
             },
@@ -153,7 +153,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           ListTile(
             leading: const Icon(
                 Icons.supervised_user_circle_sharp), // Icon for the second item
-            title: Text('Сервисы'),
+            title: Text(S.of(context).services),
             onTap: () {
               pushToServicesScreen(context);
             },
@@ -161,7 +161,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           ListTile(
             leading:
                 const Icon(UniconsLine.info_circle), // Icon for the second item
-            title: Text('О приложении'),
+            title: Text(S.of(context).aboutApp),
             onTap: () {
               pushToAppInfoScreen(context);
             },

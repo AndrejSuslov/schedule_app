@@ -70,5 +70,19 @@ class MessageLookup extends MessageLookupByLibrary {
             'Вы уверены, что хотите удалить это задание?'),
         "yes": MessageLookupByLibrary.simpleMessage('ДА'),
         "no": MessageLookupByLibrary.simpleMessage('НЕТ'),
+        "emptyCanteen": MessageLookupByLibrary.simpleMessage(
+            'Столовая сегодня не работает'),
+        "canteen": MessageLookupByLibrary.simpleMessage('Столовая'),
+        "services": MessageLookupByLibrary.simpleMessage('Сервисы'),
+        "aboutApp": MessageLookupByLibrary.simpleMessage('О приложении'),
+        "tryAgain": MessageLookupByLibrary.simpleMessage('Повторить попытку'),
+        "checkConn": MessageLookupByLibrary.simpleMessage(
+            'Отсутствует подключение к интернету. Пожалуйста, проверьте свое соединение и повторите попытку.'),
+        "communities": MessageLookupByLibrary.simpleMessage('Сообщества'),
+        "main": MessageLookupByLibrary.simpleMessage('Основные'),
+        "developers":
+            MessageLookupByLibrary.simpleMessage('Разработчики проекта'),
+        "add": MessageLookupByLibrary.simpleMessage('Добавить'),
+        "price": MessageLookupByLibrary.simpleMessage('Цена'),
       };
 }
