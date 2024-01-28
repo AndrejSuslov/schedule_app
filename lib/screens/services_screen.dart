@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_project/blocs/settings_bloc/settings_bloc.dart';
+import 'package:flutter_test_project/generated/l10n.dart';
 import 'package:flutter_test_project/screens/schedule_screen.dart';
 import 'package:flutter_test_project/widgets/card.dart';
 import 'package:flutter_test_project/widgets/comm_card.dart';
 import 'package:flutter_test_project/widgets/icons.dart';
+import 'package:flutter_test_project/widgets/typography.dart';
 import 'package:unicons/unicons.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -13,23 +15,30 @@ class ServicesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // backgroundColor: AppTheme.colors.background01,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            pushToMainScreen(context);
-          },
-        ),
+    return WillPopScope(
+      onWillPop: () async {
+        pushToMainScreen(context);
+        return false;
+      },
+      child: Scaffold(
         // backgroundColor: AppTheme.colors.background01,
-        elevation: 0,
-        title: const Text(
-          "Сервисы",
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              pushToMainScreen(context);
+            },
+          ),
+          // backgroundColor: AppTheme.colors.background01,
+          elevation: 0,
+          title: Text(
+            S.of(context).services,
+            style: Style.h6,
+          ),
         ),
-      ),
-      body: const SafeArea(
-        child: ServicesView(),
+        body: const SafeArea(
+          child: ServicesView(),
+        ),
       ),
     );
   }
@@ -61,11 +70,11 @@ class _ServicesViewState extends State<ServicesView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(
-              "Основные",
-              style: TextStyle(
+              S.of(context).main,
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
@@ -116,11 +125,11 @@ class _ServicesViewState extends State<ServicesView> {
             ),
           ),
           const SizedBox(height: 24),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(
-              "Сообщества",
-              style: TextStyle(
+              S.of(context).communities,
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),

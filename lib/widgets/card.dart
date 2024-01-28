@@ -63,7 +63,7 @@ class ServiceCard extends StatelessWidget {
                     child: Text(
                       serviceDescription!,
                       style: Style.body.copyWith(
-                        // color: AppTheme.colors.deactive,
+                        //  color: Color(0xFF5E6272),
                         height: 1.1,
                       ),
                       maxLines: 2,

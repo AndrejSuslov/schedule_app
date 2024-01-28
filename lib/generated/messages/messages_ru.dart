@@ -70,5 +70,38 @@ class MessageLookup extends MessageLookupByLibrary {
             'Вы уверены, что хотите удалить это задание?'),
         "yes": MessageLookupByLibrary.simpleMessage('ДА'),
         "no": MessageLookupByLibrary.simpleMessage('НЕТ'),
+        "emptyCanteen": MessageLookupByLibrary.simpleMessage(
+            'Столовая сегодня не работает'),
+        "canteen": MessageLookupByLibrary.simpleMessage('Столовая'),
+        "services": MessageLookupByLibrary.simpleMessage('Сервисы'),
+        "aboutApp": MessageLookupByLibrary.simpleMessage('О приложении'),
+        "tryAgain": MessageLookupByLibrary.simpleMessage('Повторить попытку'),
+        "checkConn": MessageLookupByLibrary.simpleMessage(
+            'Отсутствует подключение к интернету. Пожалуйста, проверьте свое соединение и повторите попытку.'),
+        "communities": MessageLookupByLibrary.simpleMessage('Сообщества'),
+        "main": MessageLookupByLibrary.simpleMessage('Основные'),
+        "developers":
+            MessageLookupByLibrary.simpleMessage('Разработчики проекта'),
+        "add": MessageLookupByLibrary.simpleMessage('Добавить'),
+        "price": MessageLookupByLibrary.simpleMessage('Цена'),
+        "cart": MessageLookupByLibrary.simpleMessage('Корзина'),
+        "qnatity": MessageLookupByLibrary.simpleMessage('Количество'),
+        "total": MessageLookupByLibrary.simpleMessage('Всего'),
+        "studDiscount":
+            MessageLookupByLibrary.simpleMessage('Студенческая скидка'),
+        "close": MessageLookupByLibrary.simpleMessage('Закрыть'),
+        "clear": MessageLookupByLibrary.simpleMessage('Очистить'),
+        "portion": MessageLookupByLibrary.simpleMessage('Порция'),
+        "appVersion": MessageLookupByLibrary.simpleMessage('Весрия приложения'),
+        "buildNum": MessageLookupByLibrary.simpleMessage('Номер сборки'),
+        "messageAboutApp": MessageLookupByLibrary.simpleMessage(
+            'Данное приложение и все связанные с ним сервисы полностью бесплатные и Open Source продукты. Мы будем рады услышать ваши идеи и отзывы, а также мы рады любому вашему участию в проекте!'),
+        "developedBy":
+            MessageLookupByLibrary.simpleMessage('Приложение разработали'),
+        "vlad": MessageLookupByLibrary.simpleMessage('Владислав Пономаренко'),
+        "and": MessageLookupByLibrary.simpleMessage(' и '),
+        "andron": MessageLookupByLibrary.simpleMessage('Андрей Суслов'),
+        "group": MessageLookupByLibrary.simpleMessage('Группа'),
+        "today": MessageLookupByLibrary.simpleMessage('Сегодня'),
       };
 }

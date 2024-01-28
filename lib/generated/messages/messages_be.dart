@@ -69,5 +69,36 @@ class MessageLookup extends MessageLookupByLibrary {
             'Вы ўпэўнены, што жадаеце выдаліць гэта заданне?'),
         "yes": MessageLookupByLibrary.simpleMessage('ТАК'),
         "no": MessageLookupByLibrary.simpleMessage('НЕ'),
+        "canteen": MessageLookupByLibrary.simpleMessage('Сталовая'),
+        "services": MessageLookupByLibrary.simpleMessage('Сэрвісы'),
+        "aboutApp": MessageLookupByLibrary.simpleMessage('костыль!'),
+        "tryAgain":
+            MessageLookupByLibrary.simpleMessage('Паспрабаваць яшчэ раз'),
+        "checkConn": MessageLookupByLibrary.simpleMessage(
+            'Адсутнічае падключэнне да інтэрнэту. Калі ласка, праверце сваю сетку і паспрабуйце яшчэ раз.'),
+        "communities": MessageLookupByLibrary.simpleMessage('Супольніцтвы'),
+        "main": MessageLookupByLibrary.simpleMessage('Галоўныя'),
+        "developers": MessageLookupByLibrary.simpleMessage('Разработчыкі'),
+        "add": MessageLookupByLibrary.simpleMessage('Дабавіць'),
+        "price": MessageLookupByLibrary.simpleMessage('Кошт'),
+        "cart": MessageLookupByLibrary.simpleMessage('Карзіна'),
+        "quantity": MessageLookupByLibrary.simpleMessage('Колькасць'),
+        "total": MessageLookupByLibrary.simpleMessage('Усяго'),
+        "studDiscount":
+            MessageLookupByLibrary.simpleMessage('Студэнцкая зніжка'),
+        "close": MessageLookupByLibrary.simpleMessage('Закрыць'),
+        "clear": MessageLookupByLibrary.simpleMessage('Ачысціць'),
+        "portion": MessageLookupByLibrary.simpleMessage('Порцыя'),
+        "appVersion": MessageLookupByLibrary.simpleMessage('Версія дадатку'),
+        "buildNum": MessageLookupByLibrary.simpleMessage('Версія зборкі'),
+        "messageAboutApp": MessageLookupByLibrary.simpleMessage(
+            'Дадзены дадатак і ўсе злучаныя з ім сэрвісы цалкам бясплатныя і Open Source прадукты. Мы будзем рады паслухаць вашы ідэі і водгукі, а таксама мы рады ўсякаму вашаму ўдзелу ў праекце'),
+        "developedBy":
+            MessageLookupByLibrary.simpleMessage('Дадатак распрацавалі'),
+        "vlad": MessageLookupByLibrary.simpleMessage('Уладзіслаў Панамарэнка'),
+        "and": MessageLookupByLibrary.simpleMessage(' i '),
+        "andron": MessageLookupByLibrary.simpleMessage('Андрэй Суслаў'),
+        "group": MessageLookupByLibrary.simpleMessage('Група'),
+        "today": MessageLookupByLibrary.simpleMessage('Сённі'),
       };
 }

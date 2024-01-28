@@ -393,6 +393,240 @@ class S {
       args: [],
     );
   }
+
+  String get canteen {
+    return Intl.message(
+      'Canteen',
+      name: 'canteen',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get services {
+    return Intl.message(
+      'Services',
+      name: 'services',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get aboutApp {
+    return Intl.message(
+      'About app',
+      name: 'aboutApp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get tryAgain {
+    return Intl.message(
+      'Try again',
+      name: 'tryAgain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get checkConn {
+    return Intl.message(
+      'There is no internet connection. Please, check your connection and try again',
+      name: 'checkConn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get communities {
+    return Intl.message(
+      'Communities',
+      name: 'communities',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get main {
+    return Intl.message(
+      'Important',
+      name: 'main',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get developers {
+    return Intl.message(
+      'Developers',
+      name: 'developers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get add {
+    return Intl.message(
+      'Add',
+      name: 'add',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get price {
+    return Intl.message(
+      'Price',
+      name: 'price',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get cart {
+    return Intl.message(
+      'Cart',
+      name: 'cart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get quantity {
+    return Intl.message(
+      'Quantity',
+      name: 'quantity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get total {
+    return Intl.message(
+      'Totoal',
+      name: 'total',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get studentDisc {
+    return Intl.message(
+      'Student discount',
+      name: 'studDiscount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get close {
+    return Intl.message(
+      'Close',
+      name: 'close',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get clear {
+    return Intl.message(
+      'Clear',
+      name: 'clear',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get portion {
+    return Intl.message(
+      'Portion',
+      name: 'portion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get appVersion {
+    return Intl.message(
+      'App version',
+      name: 'appVersion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get buildNum {
+    return Intl.message(
+      'Build number ',
+      name: 'buildNum',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get messageAboutApp {
+    return Intl.message(
+      'This application and all related services are completely free and Open Source products. We will be glad to hear your ideas and feedback, and we also welcome any of your participation in the project!',
+      name: 'messageAboutApp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get developedBy {
+    return Intl.message(
+      'This app was developed by',
+      name: 'developedBy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get vlad {
+    return Intl.message(
+      'Vladislav Ponomarenko',
+      name: 'vlad',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get and {
+    return Intl.message(
+      ' and ',
+      name: 'and',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get andron {
+    return Intl.message(
+      'Andrey Suslov',
+      name: 'andron',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get group {
+    return Intl.message(
+      'Group',
+      name: 'group',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get today {
+    return Intl.message(
+      'Today is',
+      name: 'today',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

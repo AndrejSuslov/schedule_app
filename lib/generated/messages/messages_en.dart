@@ -69,5 +69,38 @@ class MessageLookup extends MessageLookupByLibrary {
             'Are you sure you want to delete this task?'),
         "yes": MessageLookupByLibrary.simpleMessage('YES'),
         "no": MessageLookupByLibrary.simpleMessage('NO'),
+        "emptyCanteen":
+            MessageLookupByLibrary.simpleMessage('Canteen is closed today'),
+        "canteen": MessageLookupByLibrary.simpleMessage('Canteen'),
+        "services": MessageLookupByLibrary.simpleMessage('Services'),
+        "aboutApp": MessageLookupByLibrary.simpleMessage('About app'),
+        "tryAgain": MessageLookupByLibrary.simpleMessage('Try again'),
+        "checkConn": MessageLookupByLibrary.simpleMessage(
+            'There is no internet connection. Please, check your connection and try again.'),
+        "communities": MessageLookupByLibrary.simpleMessage('Communities'),
+        "main": MessageLookupByLibrary.simpleMessage('Important'),
+        "developers": MessageLookupByLibrary.simpleMessage('Developers'),
+        "add": MessageLookupByLibrary.simpleMessage('Add'),
+        "price": MessageLookupByLibrary.simpleMessage('Price'),
+        "cart": MessageLookupByLibrary.simpleMessage('Cart'),
+        "quantity": MessageLookupByLibrary.simpleMessage('Quantity'),
+        "total": MessageLookupByLibrary.simpleMessage('Total'),
+        "studDiscount":
+            MessageLookupByLibrary.simpleMessage('Student discount'),
+        "close": MessageLookupByLibrary.simpleMessage('Close'),
+        "clear": MessageLookupByLibrary.simpleMessage('Clear'),
+        "portion": MessageLookupByLibrary.simpleMessage('Portion'),
+        "appVersion": MessageLookupByLibrary.simpleMessage('App version'),
+        "buildNum": MessageLookupByLibrary.simpleMessage('Build number'),
+        "messageAboutApp": MessageLookupByLibrary.simpleMessage(
+            'This application and all related services are completely free and Open Source products.'
+            'We will be glad to hear your ideas and feedback, and we also welcome any of your participation in the project!'),
+        "developedBy":
+            MessageLookupByLibrary.simpleMessage('This app was developed by'),
+        "vlad": MessageLookupByLibrary.simpleMessage('Vladislav Ponomarenko'),
+        "and": MessageLookupByLibrary.simpleMessage(' and '),
+        "andron": MessageLookupByLibrary.simpleMessage('Andrey Suslov'),
+        "group": MessageLookupByLibrary.simpleMessage('Group'),
+        "today": MessageLookupByLibrary.simpleMessage('Today is'),
       };
 }

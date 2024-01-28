@@ -45,7 +45,7 @@ class CommunityCard extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: Style.titleM.copyWith(),
+                      style: Style.bodyBold.copyWith(),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),

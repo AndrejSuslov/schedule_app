@@ -19,7 +19,7 @@ import 'package:unicons/unicons.dart';
 import '../blocs/schedule_bloc/schedule_bloc.dart';
 import '../blocs/settings_bloc/settings_bloc.dart';
 import '../generated/l10n.dart';
-import '../services/homework_screen.dart';
+import '../screens/homework_screen.dart';
 import '../services/parse.dart';
 import '../widgets/calendar_widget.dart';
 
@@ -311,12 +311,13 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               ),
               actions: [
                 TextButton(
-                  onPressed: () async {
-                    bloc.add(SaveSchedule(
-                        group: settingsBloc.settings.group,
-                        numOfGroups: settingsBloc.settings.numOfGroups));
-                    bloc.add(LoadSchedule());
+                  onPressed: () {
                     Navigator.pop(context);
+                    setState(() {
+                      bloc.add(SaveSchedule(
+                          group: settingsBloc.settings.group,
+                          numOfGroups: settingsBloc.settings.numOfGroups));
+                    });
                   },
                   child: const Text("Ок"),
                 ),

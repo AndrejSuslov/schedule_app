@@ -6,6 +6,7 @@ import 'package:flutter_test_project/widgets/indicator.dart';
 import 'package:flutter_test_project/widgets/next_button.dart';
 import 'package:flutter_test_project/widgets/typography.dart';
 import 'package:provider/provider.dart';
+import '../generated/l10n.dart';
 
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({Key? key}) : super(key: key);
@@ -43,7 +44,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   static const List contentTexts = [
     'Это приложение было создано студентами для студентов',
-    'В столовой ты или на парах - оказывается, расписание можно смотреть без и всяких файлов',
+    'В столовой ты или на парах - оказывается, расписание можно смотреть и без всяких файлов',
     'Иногда так лень открывать файл в Excel и искать нужную тебе информацию, мы это исправили',
   ];
 
@@ -222,7 +223,8 @@ class _PageIndicatorsState extends State<PageIndicators> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => ScheduleScreen({'group': bloc.settings.group}),
+        builder: (_) =>
+            ScheduleScreen({S.of(context).group: bloc.settings.group}),
       ),
     );
   }

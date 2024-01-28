@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_project/screens/schedule_screen.dart';
+import 'package:flutter_test_project/widgets/typography.dart';
 import '../blocs/settings_bloc/settings_bloc.dart';
 import '../generated/l10n.dart';
 import '../services/app_alerts.dart';
@@ -12,66 +13,75 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SettingsBloc>(
-      create: (_) => SettingsBloc(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(S.of(context).settings),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              pushToMainScreen(context);
-            },
-          ),
-        ),
-        body: MultiBlocListener(
-          listeners: [
-            BlocListener<SettingsBloc, SettingsState>(
-              listener: (context, state) {
-                if (state is CachedDataDeleted) {
-                  AppAlerts.displaySnackbar(context, state.message);
-                }
+    return WillPopScope(
+      onWillPop: () async {
+        pushToMainScreen(context);
+        return false;
+      },
+      child: BlocProvider<SettingsBloc>(
+        create: (_) => SettingsBloc(),
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              S.of(context).settings,
+              style: Style.h6,
+            ),
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                pushToMainScreen(context);
               },
             ),
-          ],
-          child: SafeArea(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _buildThemeListTile(),
-                      _buildGroupListTile(),
-                      _buildNumsOfGroupListTile(),
-                      _buildClearCacheListTile(context),
-                    ],
-                  ),
-                ),
-                const Spacer(), // Добавлен Spacer для создания пространства
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  child: RichText(
-                    textAlign: TextAlign.center,
-                    text: const TextSpan(
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 12,
-                      ),
+          ),
+          body: MultiBlocListener(
+            listeners: [
+              BlocListener<SettingsBloc, SettingsState>(
+                listener: (context, state) {
+                  if (state is CachedDataDeleted) {
+                    AppAlerts.displaySnackbar(context, state.message);
+                  }
+                },
+              ),
+            ],
+            child: SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Card(
+                    margin: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        TextSpan(
-                          text: "App was created by\n",
-                        ),
-                        TextSpan(
-                          text: "Vladislav Ponomarenko & Andrey Suslov",
-                        ),
+                        _buildThemeListTile(),
+                        // _buildGroupListTile(),
+                        // _buildNumsOfGroupListTile(),
+                        _buildClearCacheListTile(context),
                       ],
                     ),
                   ),
-                ),
-              ],
+                  const Spacer(),
+                  Container(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: const TextSpan(
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: "App was made by UIR-2022",
+                          ),
+                          // TextSpan(
+                          //   text: "UIR-2022",
+                          // ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -82,7 +92,10 @@ class SettingsScreen extends StatelessWidget {
   void _showSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: Text(
+          message,
+          style: Style.captionL,
+        ),
       ),
     );
   }
@@ -107,20 +120,6 @@ class SettingsScreen extends StatelessWidget {
       ),
     );
   }
-
-  // Widget _buildGroupListTile(BuildContext context) {
-  //   return ListTile(
-  //     title: Text(S.of(context).changeGroup),
-  //     onTap: () {
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (_) => InviteScreen(bloc),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
 
   Widget _buildThemeListTile() {
     return BlocBuilder<SettingsBloc, SettingsState>(
@@ -156,88 +155,88 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildGroupListTile() {
-    List<int> groups = [1, 2, 3, 4, 5];
-    return BlocBuilder<SettingsBloc, SettingsState>(
-      bloc: bloc,
-      builder: (context, state) {
-        return ListTile(
-          title: const Text('Группа'),
-          trailing: DropdownButton<String>(
-            value: bloc.settings.group,
-            items: [
-              DropdownMenuItem(
-                value: groups.elementAt(0).toString(),
-                child: const Text('1'),
-              ),
-              DropdownMenuItem(
-                value: groups.elementAt(1).toString(),
-                child: const Text('2'),
-              ),
-              DropdownMenuItem(
-                value: groups.elementAt(2).toString(),
-                child: const Text('3'),
-              ),
-              DropdownMenuItem(
-                value: groups.elementAt(3).toString(),
-                child: const Text('4'),
-              ),
-              DropdownMenuItem(
-                value: groups.elementAt(4).toString(),
-                child: const Text('5'),
-              ),
-            ],
-            onChanged: (group) {
-              if (group != null) {
-                bloc.add(ChangeSettings(bloc.settings.themeMode, group,
-                    bloc.settings.numOfGroups, bloc.settings.isFirstLaunch));
-              }
-            },
-          ),
-        );
-      },
-    );
-  }
+  // Widget _buildGroupListTile() {
+  //   List<int> groups = [1, 2, 3, 4, 5];
+  //   return BlocBuilder<SettingsBloc, SettingsState>(
+  //     bloc: bloc,
+  //     builder: (context, state) {
+  //       return ListTile(
+  //         title: const Text('Группа'),
+  //         trailing: DropdownButton<String>(
+  //           value: bloc.settings.group,
+  //           items: [
+  //             DropdownMenuItem(
+  //               value: groups.elementAt(0).toString(),
+  //               child: const Text('1'),
+  //             ),
+  //             DropdownMenuItem(
+  //               value: groups.elementAt(1).toString(),
+  //               child: const Text('2'),
+  //             ),
+  //             DropdownMenuItem(
+  //               value: groups.elementAt(2).toString(),
+  //               child: const Text('3'),
+  //             ),
+  //             DropdownMenuItem(
+  //               value: groups.elementAt(3).toString(),
+  //               child: const Text('4'),
+  //             ),
+  //             DropdownMenuItem(
+  //               value: groups.elementAt(4).toString(),
+  //               child: const Text('5'),
+  //             ),
+  //           ],
+  //           onChanged: (group) {
+  //             if (group != null) {
+  //               bloc.add(ChangeSettings(bloc.settings.themeMode, group,
+  //                   bloc.settings.numOfGroups, bloc.settings.isFirstLaunch));
+  //             }
+  //           },
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
-  Widget _buildNumsOfGroupListTile() {
-    List<int> groups = [2, 3, 4, 5];
-    return BlocBuilder<SettingsBloc, SettingsState>(
-      bloc: bloc,
-      builder: (context, state) {
-        return ListTile(
-          title: const Text('Кол-во групп на потоке'),
-          trailing: DropdownButton<String>(
-            value: bloc.settings.numOfGroups,
-            items: [
-              DropdownMenuItem(
-                value: groups.elementAt(0).toString(),
-                child: const Text('2'),
-              ),
-              DropdownMenuItem(
-                value: groups.elementAt(1).toString(),
-                child: const Text('3'),
-              ),
-              DropdownMenuItem(
-                value: groups.elementAt(2).toString(),
-                child: const Text('4'),
-              ),
-              DropdownMenuItem(
-                value: groups.elementAt(3).toString(),
-                child: const Text('5'),
-              ),
-            ],
-            onChanged: (numOfGroups) {
-              if (numOfGroups != null) {
-                bloc.add(ChangeSettings(
-                    bloc.settings.themeMode,
-                    bloc.settings.group,
-                    numOfGroups,
-                    bloc.settings.isFirstLaunch));
-              }
-            },
-          ),
-        );
-      },
-    );
-  }
+  // Widget _buildNumsOfGroupListTile() {
+  //   List<int> groups = [2, 3, 4, 5];
+  //   return BlocBuilder<SettingsBloc, SettingsState>(
+  //     bloc: bloc,
+  //     builder: (context, state) {
+  //       return ListTile(
+  //         title: const Text('Кол-во групп на потоке'),
+  //         trailing: DropdownButton<String>(
+  //           value: bloc.settings.numOfGroups,
+  //           items: [
+  //             DropdownMenuItem(
+  //               value: groups.elementAt(0).toString(),
+  //               child: const Text('2'),
+  //             ),
+  //             DropdownMenuItem(
+  //               value: groups.elementAt(1).toString(),
+  //               child: const Text('3'),
+  //             ),
+  //             DropdownMenuItem(
+  //               value: groups.elementAt(2).toString(),
+  //               child: const Text('4'),
+  //             ),
+  //             DropdownMenuItem(
+  //               value: groups.elementAt(3).toString(),
+  //               child: const Text('5'),
+  //             ),
+  //           ],
+  //           onChanged: (numOfGroups) {
+  //             if (numOfGroups != null) {
+  //               bloc.add(ChangeSettings(
+  //                   bloc.settings.themeMode,
+  //                   bloc.settings.group,
+  //                   numOfGroups,
+  //                   bloc.settings.isFirstLaunch));
+  //             }
+  //           },
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 }

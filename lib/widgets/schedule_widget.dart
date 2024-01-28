@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:flutter_test_project/generated/l10n.dart';
 
-import 'package:flutter_test_project/services/homework_screen.dart';
+import 'package:flutter_test_project/screens/homework_screen.dart';
 
 class GroupScheduleWidget extends StatelessWidget {
   final int index;
@@ -97,7 +98,7 @@ class GroupScheduleWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Домашнее задание',
+              S.of(context).hometasks,
               style: Theme.of(context).textTheme.headline6,
             ),
             OutlinedButton.icon(
@@ -110,7 +111,7 @@ class GroupScheduleWidget extends StatelessWidget {
                 );
               },
               icon: const Icon(Icons.add),
-              label: const Text('Добавить'),
+              label: Text(S.of(context).add),
             ),
           ],
         ),
@@ -158,22 +159,24 @@ class GroupScheduleWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '-',
+          schedule[index],
           style: Theme.of(context).textTheme.headlineSmall,
         ),
         const SizedBox(
           height: 15,
         ),
         Text(
-          'Преподаватель: -',
+          schedule[index].contains('(лк.)')
+              ? "Тип: лекция"
+              : schedule[index].contains('Зачет')
+                  ? "Тип: зачет"
+                  : schedule[index].contains('КЧ')
+                      ? "Тип: кураторский час"
+                      : "Тип: практическое занятие",
           style: Theme.of(context).textTheme.titleMedium,
         ),
         Text(
-          'Тип: -',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        Text(
-          'Время: -',
+          'Время: ${time[index]}',
           style: Theme.of(context).textTheme.titleMedium,
         ),
       ],
