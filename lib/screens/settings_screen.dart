@@ -102,7 +102,8 @@ class SettingsScreen extends StatelessWidget {
 
   Widget _buildClearCacheListTile(BuildContext context) {
     return ListTile(
-      title: Text(S.of(context).clearCache),
+      title: Text(S.of(context).clearCache,
+          style: Style.bodyL.copyWith(fontSize: 16)),
       onTap: () {
         bloc.add(const ClearCache());
         _showSnackBar(context, 'Cache has been deleted.');
@@ -126,21 +127,27 @@ class SettingsScreen extends StatelessWidget {
       bloc: bloc,
       builder: (context, state) {
         return ListTile(
-          title: Text(S.of(context).theme),
+          title: Text(
+            S.of(context).theme,
+            style: Style.bodyL.copyWith(fontSize: 16),
+          ),
           trailing: DropdownButton<ThemeMode>(
             value: bloc.settings.themeMode,
             items: [
               DropdownMenuItem(
                 value: ThemeMode.system,
-                child: Text(S.of(context).system),
+                child: Text(S.of(context).system,
+                    style: Style.bodyL.copyWith(fontSize: 16)),
               ),
               DropdownMenuItem(
                 value: ThemeMode.light,
-                child: Text(S.of(context).light),
+                child: Text(S.of(context).light,
+                    style: Style.bodyL.copyWith(fontSize: 16)),
               ),
               DropdownMenuItem(
                 value: ThemeMode.dark,
-                child: Text(S.of(context).dark),
+                child: Text(S.of(context).dark,
+                    style: Style.bodyL.copyWith(fontSize: 16)),
               ),
             ],
             onChanged: (themeMode) {

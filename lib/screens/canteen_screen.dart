@@ -198,7 +198,7 @@ class _ShoppingCartDialogState extends State<ShoppingCartDialog> {
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Price: ${item.iprice}',
+                    Text('${S.of(context).price}: ${item.iprice}',
                         style: Style.captionL.copyWith(fontSize: 14)),
                     Row(
                       children: [

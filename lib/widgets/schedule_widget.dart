@@ -4,6 +4,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_test_project/generated/l10n.dart';
 
 import 'package:flutter_test_project/screens/homework_screen.dart';
+import 'package:flutter_test_project/widgets/typography.dart';
 
 class GroupScheduleWidget extends StatelessWidget {
   final int index;
@@ -35,8 +36,12 @@ class GroupScheduleWidget extends StatelessWidget {
               title: (schedule[index].contains('(лк.)') ||
                       schedule[index].contains('КЧ') ||
                       schedule[index].contains('Зачет'))
-                  ? Text(schedule[index])
-                  : Text('${schedule[index]} (пз.)'),
+                  ? Text(
+                      schedule[index],
+                      style: Style.captionL.copyWith(fontSize: 16),
+                    )
+                  : Text('${schedule[index]} (пз.)',
+                      style: Style.captionL.copyWith(fontSize: 16)),
               subtitle: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -59,10 +64,8 @@ class GroupScheduleWidget extends StatelessWidget {
 
   List<Widget> _buildTrailingListWidget() {
     List<Widget> widgets = [];
-    widgets.add(Text(
-      time[index].replaceAll(RegExp(r' - '), '\n'),
-      style: const TextStyle(fontSize: 14),
-    ));
+    widgets.add(Text(time[index].replaceAll(RegExp(r' - '), '\n'),
+        style: Style.captionL.copyWith(fontSize: 14)));
     widgets.addAll([
       const SizedBox(height: 5),
     ]);
@@ -99,7 +102,7 @@ class GroupScheduleWidget extends StatelessWidget {
           children: [
             Text(
               S.of(context).hometasks,
-              style: Theme.of(context).textTheme.headline6,
+              style: Style.captionL.copyWith(fontSize: 20),
             ),
             OutlinedButton.icon(
               onPressed: () {
@@ -160,7 +163,7 @@ class GroupScheduleWidget extends StatelessWidget {
       children: [
         Text(
           schedule[index],
-          style: Theme.of(context).textTheme.headlineSmall,
+          style: Style.captionL.copyWith(fontSize: 22),
         ),
         const SizedBox(
           height: 15,
@@ -173,11 +176,11 @@ class GroupScheduleWidget extends StatelessWidget {
                   : schedule[index].contains('КЧ')
                       ? "Тип: кураторский час"
                       : "Тип: практическое занятие",
-          style: Theme.of(context).textTheme.titleMedium,
+          style: Style.captionL.copyWith(fontSize: 16),
         ),
         Text(
           'Время: ${time[index]}',
-          style: Theme.of(context).textTheme.titleMedium,
+          style: Style.captionL.copyWith(fontSize: 16),
         ),
       ],
     );

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test_project/models/homework.dart';
 import 'package:flutter_test_project/screens/create_screen_task.dart';
+import 'package:flutter_test_project/widgets/typography.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import '../blocs/settings_bloc/settings_bloc.dart';
@@ -31,7 +32,10 @@ class HomeScreen extends ConsumerWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(S.of(context).hometasks),
+          title: Text(
+            S.of(context).hometasks,
+            style: Style.h6,
+          ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
@@ -49,6 +53,7 @@ class HomeScreen extends ConsumerWidget {
                 InkWell(
                   child: Text(
                     'Today is ${(DateFormat.yMMMd().format(DateTime.now()).toString())}',
+                    style: Style.bodyRegular,
                   ),
                 ),
               ],
@@ -58,9 +63,7 @@ class HomeScreen extends ConsumerWidget {
               tasks: inCompletedTasks,
             ),
             const Gap(20),
-            Text(
-              S.of(context).completed,
-            ),
+            Text(S.of(context).completed, style: Style.bodyRegular),
             const Gap(20),
             DisplayListOfTasks(
               isCompletedTasks: true,
@@ -71,6 +74,7 @@ class HomeScreen extends ConsumerWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   S.of(context).addNewTask,
+                  style: Style.captionL.copyWith(fontSize: 14),
                 ),
               ),
               onPressed: () {

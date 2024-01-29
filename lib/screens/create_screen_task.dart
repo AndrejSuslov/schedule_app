@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test_project/widgets/typography.dart';
 import 'package:intl/intl.dart';
 import '../generated/l10n.dart';
 import '../hometaskproviders/hometask_provider.dart';
@@ -36,6 +37,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
       appBar: AppBar(
         title: Text(
           S.of(context).addNewTask,
+          style: Style.h6,
         ),
       ),
       body: SafeArea(
@@ -82,7 +84,10 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
         onPressed: () {
           _createTask();
         },
-        child: Text(S.of(context).confirmButton),
+        child: Text(
+          S.of(context).confirmButton,
+          style: Style.captionL.copyWith(fontSize: 14),
+        ),
       ),
     );
   }

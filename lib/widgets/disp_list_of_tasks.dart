@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test_project/widgets/task_details.dart';
 import 'package:flutter_test_project/widgets/task_tile.dart';
+import 'package:flutter_test_project/widgets/typography.dart';
 
 import '../hometaskproviders/hometask_provider.dart';
 import '../models/homework.dart';
@@ -26,9 +27,7 @@ class DisplayListOfTasks extends ConsumerWidget {
     return CommonContainer(
       child: tasks.isEmpty
           ? Center(
-              child: Text(
-                emptyTasksAlert,
-              ),
+              child: Text(emptyTasksAlert, style: Style.bodyRegular),
             )
           : ListView.separated(
               shrinkWrap: true,
@@ -62,9 +61,9 @@ class DisplayListOfTasks extends ConsumerWidget {
                           .then((value) {
                         AppAlerts.displaySnackbar(
                           context,
-                          task.isCompleted
+                          (task.isCompleted
                               ? 'Task incompleted'
-                              : 'Task completed',
+                              : 'Task completed'),
                         );
                       });
                     },

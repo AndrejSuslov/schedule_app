@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_project/widgets/typography.dart';
 
 class CommonTextField extends StatelessWidget {
   const CommonTextField({
@@ -25,7 +26,7 @@ class CommonTextField extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(),
+          style: Style.bodyL,
         ),
         TextField(
           readOnly: readOnly,
@@ -35,9 +36,9 @@ class CommonTextField extends StatelessWidget {
             FocusManager.instance.primaryFocus?.unfocus();
           },
           decoration: InputDecoration(
-            hintText: hintText,
-            suffixIcon: suffixIcon,
-          ),
+              hintText: hintText,
+              suffixIcon: suffixIcon,
+              hintStyle: Style.bodyL),
           onChanged: (value) {},
         )
       ],

@@ -138,14 +138,20 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           ListTile(
             leading:
                 const Icon(Icons.fastfood_outlined), // Icon for the first item
-            title: Text(S.of(context).canteen),
+            title: Text(
+              S.of(context).canteen,
+              style: Style.bodyRegular.copyWith(fontSize: 16),
+            ),
             onTap: () {
               pushToCanteenScreenWithLoading(context);
             },
           ),
           ListTile(
             leading: const Icon(Icons.task_alt), // Icon for the second item
-            title: Text(S.of(context).hometasks),
+            title: Text(
+              S.of(context).hometasks,
+              style: Style.bodyRegular.copyWith(fontSize: 16),
+            ),
             onTap: () {
               pushToNotificationScreen(context);
             },
@@ -153,7 +159,10 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           ListTile(
             leading: const Icon(
                 Icons.supervised_user_circle_sharp), // Icon for the second item
-            title: Text(S.of(context).services),
+            title: Text(
+              S.of(context).services,
+              style: Style.bodyRegular.copyWith(fontSize: 16),
+            ),
             onTap: () {
               pushToServicesScreen(context);
             },
@@ -161,14 +170,20 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           ListTile(
             leading:
                 const Icon(UniconsLine.info_circle), // Icon for the second item
-            title: Text(S.of(context).aboutApp),
+            title: Text(
+              S.of(context).aboutApp,
+              style: Style.bodyRegular.copyWith(fontSize: 16),
+            ),
             onTap: () {
               pushToAppInfoScreen(context);
             },
           ),
           ListTile(
             leading: const Icon(Icons.settings), // Icon for the second item
-            title: Text(S.of(context).settings),
+            title: Text(
+              S.of(context).settings,
+              style: Style.bodyRegular.copyWith(fontSize: 16),
+            ),
             onTap: () {
               pushToSettingsScreen(context);
             },
@@ -265,7 +280,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         ),
         Text(
           S.of(context).emptyLessons,
-          style: Theme.of(context).textTheme.titleMedium,
+          style: Style.bodyBold.copyWith(fontSize: 16),
         ),
       ],
     );
@@ -296,7 +311,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return AlertDialog(
-              title: const Text("Меню выбора"),
+              title: Text("Меню выбора",
+                  style: Style.bodyL.copyWith(fontSize: 22)),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -306,7 +322,10 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                     onPressed: () async {
                       bloc.add(const PickFile());
                     },
-                    child: const Text("Выбрать файл Excel"),
+                    child: Text(
+                      "Выбрать файл Excel",
+                      style: Style.captionL.copyWith(fontSize: 14),
+                    ),
                   ),
                 ],
               ),
@@ -319,13 +338,13 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                     bloc.add(const LoadSchedule());
                     Navigator.pop(context);
                   },
-                  child: const Text("Ок"),
+                  child: Text("Ок", style: Style.buttonS),
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text("Cancel"),
+                  child: Text("Cancel", style: Style.buttonS),
                 ),
               ],
               contentPadding:
@@ -344,7 +363,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       bloc: bloc,
       builder: (context, state) {
         return ListTile(
-          title: const Text('Группа'),
+          title: Text('Группа', style: Style.captionL.copyWith(fontSize: 16)),
           trailing: DropdownButton<String>(
             value: bloc.settings.group,
             items: [
@@ -388,7 +407,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       bloc: bloc,
       builder: (context, state) {
         return ListTile(
-          title: const Text('Кол-во групп на потоке'),
+          title: Text('Кол-во групп на потоке',
+              style: Style.captionL.copyWith(fontSize: 16)),
           trailing: DropdownButton<String>(
             value: bloc.settings.numOfGroups,
             items: [
@@ -516,6 +536,7 @@ Future<void> pushToCanteenScreenWithLoading(BuildContext context) async {
 
       Navigator.pop(context);
 
+      // ignore: use_build_context_synchronously
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -549,7 +570,7 @@ Widget _buildErrorWidget(BuildContext context, String message) {
       ),
       Text(
         message,
-        style: Theme.of(context).textTheme.titleMedium,
+        style: Style.bodyBold.copyWith(fontSize: 16),
       ),
     ],
   );

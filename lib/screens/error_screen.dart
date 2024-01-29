@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_project/generated/l10n.dart';
 import 'package:flutter_test_project/screens/schedule_screen.dart';
+import 'package:flutter_test_project/widgets/typography.dart';
 import 'package:rive/rive.dart';
 
 import '../blocs/settings_bloc/settings_bloc.dart';
@@ -19,7 +20,10 @@ class ErrorScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Error screen'),
+          title: Text(
+            'Error screen',
+            style: Style.h6,
+          ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {

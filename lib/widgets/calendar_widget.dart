@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test_project/widgets/typography.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../blocs/schedule_bloc/schedule_bloc.dart';
@@ -83,7 +84,13 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         lastDay: DateTime.utc(2033, 1, 1),
         weekendDays: const [DateTime.sunday],
         startingDayOfWeek: StartingDayOfWeek.monday,
+        headerStyle: HeaderStyle(
+          titleTextStyle: Style.bodyL.copyWith(fontSize: 16),
+          formatButtonTextStyle: Style.bodyRegular,
+        ),
         calendarStyle: CalendarStyle(
+          // todayTextStyle: Style.bodyRegular.copyWith(fontSize: 16),
+          defaultTextStyle: Style.bodyRegular,
           defaultDecoration: const BoxDecoration(
             borderRadius: BorderRadius.all(
               Radius.circular(10),
