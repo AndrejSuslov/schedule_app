@@ -636,6 +636,69 @@ class S {
       args: [],
     );
   }
+
+  String get thereIsNotCompTask {
+    return Intl.message(
+      'There is no completed task yet',
+      name: 'thereIsNotCompTask',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get thereIsNotTask {
+    return Intl.message(
+      'There is no task to do',
+      name: 'thereIsNotTask',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get taskIncompl {
+    return Intl.message(
+      'Task incompleted',
+      name: 'taskIncompl',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get lection {
+    return Intl.message(
+      'Type: Lection',
+      name: 'lection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get credit {
+    return Intl.message(
+      'Type: Credit',
+      name: 'credit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get curHour {
+    return Intl.message(
+      'Type: Curator hour',
+      name: 'curHour',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get practLesson {
+    return Intl.message(
+      'Type: Praction lesson',
+      name: 'practLesson',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

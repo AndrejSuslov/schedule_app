@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_project/screens/schedule_screen.dart';
 import 'package:flutter_test_project/widgets/typography.dart';
-import 'package:rive/rive.dart';
 
 import '../blocs/settings_bloc/settings_bloc.dart';
 import '../generated/l10n.dart';

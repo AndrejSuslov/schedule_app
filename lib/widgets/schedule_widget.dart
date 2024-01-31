@@ -167,12 +167,13 @@ class GroupScheduleWidget extends StatelessWidget {
         ),
         Text(
           schedule[index].contains('(лк.)')
-              ? "Тип: лекция"
+              ? S.of(context).lection
               : schedule[index].contains('Зачет')
-                  ? "Тип: зачет"
-                  : schedule[index].contains('КЧ')
-                      ? "Тип: кураторский час"
-                      : "Тип: практическое занятие",
+                  ? S.of(context).credit
+                  : schedule[index].contains('КЧ') ||
+                          schedule[index].contains('кч')
+                      ? S.of(context).curHour
+                      : S.of(context).practLesson,
           style: Theme.of(context).textTheme.titleMedium,
         ),
         Text(

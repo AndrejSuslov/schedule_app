@@ -102,5 +102,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "today": MessageLookupByLibrary.simpleMessage('Сённі'),
         "cacheDeleted":
             MessageLookupByLibrary.simpleMessage('Кэш быў ачышчаны'),
+        "thereIsNotCompTask": MessageLookupByLibrary.simpleMessage(
+            'Зробленых заданняў яшчэ няма'),
+        "thereIsNotTask":
+            MessageLookupByLibrary.simpleMessage('Заданняў яшчэ няма'),
+        "taskIncompl":
+            MessageLookupByLibrary.simpleMessage('Заданне не выканана'),
+        "lection": MessageLookupByLibrary.simpleMessage('Тып: Лекцыя'),
+        "credit": MessageLookupByLibrary.simpleMessage('Тып: Залік'),
+        "curHour":
+            MessageLookupByLibrary.simpleMessage('Тып: Куратарская гадзіна'),
+        "practLesson":
+            MessageLookupByLibrary.simpleMessage('Тып: Практычны занятак'),
       };
 }

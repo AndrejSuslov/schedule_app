@@ -104,5 +104,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "today": MessageLookupByLibrary.simpleMessage('Today is'),
         "cacheDeleted":
             MessageLookupByLibrary.simpleMessage('Cache has been deleted'),
+        "thereIsNotCompTask": MessageLookupByLibrary.simpleMessage(
+            'There is no completed task yet'),
+        "thereIsNotTask":
+            MessageLookupByLibrary.simpleMessage('There is no task to do'),
+        "taskIncompl": MessageLookupByLibrary.simpleMessage('Task incompleted'),
+        "lection": MessageLookupByLibrary.simpleMessage('Type: Lection'),
+        "credit": MessageLookupByLibrary.simpleMessage('Type: Credit'),
+        "curHour": MessageLookupByLibrary.simpleMessage('Type: Curator hour'),
+        "practLesson":
+            MessageLookupByLibrary.simpleMessage('Type: Praction lesson'),
       };
 }
