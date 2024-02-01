@@ -5,7 +5,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_project/services/parser.dart';
 import 'package:flutter_test_project/services/storage.dart';
-// import 'package:intl/intl.dart';
 
 part 'schedule_event.dart';
 part 'schedule_state.dart';
@@ -13,8 +12,7 @@ part 'schedule_state.dart';
 class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   final String date = DateTime.now().toString().replaceRange(10, 26, '');
   late DateTime currentDay = DateTime.parse(date);
-  late final PlatformFile globalFile;
-  //late final Map<DateTime, List<String>> loadedClassesFromCache;
+  late PlatformFile? globalFile;
 
   ScheduleBloc() : super(ScheduleInitial()) {
     on<ScheduleEvent>(
@@ -59,7 +57,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     emit(SavingSchedule());
 
     final parsedExcel = ExcelParsing(int.parse(event.numOfGroups));
-    await parsedExcel.parseForAllGroups(globalFile);
+    await parsedExcel.parseForAllGroups(globalFile!);
     Map<String, List<String>> stringMap = parsedExcel
         .getClassesForChoosedGroup(int.parse(event.group))
         .map((key, value) => MapEntry(key.toString(), value));

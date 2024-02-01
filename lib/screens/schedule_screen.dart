@@ -214,8 +214,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             } else if (state is ScheduleLoading) {
               return const Center(child: CircularProgressIndicator());
             }
-            // не забыть поменять!
-            // return _buildAnimatedListView(context, []);
             return _buildAnimatedListView(context, [], []);
           },
         ),
@@ -232,7 +230,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           forNullCheking++;
         }
       }
-      if (forNullCheking >= 6) {
+      if (forNullCheking >= 7 || DateTime.sunday == DateTime.now().weekday) {
         return _buildEmptyListWidget(context);
       }
       return AnimationLimiter(
@@ -249,7 +247,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         ),
       );
     }
-    return _buildEmptyListWidget(context);
+    return _buildErrorWidget(context, "There are not file. Please load it.");
   }
 
   Widget _buildEmptyListWidget(BuildContext context) {
