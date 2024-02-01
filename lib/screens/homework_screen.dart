@@ -52,8 +52,7 @@ class HomeScreen extends ConsumerWidget {
                 const Gap(10),
                 InkWell(
                   child: Text(
-                    'Today is ${(DateFormat.yMMMd().format(DateTime.now()).toString())}',
-                    style: Style.bodyRegular,
+                    '${S.of(context).today} ${(DateFormat.yMMMd().format(DateTime.now()).toString())}',
                   ),
                 ),
               ],
@@ -122,7 +121,8 @@ class HomeScreen extends ConsumerWidget {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => ScheduleScreen({'group': bloc.settings.group}),
+        builder: (_) =>
+            ScheduleScreen({S.of(context).group: bloc.settings.group}),
       ),
     );
   }

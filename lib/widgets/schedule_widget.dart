@@ -179,8 +179,8 @@ class GroupScheduleWidget extends StatelessWidget {
           style: Style.captionL.copyWith(fontSize: 16),
         ),
         Text(
-          'Время: ${time[index]}',
-          style: Style.captionL.copyWith(fontSize: 16),
+          '${S.of(context).time}: ${time[index]}',
+          style: Theme.of(context).textTheme.titleMedium,
         ),
       ],
     );

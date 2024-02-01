@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,8 +6,10 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_test_project/screens/app_info_screen.dart';
 import 'package:flutter_test_project/screens/canteen_screen.dart';
 import 'package:flutter_test_project/screens/error_screen.dart';
+import 'package:flutter_test_project/screens/onboarding_screen.dart';
 import 'package:flutter_test_project/screens/services_screen.dart';
 import 'package:flutter_test_project/screens/settings_screen.dart';
+import 'package:flutter_test_project/widgets/guider.dart';
 import 'package:flutter_test_project/widgets/schedule_widget.dart';
 import 'package:flutter_test_project/widgets/typography.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
@@ -247,7 +250,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           forNullCheking++;
         }
       }
-      if (forNullCheking >= 6) {
+      if (forNullCheking >= 7) {
         return _buildEmptyListWidget(context);
       }
       return AnimationLimiter(
@@ -298,11 +301,9 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   }
 
   void _showContextMenu(BuildContext context) {
-    // Define variables to hold the selected group number and stream group count
     int selectedGroupNumber = 1;
-    int selectedStreamGroupCount = 2; // Default value set to 2
+    int selectedStreamGroupCount = 2;
 
-    //FilePickerResult? excelFileResult;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -311,8 +312,19 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return AlertDialog(
-              title: Text("Меню выбора",
-                  style: Style.bodyL.copyWith(fontSize: 22)),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(S.of(context).menu,
+                      style: Style.bodyL.copyWith(fontSize: 22)),
+                  IconButton(
+                    icon: const Icon(Icons.help),
+                    onPressed: () {
+                      showUsageGuideBottomSheet(context);
+                    },
+                  ),
+                ],
+              ),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -320,10 +332,11 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                   _buildNumsOfGroupListTile(),
                   ElevatedButton(
                     onPressed: () async {
+                      settingsBloc.add(const ClearCache());
                       bloc.add(const PickFile());
                     },
                     child: Text(
-                      "Выбрать файл Excel",
+                      S.of(context).chooseExcel,
                       style: Style.captionL.copyWith(fontSize: 14),
                     ),
                   ),
@@ -338,13 +351,13 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                     bloc.add(const LoadSchedule());
                     Navigator.pop(context);
                   },
-                  child: Text("Ок", style: Style.buttonS),
+                  child: Text(S.of(context).ok, style: Style.buttonS),
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text("Cancel", style: Style.buttonS),
+                  child: Text(S.of(context).cancel, style: Style.buttonS),
                 ),
               ],
               contentPadding:
@@ -363,7 +376,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       bloc: bloc,
       builder: (context, state) {
         return ListTile(
-          title: Text('Группа', style: Style.captionL.copyWith(fontSize: 16)),
+          title: Text(S.of(context).numOfGroup,
+              style: Style.captionL.copyWith(fontSize: 16)),
           trailing: DropdownButton<String>(
             value: bloc.settings.group,
             items: [
@@ -407,7 +421,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       bloc: bloc,
       builder: (context, state) {
         return ListTile(
-          title: Text('Кол-во групп на потоке',
+          title: Text(S.of(context).totalGroups,
               style: Style.captionL.copyWith(fontSize: 16)),
           trailing: DropdownButton<String>(
             value: bloc.settings.numOfGroups,
@@ -462,6 +476,15 @@ void pushToAppInfoScreen(BuildContext context) {
     MaterialPageRoute(
       builder: (_) => const AboutAppPage(),
     ),
+  );
+}
+
+void showUsageGuideBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext context) {
+      return const UsageGuideBottomSheet();
+    },
   );
 }
 

@@ -71,7 +71,7 @@ class AboutAppPage extends StatelessWidget {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'Версия приложения:',
+                                                '${S.of(context).appVersion}:',
                                                 style: Style.body,
                                               ),
                                               const SizedBox(height: 4),
@@ -89,7 +89,7 @@ class AboutAppPage extends StatelessWidget {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'Номер сборки:',
+                                                '${S.of(context).buildNum}:',
                                                 style: Style.body,
                                               ),
                                               const SizedBox(height: 4),
@@ -121,22 +121,19 @@ class AboutAppPage extends StatelessWidget {
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                'Данное приложение и все связанные с ним сервисы '
-                                'полностью бесплатные и Open Source продукты. Мы будем '
-                                'рады услышать ваши идеи и отзывы, а '
-                                'также мы рады любому вашему участию в проекте!',
+                                S.of(context).messageAboutApp,
                                 style: Style.bodyRegular,
                               ),
                               const SizedBox(height: 16),
                               Text(
-                                'Приложение разработали',
+                                S.of(context).developedBy,
                                 style: Style.bodyRegular,
                               ),
                               RichText(
                                 text: TextSpan(
                                   children: [
                                     TextSpan(
-                                      text: 'Владислав Пономаренко',
+                                      text: S.of(context).vlad,
                                       style: Style.bodyRegular
                                           .copyWith(color: Colors.blue),
                                       recognizer: TapGestureRecognizer()
@@ -146,9 +143,10 @@ class AboutAppPage extends StatelessWidget {
                                         },
                                     ),
                                     TextSpan(
-                                        text: ' и ', style: Style.bodyRegular),
+                                        text: S.of(context).and,
+                                        style: Style.bodyRegular),
                                     TextSpan(
-                                      text: 'Андрей Суслов.',
+                                      text: S.of(context).andron,
                                       style: Style.bodyRegular
                                           .copyWith(color: Colors.blue),
                                       recognizer: TapGestureRecognizer()
@@ -243,7 +241,8 @@ class AboutAppPage extends StatelessWidget {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => ScheduleScreen({'group': bloc.settings.group}),
+        builder: (_) =>
+            ScheduleScreen({S.of(context).group: bloc.settings.group}),
       ),
     );
   }

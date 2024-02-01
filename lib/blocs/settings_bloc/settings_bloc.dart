@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_test_project/services/parser.dart';
 
 import '../../models/settings.dart';
 import '../../services/storage.dart';
@@ -30,6 +31,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   SettingsBloc() : super(SettingsInitial()) {
     on<ChangeSettings>(_onChangeSettings);
     on<ClearCache>(_onClearCache);
+    on<FullClearCache>(_onFullClearCache);
     _loadSettings();
   }
 
@@ -60,6 +62,16 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     emit(SettingsInitial());
     await Storage().clearStorage();
     emit(const CachedDataDeleted('Кэшированые данные были удалены'));
+    emit(SettingsLoaded(settings));
+  }
+
+  FutureOr<void> _onFullClearCache(
+    FullClearCache event,
+    Emitter<SettingsState> emit,
+  ) async {
+    emit(SettingsInitial());
+    await Storage().clearFullStorage();
+    emit(const FullCachedDataDeleted('Кэшированые данные были удалены'));
     emit(SettingsLoaded(settings));
   }
 }

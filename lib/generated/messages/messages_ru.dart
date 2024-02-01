@@ -84,5 +84,67 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage('Разработчики проекта'),
         "add": MessageLookupByLibrary.simpleMessage('Добавить'),
         "price": MessageLookupByLibrary.simpleMessage('Цена'),
+        "cart": MessageLookupByLibrary.simpleMessage('Корзина'),
+        "qnatity": MessageLookupByLibrary.simpleMessage('Количество'),
+        "total": MessageLookupByLibrary.simpleMessage('Всего'),
+        "studDiscount":
+            MessageLookupByLibrary.simpleMessage('Студенческая скидка'),
+        "close": MessageLookupByLibrary.simpleMessage('Закрыть'),
+        "clear": MessageLookupByLibrary.simpleMessage('Очистить'),
+        "portion": MessageLookupByLibrary.simpleMessage('Порция'),
+        "appVersion": MessageLookupByLibrary.simpleMessage('Весрия приложения'),
+        "buildNum": MessageLookupByLibrary.simpleMessage('Номер сборки'),
+        "messageAboutApp": MessageLookupByLibrary.simpleMessage(
+            'Данное приложение и все связанные с ним сервисы полностью бесплатные и Open Source продукты. Мы будем рады услышать ваши идеи и отзывы, а также мы рады любому вашему участию в проекте!'),
+        "developedBy":
+            MessageLookupByLibrary.simpleMessage('Приложение разработали'),
+        "vlad": MessageLookupByLibrary.simpleMessage('Владислав Пономаренко'),
+        "and": MessageLookupByLibrary.simpleMessage(' и '),
+        "andron": MessageLookupByLibrary.simpleMessage('Андрей Суслов'),
+        "group": MessageLookupByLibrary.simpleMessage('Группа'),
+        "today": MessageLookupByLibrary.simpleMessage('Сегодня'),
+        "cacheDeleted": MessageLookupByLibrary.simpleMessage('Кэш был очищен'),
+        "menu": MessageLookupByLibrary.simpleMessage('Меню выбора'),
+        "chooseExcel":
+            MessageLookupByLibrary.simpleMessage('Выбрать файл Excel'),
+        "numOfGroup": MessageLookupByLibrary.simpleMessage('Группа'),
+        "totalGroups":
+            MessageLookupByLibrary.simpleMessage('Кол-во групп на потоке'),
+        "ok": MessageLookupByLibrary.simpleMessage('Ок'),
+        "cancel": MessageLookupByLibrary.simpleMessage('Отмена'),
+        "step": MessageLookupByLibrary.simpleMessage('Шаг'),
+        "step1": MessageLookupByLibrary.simpleMessage(
+            'Скачай готовое расписание с нашего телеграм-канала! Найти его можно во вкладке Сервисы.'),
+        "step2": MessageLookupByLibrary.simpleMessage(
+            'Выбери номер своей группы и количество групп на твоем потоке.'),
+        "step3": MessageLookupByLibrary.simpleMessage(
+            'Нажми на Выбрать файл Excel и нажми на скачанное тобою расписание.'),
+        "step4": MessageLookupByLibrary.simpleMessage(
+            'Нажми Ок и наслаждайся нашим приложением!'),
+        "website": MessageLookupByLibrary.simpleMessage('Сайт АУпПРБ'),
+        "websiteDesc":
+            MessageLookupByLibrary.simpleMessage('Найди нужную информацию'),
+        "moodleDesc":
+            MessageLookupByLibrary.simpleMessage('Узнай свои задания'),
+        "ilexDesc":
+            MessageLookupByLibrary.simpleMessage('Будь в курсе новых законов'),
+        "aupprbChannel":
+            MessageLookupByLibrary.simpleMessage('Расписание АУпПРБ'),
+        "aupprbChannelDesc": MessageLookupByLibrary.simpleMessage(
+            'Телеграм канал с публикациями готовых файлов Excel для отображения в приложении'),
+        "studSovet":
+            MessageLookupByLibrary.simpleMessage('Студенческий совет АУпПРБ'),
+        "studSovetDesc": MessageLookupByLibrary.simpleMessage(
+            'Официальная группа Студенческого совета АУпПРБ'),
+        "profsouz":
+            MessageLookupByLibrary.simpleMessage("Профсоюз студентов АУпПРБ"),
+        "profsouzDesc": MessageLookupByLibrary.simpleMessage(
+            'Первичная профсоюзная организация студентов Академии управления'),
+        "brsm":
+            MessageLookupByLibrary.simpleMessage("БРСМ Академии управления"),
+        "brsmDesc": MessageLookupByLibrary.simpleMessage(
+            'Первичная организация Общественного объединения "Белорусский республиканский союз молодёжи"'),
+        "errorText":
+            MessageLookupByLibrary.simpleMessage("Необходимо выбрать файл"),
       };
 }

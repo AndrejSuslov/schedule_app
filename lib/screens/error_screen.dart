@@ -85,7 +85,8 @@ class ErrorScreen extends StatelessWidget {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => ScheduleScreen({'group': bloc.settings.group}),
+        builder: (_) =>
+            ScheduleScreen({S.of(context).group: bloc.settings.group}),
       ),
     );
   }

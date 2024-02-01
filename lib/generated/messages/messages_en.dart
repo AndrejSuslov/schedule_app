@@ -82,5 +82,68 @@ class MessageLookup extends MessageLookupByLibrary {
         "developers": MessageLookupByLibrary.simpleMessage('Developers'),
         "add": MessageLookupByLibrary.simpleMessage('Add'),
         "price": MessageLookupByLibrary.simpleMessage('Price'),
+        "cart": MessageLookupByLibrary.simpleMessage('Cart'),
+        "quantity": MessageLookupByLibrary.simpleMessage('Quantity'),
+        "total": MessageLookupByLibrary.simpleMessage('Total'),
+        "studDiscount":
+            MessageLookupByLibrary.simpleMessage('Student discount'),
+        "close": MessageLookupByLibrary.simpleMessage('Close'),
+        "clear": MessageLookupByLibrary.simpleMessage('Clear'),
+        "portion": MessageLookupByLibrary.simpleMessage('Portion'),
+        "appVersion": MessageLookupByLibrary.simpleMessage('App version'),
+        "buildNum": MessageLookupByLibrary.simpleMessage('Build number'),
+        "messageAboutApp": MessageLookupByLibrary.simpleMessage(
+            'This application and all related services are completely free and Open Source products. '
+            'We will be glad to hear your ideas and feedback, and we also welcome any of your participation in the project!'),
+        "developedBy":
+            MessageLookupByLibrary.simpleMessage('This app was developed by'),
+        "vlad": MessageLookupByLibrary.simpleMessage('Vladislav Ponomarenko'),
+        "and": MessageLookupByLibrary.simpleMessage(' and '),
+        "andron": MessageLookupByLibrary.simpleMessage('Andrey Suslov'),
+        "group": MessageLookupByLibrary.simpleMessage('Group'),
+        "today": MessageLookupByLibrary.simpleMessage('Today is'),
+        "cacheDeleted":
+            MessageLookupByLibrary.simpleMessage('Cache has been deleted'),
+        "menu": MessageLookupByLibrary.simpleMessage('Menu'),
+        "chooseExcel":
+            MessageLookupByLibrary.simpleMessage('Select the Excel file'),
+        "numOfGroup": MessageLookupByLibrary.simpleMessage('Group'),
+        "totalGroups":
+            MessageLookupByLibrary.simpleMessage('Overall amount of groups'),
+        "ok": MessageLookupByLibrary.simpleMessage('Ok'),
+        "cancel": MessageLookupByLibrary.simpleMessage('Cancel'),
+        "step": MessageLookupByLibrary.simpleMessage('Step'),
+        "step1": MessageLookupByLibrary.simpleMessage(
+            'Download the ready-made schedule from our telegram channel! You can find it in the Services.'),
+        "step2": MessageLookupByLibrary.simpleMessage(
+            'Choose your group number and the number of groups on your stream.'),
+        "step3": MessageLookupByLibrary.simpleMessage(
+            'Click on Select the Excel file and click on the schedule you downloaded.'),
+        "step4":
+            MessageLookupByLibrary.simpleMessage('Click Ok and enjoy our app!'),
+        "website": MessageLookupByLibrary.simpleMessage('Website'),
+        "websiteDesc":
+            MessageLookupByLibrary.simpleMessage('Find the info you need'),
+        "moodleDesc":
+            MessageLookupByLibrary.simpleMessage('Find out your assignments'),
+        "ilexDesc":
+            MessageLookupByLibrary.simpleMessage('Be aware of the new laws'),
+        "aupprbChannel":
+            MessageLookupByLibrary.simpleMessage('AUPPRB Schedule'),
+        "aupprbChannelDesc": MessageLookupByLibrary.simpleMessage(
+            'Telegram channel with ready-made Excel files for displaying in the application'),
+        "studSovet":
+            MessageLookupByLibrary.simpleMessage('AUPPRB Student Council'),
+        "studSovetDesc": MessageLookupByLibrary.simpleMessage(
+            'An official group of the AUPPRB Student Council'),
+        "profsouz":
+            MessageLookupByLibrary.simpleMessage("AUPPRB Students' Union"),
+        "profsouzDesc": MessageLookupByLibrary.simpleMessage(
+            'Primary trade union organization of students of the Academy of Public Administration'),
+        "brsm": MessageLookupByLibrary.simpleMessage("BRSM AUPPRB"),
+        "brsmDesc": MessageLookupByLibrary.simpleMessage(
+            'The primary organization of the Public Association "Belarusian Republican Youth Union"'),
+        "errorText":
+            MessageLookupByLibrary.simpleMessage("You need to select a file"),
       };
 }

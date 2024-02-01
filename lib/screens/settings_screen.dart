@@ -64,15 +64,15 @@ class SettingsScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: RichText(
                       textAlign: TextAlign.center,
-                      text: const TextSpan(
-                        style: TextStyle(
+                      text: TextSpan(
+                        style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 12,
                         ),
                         children: [
                           TextSpan(
-                            text: "App was made by UIR-2022",
-                          ),
+                              text: "UIR-2022",
+                              style: Style.bodyRegular.copyWith(fontSize: 14)),
                           // TextSpan(
                           //   text: "UIR-2022",
                           // ),
@@ -105,8 +105,8 @@ class SettingsScreen extends StatelessWidget {
       title: Text(S.of(context).clearCache,
           style: Style.bodyL.copyWith(fontSize: 16)),
       onTap: () {
-        bloc.add(const ClearCache());
-        _showSnackBar(context, 'Cache has been deleted.');
+        bloc.add(const FullClearCache());
+        _showSnackBar(context, S.of(context).cacheDeleted);
       },
     );
   }
@@ -117,7 +117,8 @@ class SettingsScreen extends StatelessWidget {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => ScheduleScreen({'group': bloc.settings.group}),
+        builder: (_) =>
+            ScheduleScreen({S.of(context).group: bloc.settings.group}),
       ),
     );
   }

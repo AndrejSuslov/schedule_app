@@ -21,3 +21,7 @@ class ChangeSettings extends SettingsEvent {
 class ClearCache extends SettingsEvent {
   const ClearCache();
 }
+
+class FullClearCache extends SettingsEvent {
+  const FullClearCache();
+}

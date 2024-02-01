@@ -8,7 +8,7 @@ class ExcelParsing {
   Map<DateTime, List<String>> classesForOneGroup = {};
   late final List<List<String>> _tempData =
       []; // временно для двумерного списка
-  static const int _quentityOfClasses = 6;
+  static const int _quentityOfClasses = 7;
   final int _quentityOfGroups;
   //final int _quentityOfWeeks;
 
@@ -31,10 +31,7 @@ class ExcelParsing {
     }
 
     for (int i = 2;
-        i <
-            (/*_quentityOfWeeks// but is always the quentity equal 18, doesn't it?*/ 18 *
-                    (_quentityOfGroups + 1)) +
-                2;
+        i < (18 * (_quentityOfGroups + 1)) + 2;
         i += _quentityOfGroups + 1) {
       String tempDateOfClasses = '';
 

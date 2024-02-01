@@ -49,7 +49,8 @@ class ServicesScreen extends StatelessWidget {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => ScheduleScreen({'group': bloc.settings.group}),
+        builder: (_) =>
+            ScheduleScreen({S.of(context).group: bloc.settings.group}),
       ),
     );
   }
@@ -87,39 +88,39 @@ class _ServicesViewState extends State<ServicesView> {
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              children: const [
+              children: [
                 ServiceCard(
-                  serviceTitle: 'Сайт АУпПРБ',
+                  serviceTitle: S.current.website,
                   serviceUrl: 'https://www.pac.by/',
-                  serviceIcon: ServiceIcon(
+                  serviceIcon: const ServiceIcon(
                     color: Color.fromARGB(255, 71, 132, 253),
                     iconColor: Color(0xFFFFFFFF),
                     icon: Icons.school,
                   ),
                   launchMode: LaunchMode.inAppBrowserView,
-                  serviceDescription: 'Найди нужную информацию',
+                  serviceDescription: S.current.websiteDesc,
                 ),
                 ServiceCard(
                   serviceTitle: 'Moodle',
                   serviceUrl: 'https://moodle.pac.by/moodle/',
-                  serviceIcon: ServiceIcon(
+                  serviceIcon: const ServiceIcon(
                     color: Color.fromARGB(255, 248, 156, 76),
                     iconColor: Color(0xFF181A20),
                     icon: UniconsLine.cloud_bookmark,
                   ),
                   launchMode: LaunchMode.externalApplication,
-                  serviceDescription: 'Узнай свои задания',
+                  serviceDescription: S.current.moodleDesc,
                 ),
                 ServiceCard(
                   serviceTitle: 'ilex',
                   serviceUrl: 'https://ilex.by/',
-                  serviceIcon: ServiceIcon(
+                  serviceIcon: const ServiceIcon(
                     color: Color.fromARGB(255, 79, 211, 103),
                     iconColor: Color(0xFF181A20),
                     icon: Icons.menu_book,
                   ),
                   launchMode: LaunchMode.externalApplication,
-                  serviceDescription: 'Будь в курсе новых законов',
+                  serviceDescription: S.current.ilexDesc,
                 ),
               ],
             ),
@@ -143,7 +144,7 @@ class _ServicesViewState extends State<ServicesView> {
               scrollDirection: Axis.vertical,
               children: [
                 CommunityCard(
-                  title: 'Расписание АУпПРБ',
+                  title: S.current.aupprbChannel,
                   url: 'https://t.me/schedulepacby',
                   logo: CircleAvatar(
                     // backgroundColor: AppTheme.colors.colorful01,
@@ -152,11 +153,10 @@ class _ServicesViewState extends State<ServicesView> {
                     ).image,
                   ),
                   launchMode: LaunchMode.externalApplication,
-                  description:
-                      'Телеграм канал с публикациями готовых файлов Excel для отображения в приложении',
+                  description: S.current.aupprbChannelDes,
                 ),
                 CommunityCard(
-                  title: 'Студенческий совет АУпПРБ',
+                  title: S.current.studSovet,
                   url: 'https://vk.com/st_au',
                   logo: CircleAvatar(
                     // backgroundColor: AppTheme.colors.colorful01,
@@ -165,10 +165,10 @@ class _ServicesViewState extends State<ServicesView> {
                     ).image,
                   ),
                   launchMode: LaunchMode.externalApplication,
-                  description: 'Официальная группа Студенческого совета АУпПРБ',
+                  description: S.current.studSovetDesc,
                 ),
                 CommunityCard(
-                  title: 'Профсоюз студентов АУпПРБ',
+                  title: S.current.profsouz,
                   url: 'https://vk.com/profsouz_au',
                   logo: CircleAvatar(
                     // backgroundColor: AppTheme.colors.colorful01,
@@ -177,11 +177,10 @@ class _ServicesViewState extends State<ServicesView> {
                     ).image,
                   ),
                   launchMode: LaunchMode.externalApplication,
-                  description:
-                      'Первичная профсоюзная организация студентов Академии управления',
+                  description: S.current.profsouzDesc,
                 ),
                 CommunityCard(
-                  title: 'БРСМ Академии управления',
+                  title: S.current.brsm,
                   url: 'https://vk.com/brsmaupprb',
                   logo: CircleAvatar(
                     // backgroundColor: AppTheme.colors.colorful01,
@@ -190,8 +189,7 @@ class _ServicesViewState extends State<ServicesView> {
                     ).image,
                   ),
                   launchMode: LaunchMode.externalApplication,
-                  description:
-                      'Первичная организация Общественного объединения "Белорусский республиканский союз молодёжи"',
+                  description: S.current.brsmDesc,
                 ),
               ],
             ),

@@ -160,6 +160,7 @@ class ShoppingCartDialog extends StatefulWidget {
   final ValueChanged<bool> onStudentDiscountChanged;
 
   const ShoppingCartDialog({
+    super.key,
     required this.isStudentDiscount,
     required this.selectedItems,
     required this.onStudentDiscountChanged,
@@ -183,7 +184,7 @@ class _ShoppingCartDialogState extends State<ShoppingCartDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(
-        'Cart',
+        S.of(context).cart,
         style: Style.bodyL.copyWith(fontSize: 22),
       ),
       content: SizedBox(
@@ -202,7 +203,7 @@ class _ShoppingCartDialogState extends State<ShoppingCartDialog> {
                         style: Style.captionL.copyWith(fontSize: 14)),
                     Row(
                       children: [
-                        Text('Quantity: ${item.quantity}',
+                        Text('${S.of(context).quantity}: ${item.quantity}',
                             style: Style.captionL.copyWith(fontSize: 13)),
                         IconButton(
                           icon: const Icon(Icons.remove),
@@ -229,13 +230,13 @@ class _ShoppingCartDialogState extends State<ShoppingCartDialog> {
               ),
             const SizedBox(height: 10),
             Text(
-              'Total: ${calculateTotal()}',
+              '${S.of(context).total}: ${calculateTotal()}',
               style: Style.captionL.copyWith(fontSize: 15),
             ),
             const SizedBox(height: 10),
             Row(
               children: [
-                Text('Student Discount (10%)',
+                Text('${S.of(context).studentDisc} (10%)',
                     style: Style.captionL.copyWith(fontSize: 14)),
                 Switch(
                   value: _switchController.text == 'true',
@@ -254,14 +255,15 @@ class _ShoppingCartDialogState extends State<ShoppingCartDialog> {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Text('Close', style: Style.buttonS),
+          child: Text(S.of(context).close, style: Style.buttonS),
         ),
         TextButton(
           onPressed: () {
             clearCart();
+            Navigator.pop(context);
           },
           child: Text(
-            'Clear',
+            S.of(context).clear,
             style: Style.buttonS,
           ),
         ),
@@ -271,7 +273,9 @@ class _ShoppingCartDialogState extends State<ShoppingCartDialog> {
 
   void clearCart() {
     setState(() {
-      widget.selectedItems.clear();
+      selectedItems.clear();
+      itemColors.clear();
+      itemIconColors.clear();
     });
   }
 
@@ -325,12 +329,12 @@ class CategoryTileContent extends StatelessWidget {
                   style: Style.bodyL,
                 ),
                 subtitle: Text(
-                  'Порция: ${item.iport}\nЦена: ${item.iprice}',
+                  '${S.of(context).portion}: ${item.iport}\n${S.of(context).price}: ${item.iprice}',
                   style: Style.body,
                 ),
                 trailing: IconButton(
                   icon: Icon(
-                    selectedItems.contains(item)
+                    (selectedItems.contains(item))
                         ? Icons.remove_circle_outline
                         : Icons.add_circle_outline,
                     color: selectedItems.contains(item) ? Colors.red : null,

@@ -70,6 +70,7 @@ flutter:
       - assets/images/max.png
       - assets/images/computer-engineer.png
       - assets/images/schedule.png
+      - assets/images/geography.png
 
   fonts:
     - family: Montserrat

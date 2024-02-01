@@ -13,7 +13,7 @@ part 'schedule_state.dart';
 class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   final String date = DateTime.now().toString().replaceRange(10, 26, '');
   late DateTime currentDay = DateTime.parse(date);
-  late final PlatformFile globalFile;
+  PlatformFile? globalFile;
   //late final Map<DateTime, List<String>> loadedClassesFromCache;
 
   ScheduleBloc() : super(ScheduleInitial()) {
@@ -59,13 +59,13 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     emit(SavingSchedule());
 
     final parsedExcel = ExcelParsing(int.parse(event.numOfGroups));
-    await parsedExcel.parseForAllGroups(globalFile);
+    await parsedExcel.parseForAllGroups(globalFile!);
     Map<String, List<String>> stringMap = parsedExcel
         .getClassesForChoosedGroup(int.parse(event.group))
         .map((key, value) => MapEntry(key.toString(), value));
     String jsonString = jsonEncode(stringMap);
     Storage().saveSchedule(jsonString);
-    var time = await parsedExcel.getTimeOfClasses();
+    var time = parsedExcel.getTimeOfClasses();
     Storage().saveTime(time);
     emit(SavedSchedule());
   }
@@ -83,16 +83,16 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
         loadedClassesFromCache1 = decodedStringMap.map((key, value) =>
             MapEntry(DateTime.parse(key), value.cast<String>().toList()));
       } catch (e) {
-        emit(const ScheduleError('Ошибка при чтении файла'));
+        emit(const ScheduleError('Необходимо выбрать файл'));
       }
     });
-    List<String> lastTime = [];
+    late final List<String> lastTime;
     var time = Storage().readTime();
     await time.then((listWithTime) {
       try {
         lastTime = listWithTime;
       } catch (e) {
-        emit(const ScheduleError('Ошибка при чтении файла'));
+        emit(const ScheduleError('Необходимо выбрать файл'));
       }
     });
 

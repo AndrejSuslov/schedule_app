@@ -81,5 +81,66 @@ class MessageLookup extends MessageLookupByLibrary {
         "developers": MessageLookupByLibrary.simpleMessage('Разработчыкі'),
         "add": MessageLookupByLibrary.simpleMessage('Дабавіць'),
         "price": MessageLookupByLibrary.simpleMessage('Кошт'),
+        "cart": MessageLookupByLibrary.simpleMessage('Карзіна'),
+        "quantity": MessageLookupByLibrary.simpleMessage('Колькасць'),
+        "total": MessageLookupByLibrary.simpleMessage('Усяго'),
+        "studDiscount":
+            MessageLookupByLibrary.simpleMessage('Студэнцкая зніжка'),
+        "close": MessageLookupByLibrary.simpleMessage('Закрыць'),
+        "clear": MessageLookupByLibrary.simpleMessage('Ачысціць'),
+        "portion": MessageLookupByLibrary.simpleMessage('Порцыя'),
+        "appVersion": MessageLookupByLibrary.simpleMessage('Версія дадатку'),
+        "buildNum": MessageLookupByLibrary.simpleMessage('Версія зборкі'),
+        "messageAboutApp": MessageLookupByLibrary.simpleMessage(
+            'Дадзены дадатак і ўсе злучаныя з ім сэрвісы цалкам бясплатныя і Open Source прадукты. Мы будзем рады пачуць вашы ідэі і водгукі, а таксама мы рады вашаму ўдзелу ў праекце'),
+        "developedBy":
+            MessageLookupByLibrary.simpleMessage('Дадатак распрацавалі'),
+        "vlad": MessageLookupByLibrary.simpleMessage('Уладзіслаў Панамарэнка'),
+        "and": MessageLookupByLibrary.simpleMessage(' i '),
+        "andron": MessageLookupByLibrary.simpleMessage('Андрэй Суслаў'),
+        "group": MessageLookupByLibrary.simpleMessage('Група'),
+        "today": MessageLookupByLibrary.simpleMessage('Сёння'),
+        "cacheDeleted":
+            MessageLookupByLibrary.simpleMessage('Кэш быў ачышчаны'),
+        "menu": MessageLookupByLibrary.simpleMessage('Меню'),
+        "chooseExcel":
+            MessageLookupByLibrary.simpleMessage('Выбраць файл Excel'),
+        "numOfGroup": MessageLookupByLibrary.simpleMessage('Група'),
+        "totalGroups":
+            MessageLookupByLibrary.simpleMessage('Колькасць груп на патоке'),
+        "ok": MessageLookupByLibrary.simpleMessage('Ок'),
+        "cancel": MessageLookupByLibrary.simpleMessage('Адмена'),
+        "step": MessageLookupByLibrary.simpleMessage('Крок'),
+        "step1": MessageLookupByLibrary.simpleMessage(
+            'Скачай гатовы расклад з нашага тэлеграм-канала! Знайсці яго можна ва ўкладцы Сэрвісы.'),
+        "step2": MessageLookupByLibrary.simpleMessage(
+            'Выберы нумар сваёй групы і колькасць груп на тваім патоку.'),
+        "step3": MessageLookupByLibrary.simpleMessage(
+            'Націсні на Выбраць файл Excel і выберы скачаны табою расклад.'),
+        "step4": MessageLookupByLibrary.simpleMessage(
+            'Націсні Oк і атрымлівай асалоду ад нашага дадатку!'),
+        "website": MessageLookupByLibrary.simpleMessage('Сайт АК  пПРБ'),
+        "websiteDesc": MessageLookupByLibrary.simpleMessage(
+            'Знайдзі патрэбную інфармацыю'),
+        "moodleDesc":
+            MessageLookupByLibrary.simpleMessage('Даведайся пра заданні'),
+        "ilexDesc":
+            MessageLookupByLibrary.simpleMessage('Будзь у курсе новых законаў'),
+        "aupprbChannel": MessageLookupByLibrary.simpleMessage('Расклад АКпПРБ'),
+        "aupprbChannelDesc": MessageLookupByLibrary.simpleMessage(
+            'Тэлеграм канал з гатовымі файламі Excel для адлюстравання ў дадатку'),
+        "studSovet":
+            MessageLookupByLibrary.simpleMessage('Студэнцкі савет АКпПРБ'),
+        "studSovetDesc": MessageLookupByLibrary.simpleMessage(
+            'Афіцыйная група Студэнцкага савета АКпПРБ'),
+        "profsouz":
+            MessageLookupByLibrary.simpleMessage("Прафсаюз студэнтаў АКпПРБ"),
+        "profsouzDesc": MessageLookupByLibrary.simpleMessage(
+            'Першасная прафсаюзная арганізацыя студэнтаў Акадэміі кіравання'),
+        "brsm": MessageLookupByLibrary.simpleMessage("БРСМ Акадэміі кіравання"),
+        "brsmDesc": MessageLookupByLibrary.simpleMessage(
+            'Першасная арганізацыя "Беларускі рэспубліканскі саюз моладзі"'),
+        "errorText":
+            MessageLookupByLibrary.simpleMessage("Неабходна выбраць файл"),
       };
 }

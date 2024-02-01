@@ -5,19 +5,9 @@ import 'package:table_calendar/table_calendar.dart';
 
 import '../blocs/schedule_bloc/schedule_bloc.dart';
 
-// final Map<DateTime, List> _holidays = {
-//   DateTime(2024, 1, 1): ['New Year\'s Day'],
-//   DateTime(2024, 1, 6): ['Epiphany'],
-//   DateTime(2024, 2, 14): ['Valentine\'s Day'],
-//   DateTime(2024, 4, 21): ['Easter Sunday'],
-//   DateTime(2024, 4, 22): ['Easter Monday'],
-// };
-
 class CalendarWidget extends StatefulWidget {
   final Map<String, String> request;
 
-  // const CalendarWidget({Key? key}) : super(key: key);
-  // first version
   const CalendarWidget(this.request, {Key? key}) : super(key: key);
 
   @override
@@ -28,7 +18,6 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   CalendarFormat _format = CalendarFormat.week;
   DateTime _selectedDate = DateTime.now();
 
-// сейчас мы ссылаемся к этому говну. нужно к другому
   ScheduleEvent _formEvent(DateTime dateTime) {
     final request = widget.request;
     if (request.keys.contains('group')) {
@@ -119,7 +108,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             var temp = selDate.toString().replaceRange(10, 24, '');
             _selectedDate = DateTime.parse(temp);
             bloc.add(ChangeDateOfClasses(_selectedDate));
-            bloc.add(const LoadSchedule()); // mb this will work
+            bloc.add(const LoadSchedule());
           });
         },
       ),

@@ -3,6 +3,7 @@ import 'package:flutter_test_project/blocs/settings_bloc/settings_bloc.dart';
 import 'package:flutter_test_project/screens/schedule_screen.dart';
 import 'package:flutter_test_project/widgets/typography.dart';
 import 'package:provider/src/provider.dart';
+import '../generated/l10n.dart';
 
 /// Get next button to open next page
 /// or to close onboarding and start main app
@@ -20,9 +21,9 @@ class NextPageViewButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         if (isLastPage) {
-          pushToMainScreen(context);
           bloc.add(ChangeSettings(bloc.settings.themeMode, bloc.settings.group,
               bloc.settings.numOfGroups, false));
+          pushToMainScreen(context);
         } else {
           onClick();
         }

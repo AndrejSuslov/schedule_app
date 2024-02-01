@@ -483,6 +483,375 @@ class S {
       args: [],
     );
   }
+
+  String get cart {
+    return Intl.message(
+      'Cart',
+      name: 'cart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get quantity {
+    return Intl.message(
+      'Quantity',
+      name: 'quantity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get total {
+    return Intl.message(
+      'Totoal',
+      name: 'total',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get studentDisc {
+    return Intl.message(
+      'Student discount',
+      name: 'studDiscount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get close {
+    return Intl.message(
+      'Close',
+      name: 'close',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get clear {
+    return Intl.message(
+      'Clear',
+      name: 'clear',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get portion {
+    return Intl.message(
+      'Portion',
+      name: 'portion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get appVersion {
+    return Intl.message(
+      'App version',
+      name: 'appVersion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get buildNum {
+    return Intl.message(
+      'Build number ',
+      name: 'buildNum',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get messageAboutApp {
+    return Intl.message(
+      'This application and all related services are completely free and Open Source products. We will be glad to hear your ideas and feedback, and we also welcome any of your participation in the project!',
+      name: 'messageAboutApp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get developedBy {
+    return Intl.message(
+      'This app was developed by',
+      name: 'developedBy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get vlad {
+    return Intl.message(
+      'Vladislav Ponomarenko',
+      name: 'vlad',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get and {
+    return Intl.message(
+      ' and ',
+      name: 'and',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get andron {
+    return Intl.message(
+      'Andrey Suslov',
+      name: 'andron',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get group {
+    return Intl.message(
+      'Group',
+      name: 'group',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get today {
+    return Intl.message(
+      'Today is',
+      name: 'today',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get cacheDeleted {
+    return Intl.message(
+      'Cache has been deleted',
+      name: 'cacheDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get menu {
+    return Intl.message(
+      'Menu',
+      name: 'menu',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get chooseExcel {
+    return Intl.message(
+      'Select the Excel file',
+      name: 'chooseExcel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get numOfGroup {
+    return Intl.message(
+      'Group',
+      name: 'numOfGroup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get totalGroups {
+    return Intl.message(
+      'Overall amount of groups',
+      name: 'totalGroups',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get ok {
+    return Intl.message(
+      'Ok',
+      name: 'ok',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get step {
+    return Intl.message(
+      'Step',
+      name: 'step',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get step1 {
+    return Intl.message(
+      'Download the ready-made schedule from our telegram channel! You can find it in the Services.',
+      name: 'step1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get step2 {
+    return Intl.message(
+      'Choose your group number and the number of groups on your stream.',
+      name: 'step2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get step3 {
+    return Intl.message(
+      'Click on Select the Excel file and click on the schedule you downloaded.',
+      name: 'step3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get step4 {
+    return Intl.message(
+      'Click Ok and enjoy our app!',
+      name: 'step4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get website {
+    return Intl.message(
+      'Website',
+      name: 'website',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get websiteDesc {
+    return Intl.message(
+      'Find the information you need',
+      name: 'websiteDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get moodleDesc {
+    return Intl.message(
+      'Find out your assignments',
+      name: 'moodleDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get ilexDesc {
+    return Intl.message(
+      'Be aware of the new laws',
+      name: 'ilexDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get aupprbChannel {
+    return Intl.message(
+      'AUPPRB Schedule',
+      name: 'aupprbChannel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get aupprbChannelDes {
+    return Intl.message(
+      'Telegram channel with ready-made Excel files for displaying in the application',
+      name: 'aupprbChannelDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get studSovet {
+    return Intl.message(
+      'AUPPRB Student Council',
+      name: 'studSovet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get studSovetDesc {
+    return Intl.message(
+      'The official group of the AUpPRB Student Council',
+      name: 'studSovetDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get profsouz {
+    return Intl.message(
+      "AUPPRB Students' Union",
+      name: 'profsouz',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get profsouzDesc {
+    return Intl.message(
+      "Primary trade union organization of students of the Academy of Public Administration",
+      name: 'profsouzDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get brsm {
+    return Intl.message(
+      "BRSM AUPPRB",
+      name: 'brsm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get brsmDesc {
+    return Intl.message(
+      'The primary organization of the Public Association "Belarusian Republican Youth Union"',
+      name: 'brsmDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get errorText {
+    return Intl.message(
+      'You need to select a file',
+      name: 'errorText',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

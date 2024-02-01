@@ -29,3 +29,9 @@ class CachedDataDeleted extends SettingsState {
 
   const CachedDataDeleted(this.message);
 }
+
+class FullCachedDataDeleted extends SettingsState {
+  final String message;
+
+  const FullCachedDataDeleted(this.message);
+}
