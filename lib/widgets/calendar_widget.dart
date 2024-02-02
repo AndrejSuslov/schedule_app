@@ -95,6 +95,9 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             _selectedDate = DateTime.parse(temp);
             bloc.add(ChangeDateOfClasses(_selectedDate));
             bloc.add(const LoadSchedule());
+            if (bloc.state is ScheduleError) {
+              bloc.emit(const ScheduleDayIsEmpty("messsage"));
+            }
           });
         },
       ),

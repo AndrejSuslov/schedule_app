@@ -216,6 +216,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               return _buildErrorWidget(context, state.message);
             } else if (state is ScheduleLoading) {
               return const Center(child: CircularProgressIndicator());
+            } else if (state is ScheduleDayIsEmpty) {
+              return _buildEmptyListWidget(context);
             }
             return _buildAnimatedListView(context, [], []);
           },
@@ -278,8 +280,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         // Add logic to open the context menu here
         // _showContextMenu(context);
       },
-      child: const Icon(Icons.add, size: 36),
       backgroundColor: Theme.of(context).primaryColor,
+      child: const Icon(Icons.add, size: 36),
     );
   }
 
