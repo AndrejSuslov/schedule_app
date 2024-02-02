@@ -118,23 +118,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 14),
-                // const Text(
-                //   '',
-                //   style: TextStyle(
-                //     color: Colors.white,
-                //     fontSize: 22,
-                //     fontWeight: FontWeight.bold,
-                //   ),
-                // ),
                 const SizedBox(height: 6),
                 _buildImage(context),
-                // const Text(
-                //   '',
-                //   style: TextStyle(
-                //     color: Colors.white,
-                //     fontSize: 16,
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -232,8 +217,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             } else if (state is ScheduleLoading) {
               return const Center(child: CircularProgressIndicator());
             }
-            // не забыть поменять!
-            // return _buildAnimatedListView(context, []);
             return _buildAnimatedListView(context, [], []);
           },
         ),
@@ -250,7 +233,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           forNullCheking++;
         }
       }
-      if (forNullCheking >= 7) {
+      if (forNullCheking >= 6 || DateTime.sunday == DateTime.now().weekday) {
         return _buildEmptyListWidget(context);
       }
       return AnimationLimiter(
@@ -293,81 +276,81 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     return FloatingActionButton(
       onPressed: () {
         // Add logic to open the context menu here
-        _showContextMenu(context);
+        // _showContextMenu(context);
       },
       child: const Icon(Icons.add, size: 36),
       backgroundColor: Theme.of(context).primaryColor,
     );
   }
 
-  void _showContextMenu(BuildContext context) {
-    int selectedGroupNumber = 1;
-    int selectedStreamGroupCount = 2;
+  // void _showContextMenu(BuildContext context) {
+  //   int selectedGroupNumber = 1;
+  //   int selectedStreamGroupCount = 2;
 
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        final bloc = context.read<ScheduleBloc>();
-        final settingsBloc = context.read<SettingsBloc>();
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            return AlertDialog(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(S.of(context).menu,
-                      style: Style.bodyL.copyWith(fontSize: 22)),
-                  IconButton(
-                    icon: const Icon(Icons.help),
-                    onPressed: () {
-                      showUsageGuideBottomSheet(context);
-                    },
-                  ),
-                ],
-              ),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _buildGroupListTile(),
-                  _buildNumsOfGroupListTile(),
-                  ElevatedButton(
-                    onPressed: () async {
-                      settingsBloc.add(const ClearCache());
-                      bloc.add(const PickFile());
-                    },
-                    child: Text(
-                      S.of(context).chooseExcel,
-                      style: Style.captionL.copyWith(fontSize: 14),
-                    ),
-                  ),
-                ],
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () async {
-                    bloc.add(SaveSchedule(
-                        group: settingsBloc.settings.group,
-                        numOfGroups: settingsBloc.settings.numOfGroups));
-                    bloc.add(const LoadSchedule());
-                    Navigator.pop(context);
-                  },
-                  child: Text(S.of(context).ok, style: Style.buttonS),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(S.of(context).cancel, style: Style.buttonS),
-                ),
-              ],
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            );
-          },
-        );
-      },
-    );
-  }
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       final bloc = context.read<ScheduleBloc>();
+  //       final settingsBloc = context.read<SettingsBloc>();
+  //       return StatefulBuilder(
+  //         builder: (BuildContext context, StateSetter setState) {
+  //           return AlertDialog(
+  //             title: Row(
+  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //               children: [
+  //                 Text(S.of(context).menu,
+  //                     style: Style.bodyL.copyWith(fontSize: 22)),
+  //                 IconButton(
+  //                   icon: const Icon(Icons.help),
+  //                   onPressed: () {
+  //                     showUsageGuideBottomSheet(context);
+  //                   },
+  //                 ),
+  //               ],
+  //             ),
+  //             content: Column(
+  //               mainAxisSize: MainAxisSize.min,
+  //               children: [
+  //                 _buildGroupListTile(),
+  //                 _buildNumsOfGroupListTile(),
+  //                 ElevatedButton(
+  //                   onPressed: () async {
+  //                     settingsBloc.add(const ClearCache());
+  //                     bloc.add(const PickFile());
+  //                   },
+  //                   child: Text(
+  //                     S.of(context).chooseExcel,
+  //                     style: Style.captionL.copyWith(fontSize: 14),
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //             actions: [
+  //               TextButton(
+  //                 onPressed: () async {
+  //                   bloc.add(SaveSchedule(
+  //                       group: settingsBloc.settings.group,
+  //                       numOfGroups: settingsBloc.settings.numOfGroups));
+  //                   bloc.add(const LoadSchedule());
+  //                   Navigator.pop(context);
+  //                 },
+  //                 child: Text(S.of(context).ok, style: Style.buttonS),
+  //               ),
+  //               TextButton(
+  //                 onPressed: () {
+  //                   Navigator.pop(context);
+  //                 },
+  //                 child: Text(S.of(context).cancel, style: Style.buttonS),
+  //               ),
+  //             ],
+  //             contentPadding:
+  //                 const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+  //           );
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
 
   Widget _buildGroupListTile() {
     final bloc = context.read<SettingsBloc>();
@@ -528,6 +511,7 @@ Future<void> pushToCanteenScreenWithLoading(BuildContext context) async {
     "Разгоняем заочников...",
     "Занимаем очередь..."
   ];
+
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -557,26 +541,27 @@ Future<void> pushToCanteenScreenWithLoading(BuildContext context) async {
         "https://script.google.com/macros/s/AKfycbxU0kHQHz5ozY262ZR-1veg0ZQFn0Z7KdBVgqNgMZG4wnMy-OKK86srjOoawl9goZ5N3w/exec",
       ).loadMenu();
 
-      Navigator.pop(context);
+      if (context.mounted) Navigator.pop(context);
 
-      // ignore: use_build_context_synchronously
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => CanteenScreen(
-            canteen: canteen,
-            dateTime: DateTime.now(),
+      if (context.mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => CanteenScreen(
+              canteen: canteen,
+              dateTime: DateTime.now(),
+            ),
           ),
-        ),
-      );
+        );
+      }
     } catch (error) {
-      Navigator.pop(context);
+      if (context.mounted) Navigator.pop(context);
 
       // _buildErrorWidget(context, 'error');
-      _buildErrorWidget(context, "error");
+      if (context.mounted) _buildErrorWidget(context, "error");
     }
   } else {
-    pushToErrorScreen(context);
+    if (context.mounted) pushToErrorScreen(context);
   }
 }
 

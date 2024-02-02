@@ -145,5 +145,19 @@ class MessageLookup extends MessageLookupByLibrary {
             'The primary organization of the Public Association "Belarusian Republican Youth Union"'),
         "errorText":
             MessageLookupByLibrary.simpleMessage("You need to select a file"),
+        "thereIsNotCompTask": MessageLookupByLibrary.simpleMessage(
+            'There are no completed tasks yet'),
+        "thereIsNotTask":
+            MessageLookupByLibrary.simpleMessage('There are no tasks to do'),
+        "taskIncompl": MessageLookupByLibrary.simpleMessage('Task incompleted'),
+        "lection": MessageLookupByLibrary.simpleMessage('Type: Lection'),
+        "credit": MessageLookupByLibrary.simpleMessage('Type: Credit'),
+        "curHour": MessageLookupByLibrary.simpleMessage('Type: Curator hour'),
+        "practLesson":
+            MessageLookupByLibrary.simpleMessage('Type: Praction lesson'),
+        "appIcon":
+            MessageLookupByLibrary.simpleMessage('For the app icon thanks to '),
+        "tanya": MessageLookupByLibrary.simpleMessage('Tatyana Golubeva'),
+        "canteenMenu": MessageLookupByLibrary.simpleMessage('Canteen menu'),
       };
 }

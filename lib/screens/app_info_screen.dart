@@ -76,7 +76,7 @@ class AboutAppPage extends StatelessWidget {
                                               ),
                                               const SizedBox(height: 4),
                                               Text(
-                                                versionName!,
+                                                "Beta",
                                                 style: Style.bodyRegular,
                                               ),
                                             ],
@@ -112,7 +112,7 @@ class AboutAppPage extends StatelessWidget {
                                         // color: AppTheme.colors.primary,
                                       ),
                                       child: Text(
-                                        versionName!,
+                                        "Beta",
                                         style: Style.buttonS,
                                       ),
                                     ),
@@ -129,10 +129,10 @@ class AboutAppPage extends StatelessWidget {
                                 S.of(context).developedBy,
                                 style: Style.bodyRegular,
                               ),
-                              RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
+                              Row(
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
                                       text: S.of(context).vlad,
                                       style: Style.bodyRegular
                                           .copyWith(color: Colors.blue),
@@ -142,21 +142,42 @@ class AboutAppPage extends StatelessWidget {
                                               "https://t.me/sheluvssic");
                                         },
                                     ),
-                                    TextSpan(
-                                        text: S.of(context).and,
-                                        style: Style.bodyRegular),
-                                    TextSpan(
-                                      text: S.of(context).andron,
+                                  ),
+                                  Text(S.of(context).and,
+                                      style: Style.bodyRegular),
+                                  RichText(
+                                      text: TextSpan(
+                                    text: S.of(context).andron,
+                                    style: Style.bodyRegular
+                                        .copyWith(color: Colors.blue),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        launchUrlString(
+                                            "https://t.me/juuustyyy");
+                                      },
+                                  )),
+                                ],
+                              ),
+                              const SizedBox(height: 16),
+                              Text(
+                                S.current.appIcon,
+                                style: Style.bodyRegular,
+                              ),
+                              Row(
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      text: S.of(context).tanya,
                                       style: Style.bodyRegular
                                           .copyWith(color: Colors.blue),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
                                           launchUrlString(
-                                              "https://t.me/juuustyyy");
+                                              "https://www.instagram.com/tannussha_/");
                                         },
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                               const SizedBox(height: 16),
                               Row(
@@ -241,8 +262,7 @@ class AboutAppPage extends StatelessWidget {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) =>
-            ScheduleScreen({S.of(context).group: bloc.settings.group}),
+        builder: (_) => ScheduleScreen({'group': bloc.settings.group}),
       ),
     );
   }

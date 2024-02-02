@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 class Settings {
@@ -5,6 +6,7 @@ class Settings {
   String group;
   String numOfGroups;
   bool isFirstLaunch = true;
+  String? file;
   // String course;
 
   static Settings defaultSettings = Settings(

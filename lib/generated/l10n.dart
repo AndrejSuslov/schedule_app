@@ -646,10 +646,28 @@ class S {
     );
   }
 
+  String get thereIsNotCompTask {
+    return Intl.message(
+      'There is no completed task yet',
+      name: 'thereIsNotCompTask',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get chooseExcel {
     return Intl.message(
       'Select the Excel file',
       name: 'chooseExcel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get thereIsNotTask {
+    return Intl.message(
+      'There is no task to do',
+      name: 'thereIsNotTask',
       desc: '',
       args: [],
     );
@@ -664,10 +682,28 @@ class S {
     );
   }
 
+  String get taskIncompl {
+    return Intl.message(
+      'Task incompleted',
+      name: 'taskIncompl',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get totalGroups {
     return Intl.message(
       'Overall amount of groups',
       name: 'totalGroups',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get lection {
+    return Intl.message(
+      'Type: Lection',
+      name: 'lection',
       desc: '',
       args: [],
     );
@@ -682,10 +718,28 @@ class S {
     );
   }
 
+  String get credit {
+    return Intl.message(
+      'Type: Credit',
+      name: 'credit',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get cancel {
     return Intl.message(
       'Cancel',
       name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get curHour {
+    return Intl.message(
+      'Type: Curator hour',
+      name: 'curHour',
       desc: '',
       args: [],
     );
@@ -848,6 +902,42 @@ class S {
     return Intl.message(
       'You need to select a file',
       name: 'errorText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get practLesson {
+    return Intl.message(
+      'Type: Practice lesson',
+      name: 'practLesson',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get appIcon {
+    return Intl.message(
+      'For the app icon thanks to ',
+      name: 'appIcon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get tanya {
+    return Intl.message(
+      'Tatyana Golubeva',
+      name: 'tanya',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get canteenMenu {
+    return Intl.message(
+      'Canteen menu',
+      name: 'canteenMenu',
       desc: '',
       args: [],
     );

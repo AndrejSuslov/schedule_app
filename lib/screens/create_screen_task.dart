@@ -23,12 +23,12 @@ class CreateTaskScreen extends ConsumerStatefulWidget {
 class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
+  late BuildContext _context;
 
   @override
-  void dispose() {
-    _titleController.dispose();
-    _noteController.dispose();
-    super.dispose();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _context = context;
   }
 
   @override
@@ -97,6 +97,8 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
     final note = _noteController.text.trim();
     final time = ref.watch(timeProvider);
     final date = ref.watch(dateProvider);
+    final context = _context;
+
     if (title.isNotEmpty) {
       final task = Homework(
         title: title,

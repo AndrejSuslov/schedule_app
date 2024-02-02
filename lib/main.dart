@@ -69,10 +69,18 @@ class ScheduleApp extends StatelessWidget {
               ],
               home: Builder(
                 builder: (context) {
-                  if (state.settings.group.isNotEmpty &&
-                      state.settings.isFirstLaunch == false) {
+                  if (state.settings.isFirstLaunch == false) {
                     return ScheduleScreen({'group': bloc.settings.group});
                   }
+
+                  // WidgetsBinding.instance.addPostFrameCallback((_) {
+                  //   Navigator.of(context).pushReplacement(
+                  //     MaterialPageRoute(
+                  //       builder: (context) => const OnBoardingPage(),
+                  //     ),
+                  //   );
+                  // });
+
                   return const OnBoardingPage();
                 },
               ),

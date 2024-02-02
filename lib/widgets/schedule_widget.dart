@@ -34,7 +34,7 @@ class GroupScheduleWidget extends StatelessWidget {
                 _showScheduleFullDialog(context);
               },
               title: (schedule[index].contains('(лк.)') ||
-                      schedule[index].contains('КЧ') ||
+                      schedule[index].contains('КЧ'.toLowerCase()) ||
                       schedule[index].contains('Зачет'))
                   ? Text(
                       schedule[index],
@@ -170,13 +170,14 @@ class GroupScheduleWidget extends StatelessWidget {
         ),
         Text(
           schedule[index].contains('(лк.)')
-              ? "Тип: лекция"
+              ? S.of(context).lection
               : schedule[index].contains('Зачет')
-                  ? "Тип: зачет"
-                  : schedule[index].contains('КЧ')
-                      ? "Тип: кураторский час"
-                      : "Тип: практическое занятие",
-          style: Style.captionL.copyWith(fontSize: 16),
+                  ? S.of(context).credit
+                  : schedule[index].contains('КЧ') ||
+                          schedule[index].contains('кч')
+                      ? S.of(context).curHour
+                      : S.of(context).practLesson,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         Text(
           '${S.of(context).time}: ${time[index]}',

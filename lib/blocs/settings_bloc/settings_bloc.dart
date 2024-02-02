@@ -16,7 +16,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   late final Settings settings;
 
   void _loadSettings() async {
-    // ignore: invalid_use_of_visible_for_testing_member
     emit(SettingsLoading());
     final loadedInfo = await Storage().readSettings();
     if (loadedInfo != null) {
@@ -24,7 +23,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     } else {
       settings = Settings.defaultSettings;
     }
-    // ignore: invalid_use_of_visible_for_testing_member
     emit(SettingsLoaded(settings));
   }
 
@@ -46,7 +44,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       settings.themeMode = event.themeMode;
       settings.numOfGroups = event.numOfGroups;
       settings.isFirstLaunch = event.isFirstLaunch;
-
       // settings.numOfGroups = event.numOfGroups;
       Storage().saveSettings(settings);
       emit(SettingsLoaded(settings));

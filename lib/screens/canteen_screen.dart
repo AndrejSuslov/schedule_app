@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_project/screens/schedule_screen.dart';
 import 'package:flutter_test_project/widgets/typography.dart';
-import 'package:rive/rive.dart';
 
 import '../blocs/settings_bloc/settings_bloc.dart';
 import '../generated/l10n.dart';
@@ -56,7 +55,7 @@ class _CanteenScreenState extends State<CanteenScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Canteen Menu ${widget.canteen.date}',
+            '${S.of(context).canteenMenu} ${widget.canteen.date}',
             style: Style.h6,
           ),
           // titleTextStyle: const TextStyle(fontSize: 21),
@@ -107,8 +106,7 @@ class _CanteenScreenState extends State<CanteenScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) =>
-            ScheduleScreen({'group': bloc.settings.group as String}),
+        builder: (_) => ScheduleScreen({'group': bloc.settings.group}),
       ),
     );
   }
@@ -260,7 +258,6 @@ class _ShoppingCartDialogState extends State<ShoppingCartDialog> {
         TextButton(
           onPressed: () {
             clearCart();
-            Navigator.pop(context);
           },
           child: Text(
             S.of(context).clear,
@@ -325,12 +322,12 @@ class CategoryTileContent extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: ListTile(
                 title: Text(
-                  item.iname,
-                  style: Style.bodyL,
+                  item.iname.replaceAll(r'(', ' ('),
+                  style: Style.body.copyWith(fontSize: 15),
                 ),
                 subtitle: Text(
                   '${S.of(context).portion}: ${item.iport}\n${S.of(context).price}: ${item.iprice}',
-                  style: Style.body,
+                  style: Style.body.copyWith(fontSize: 14),
                 ),
                 trailing: IconButton(
                   icon: Icon(

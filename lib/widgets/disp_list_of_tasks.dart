@@ -7,6 +7,7 @@ import 'package:flutter_test_project/widgets/typography.dart';
 import '../hometaskproviders/hometask_provider.dart';
 import '../models/homework.dart';
 import '../services/app_alerts.dart';
+import '../generated/l10n.dart';
 import 'common_container.dart';
 
 class DisplayListOfTasks extends ConsumerWidget {
@@ -21,8 +22,8 @@ class DisplayListOfTasks extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final emptyTasksAlert = isCompletedTasks
-        ? 'There is no completed task yet'
-        : 'There is no task to todo!';
+        ? S.of(context).thereIsNotCompTask
+        : S.of(context).thereIsNotTask;
 
     return CommonContainer(
       child: tasks.isEmpty
@@ -61,9 +62,9 @@ class DisplayListOfTasks extends ConsumerWidget {
                           .then((value) {
                         AppAlerts.displaySnackbar(
                           context,
-                          (task.isCompleted
-                              ? 'Task incompleted'
-                              : 'Task completed'),
+                          task.isCompleted
+                              ? S.of(context).taskIncompl
+                              : S.of(context).taskCompleted,
                         );
                       });
                     },

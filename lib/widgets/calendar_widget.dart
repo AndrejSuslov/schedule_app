@@ -18,26 +18,6 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   CalendarFormat _format = CalendarFormat.week;
   DateTime _selectedDate = DateTime.now();
 
-  ScheduleEvent _formEvent(DateTime dateTime) {
-    final request = widget.request;
-    if (request.keys.contains('group')) {
-      return GetScheduleForGroup(
-        group: request['group']!,
-        dateTime: dateTime,
-      );
-    } else if (request.keys.contains('teacher')) {
-      return GetScheduleForTeacher(
-        teacher: request['teacher']!,
-        dateTime: dateTime,
-      );
-    } else {
-      return GetScheduleForAuditorium(
-        auditorium: request['auditorium']!,
-        dateTime: dateTime,
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final currentLocale = Localizations.localeOf(context).languageCode;
@@ -84,14 +64,20 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             borderRadius: BorderRadius.all(
               Radius.circular(10),
             ),
+            shape: BoxShape.rectangle,
           ),
           todayDecoration: BoxDecoration(
+            shape: BoxShape.rectangle,
             borderRadius: const BorderRadius.all(
               Radius.circular(10),
             ),
             color: Theme.of(context).colorScheme.primary,
           ),
-          weekendDecoration: const BoxDecoration(),
+          weekendDecoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
+          ),
         ),
         availableCalendarFormats: {
           CalendarFormat.twoWeeks: calendarFormatsTwoWeeks,

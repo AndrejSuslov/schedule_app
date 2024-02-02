@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test_project/widgets/typography.dart';
 
 import '../generated/l10n.dart';
 import '../hometaskproviders/hometask_provider.dart';
@@ -27,7 +28,7 @@ class AppAlerts {
     required Homework task,
   }) async {
     Widget cancelButton = TextButton(
-      child: Text(S.of(context).no),
+      child: Text(S.of(context).no, style: Style.buttonS),
       onPressed: () => Navigator.pop(context),
     );
     Widget deleteButton = TextButton(
@@ -42,7 +43,7 @@ class AppAlerts {
           },
         );
       },
-      child: Text(S.of(context).yes),
+      child: Text(S.of(context).yes, style: Style.buttonS),
     );
 
     AlertDialog alert = AlertDialog(

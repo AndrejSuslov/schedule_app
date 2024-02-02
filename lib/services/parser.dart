@@ -8,14 +8,13 @@ class ExcelParsing {
   Map<DateTime, List<String>> classesForOneGroup = {};
   late final List<List<String>> _tempData =
       []; // временно для двумерного списка
-  static const int _quentityOfClasses = 7;
-  final int _quentityOfGroups;
+  static const int _quantityOfClasses = 7;
+  final int _quantityOfGroups;
   //final int _quentityOfWeeks;
 
   ExcelParsing(
-    this._quentityOfGroups,
-    /*this._quentityOfWeeks*/
-  ); // enter the quentity of classes and quentity of groups
+    this._quantityOfGroups,
+  );
 
   Future<Map<String, List<List<String>>>?> parseForAllGroups(
       PlatformFile file) async {
@@ -31,18 +30,15 @@ class ExcelParsing {
     }
 
     for (int i = 2;
-        i < (18 * (_quentityOfGroups + 1)) + 2;
-        i += _quentityOfGroups + 1) {
+        i < (18 * (_quantityOfGroups + 1)) + 2;
+        i += _quantityOfGroups + 1) {
       String tempDateOfClasses = '';
-
-      for (int j = 0; j < _quentityOfClasses * 6; j += _quentityOfClasses) {
+      for (int j = 0; j < _quantityOfClasses * 6; j += _quantityOfClasses) {
         List<List<String>> tempClasses = [[], [], [], [], []];
         tempDateOfClasses = _tempData[j][i];
-        // .replaceRange(10, this._tempData[j][i].length, '');
-
-        for (int q = 0; q < _quentityOfGroups; q++) {
+        for (int q = 0; q < _quantityOfGroups; q++) {
           List<String> temp = [];
-          for (int w = 0; w < _quentityOfClasses; w++) {
+          for (int w = 0; w < _quantityOfClasses; w++) {
             temp.add(_tempData[w + j][i + q + 1]);
           }
           tempClasses[q] = temp;
@@ -55,7 +51,7 @@ class ExcelParsing {
 
   List<String> getTimeOfClasses() {
     List<String> timeOfClasses = [];
-    for (int i = 0; i < _quentityOfClasses; i++) {
+    for (int i = 0; i < _quantityOfClasses; i++) {
       timeOfClasses.add(_tempData[i][1]);
     }
     return timeOfClasses;

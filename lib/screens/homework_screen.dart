@@ -93,9 +93,13 @@ class HomeScreen extends ConsumerWidget {
 
   List<Homework> _incompltedTask(List<Homework> tasks, WidgetRef ref) {
     final date = ref.watch(dateProvider);
-    final List<Homework> filteredTask = [];
+    List<Homework> filteredTask = [];
 
-    for (var task in tasks) {
+    // Create a copy of the tasks list before sorting
+    List<Homework> sortedTasks = List.from(tasks);
+    sortedTasks.sort((a, b) => a.date.compareTo(b.date));
+
+    for (var task in sortedTasks) {
       if (!task.isCompleted) {
         filteredTask.add(task);
       }
@@ -105,9 +109,13 @@ class HomeScreen extends ConsumerWidget {
 
   List<Homework> _compltedTask(List<Homework> tasks, WidgetRef ref) {
     final date = ref.watch(dateProvider);
-    final List<Homework> filteredTask = [];
+    List<Homework> filteredTask = [];
 
-    for (var task in tasks) {
+    // Create a copy of the tasks list before sorting
+    List<Homework> sortedTasks = List.from(tasks);
+    sortedTasks.sort((a, b) => a.date.compareTo(b.date));
+
+    for (var task in sortedTasks) {
       if (task.isCompleted) {
         filteredTask.add(task);
       }
@@ -121,8 +129,7 @@ class HomeScreen extends ConsumerWidget {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) =>
-            ScheduleScreen({S.of(context).group: bloc.settings.group}),
+        builder: (_) => ScheduleScreen({'group': bloc.settings.group}),
       ),
     );
   }

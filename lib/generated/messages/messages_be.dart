@@ -142,5 +142,21 @@ class MessageLookup extends MessageLookupByLibrary {
             'Першасная арганізацыя "Беларускі рэспубліканскі саюз моладзі"'),
         "errorText":
             MessageLookupByLibrary.simpleMessage("Неабходна выбраць файл"),
+        "thereIsNotCompTask": MessageLookupByLibrary.simpleMessage(
+            'Зробленых заданняў яшчэ няма'),
+        "thereIsNotTask":
+            MessageLookupByLibrary.simpleMessage('Заданняў яшчэ няма'),
+        "taskIncompl":
+            MessageLookupByLibrary.simpleMessage('Заданне не выканана'),
+        "lection": MessageLookupByLibrary.simpleMessage('Тып: Лекцыя'),
+        "credit": MessageLookupByLibrary.simpleMessage('Тып: Залік'),
+        "curHour":
+            MessageLookupByLibrary.simpleMessage('Тып: Куратарская гадзіна'),
+        "practLesson":
+            MessageLookupByLibrary.simpleMessage('Тып: Практычны занятак'),
+        "appIcon": MessageLookupByLibrary.simpleMessage(
+            'За значок дадатку выказваем падзяку '),
+        "tanya": MessageLookupByLibrary.simpleMessage('Таццяне Голубевай'),
+        "canteenMenu": MessageLookupByLibrary.simpleMessage('Меню сталовай'),
       };
 }

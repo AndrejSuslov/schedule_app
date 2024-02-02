@@ -146,5 +146,20 @@ class MessageLookup extends MessageLookupByLibrary {
             'Первичная организация Общественного объединения "Белорусский республиканский союз молодёжи"'),
         "errorText":
             MessageLookupByLibrary.simpleMessage("Необходимо выбрать файл"),
+        "thereIsNotCompTask":
+            MessageLookupByLibrary.simpleMessage('Выполненных заданий еще нет'),
+        "thereIsNotTask":
+            MessageLookupByLibrary.simpleMessage('Заданий еще нет'),
+        "taskIncompl":
+            MessageLookupByLibrary.simpleMessage('Задание не выполнено'),
+        "lection": MessageLookupByLibrary.simpleMessage('Тип: лекция'),
+        "credit": MessageLookupByLibrary.simpleMessage('Тип: Зачет'),
+        "curHour": MessageLookupByLibrary.simpleMessage('Тип: Кураторский час'),
+        "practLesson":
+            MessageLookupByLibrary.simpleMessage('Тип: Практическое занятие'),
+        "appIcon": MessageLookupByLibrary.simpleMessage(
+            'За иконку приложения выражаем благодарность '),
+        "tanya": MessageLookupByLibrary.simpleMessage('Татьяне Голубевой'),
+        "canteenMenu": MessageLookupByLibrary.simpleMessage('Меню столовой'),
       };
 }

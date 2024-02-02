@@ -20,10 +20,9 @@ class ErrorScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
-            'Error screen',
-            style: Style.h6,
-          ),
+          // title: Text(
+          //     // style: Style.h6,
+          //     ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
@@ -85,8 +84,7 @@ class ErrorScreen extends StatelessWidget {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) =>
-            ScheduleScreen({S.of(context).group: bloc.settings.group}),
+        builder: (_) => ScheduleScreen({'group': bloc.settings.group}),
       ),
     );
   }

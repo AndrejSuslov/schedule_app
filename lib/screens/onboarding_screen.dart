@@ -101,7 +101,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   Text(
                     titlesTexts[index],
                     style: Style.h4,
@@ -230,8 +230,7 @@ class _PageIndicatorsState extends State<PageIndicators> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) =>
-            ScheduleScreen({S.of(context).group: bloc.settings.group}),
+        builder: (_) => ScheduleScreen({'group': bloc.settings.group}),
       ),
     );
   }
