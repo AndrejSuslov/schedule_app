@@ -73,12 +73,12 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     emit(ScheduleLoading());
 
     var futureString = Storage().readSchedule();
-    late final Map<DateTime, List<String>> loadedClassesFromCache1;
+    late final Map<DateTime, List<String>> loadedClassesFromCache;
     await futureString.then((string) {
       try {
         Map<String, List<dynamic>> decodedStringMap =
             Map<String, List<dynamic>>.from(jsonDecode(string));
-        loadedClassesFromCache1 = decodedStringMap.map((key, value) =>
+        loadedClassesFromCache = decodedStringMap.map((key, value) =>
             MapEntry(DateTime.parse(key), value.cast<String>().toList()));
       } catch (e) {
         emit(const ScheduleError('Необходимо выбрать файл'));
@@ -93,8 +93,8 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
         emit(const ScheduleError('Необходимо выбрать файл'));
       }
     });
-
+    if (loadedClassesFromCache.isEmpty) emit(const ScheduleDayIsEmpty(""));
     emit(ScheduleLoaded(
-        loadedClassesFromCache1[currentDay] ?? [], currentDay, lastTime));
+        loadedClassesFromCache[currentDay] ?? [], currentDay, lastTime));
   }
 }
