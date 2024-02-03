@@ -20,7 +20,6 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       (event, emit) {},
     );
     on<PickFile>(_pickFile);
-    //on<ScheduleLoading>(_loadSchedule);
     on<ChangeDateOfClasses>(_onChangeDate);
     on<SaveSchedule>(_saveScheduleToCache);
     on<LoadSchedule>(_loadSchedule);

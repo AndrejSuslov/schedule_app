@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_test_project/screens/app_info_screen.dart';
@@ -54,13 +55,14 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ScheduleBloc>().add(_formEvent(DateTime.now()));
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   final bloc = context.read<ScheduleBloc>();
+  //   var temp = DateTime.now().toString().replaceRange(10, 26, '');
+  //   bloc.add(ChangeDateOfClasses(DateTime.parse(temp)));
+  //   bloc.add(const LoadSchedule());
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -195,7 +197,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 
   Widget _buildBlocListBuilder(BuildContext context) {
     int currentIndex = 0;
-    late List<String> schedule;
+    List<String> schedule;
     return Expanded(
       child: Dismissible(
         key: ValueKey(currentIndex),
