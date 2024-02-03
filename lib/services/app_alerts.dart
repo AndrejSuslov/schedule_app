@@ -47,7 +47,10 @@ class AppAlerts {
     );
 
     AlertDialog alert = AlertDialog(
-      title: Text(S.of(context).taskDeleteAlert),
+      title: Text(
+        S.of(context).taskDeleteAlert,
+        style: Style.bodyL.copyWith(fontSize: 18),
+      ),
       actions: [
         deleteButton,
         cancelButton,

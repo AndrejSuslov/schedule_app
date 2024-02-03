@@ -278,81 +278,81 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     return FloatingActionButton(
       onPressed: () {
         // Add logic to open the context menu here
-        // _showContextMenu(context);
+        _showContextMenu(context);
       },
       backgroundColor: Theme.of(context).primaryColor,
       child: const Icon(Icons.add, size: 36),
     );
   }
 
-  // void _showContextMenu(BuildContext context) {
-  //   int selectedGroupNumber = 1;
-  //   int selectedStreamGroupCount = 2;
+  void _showContextMenu(BuildContext context) {
+    int selectedGroupNumber = 1;
+    int selectedStreamGroupCount = 2;
 
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       final bloc = context.read<ScheduleBloc>();
-  //       final settingsBloc = context.read<SettingsBloc>();
-  //       return StatefulBuilder(
-  //         builder: (BuildContext context, StateSetter setState) {
-  //           return AlertDialog(
-  //             title: Row(
-  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //               children: [
-  //                 Text(S.of(context).menu,
-  //                     style: Style.bodyL.copyWith(fontSize: 22)),
-  //                 IconButton(
-  //                   icon: const Icon(Icons.help),
-  //                   onPressed: () {
-  //                     showUsageGuideBottomSheet(context);
-  //                   },
-  //                 ),
-  //               ],
-  //             ),
-  //             content: Column(
-  //               mainAxisSize: MainAxisSize.min,
-  //               children: [
-  //                 _buildGroupListTile(),
-  //                 _buildNumsOfGroupListTile(),
-  //                 ElevatedButton(
-  //                   onPressed: () async {
-  //                     settingsBloc.add(const ClearCache());
-  //                     bloc.add(const PickFile());
-  //                   },
-  //                   child: Text(
-  //                     S.of(context).chooseExcel,
-  //                     style: Style.captionL.copyWith(fontSize: 14),
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //             actions: [
-  //               TextButton(
-  //                 onPressed: () async {
-  //                   bloc.add(SaveSchedule(
-  //                       group: settingsBloc.settings.group,
-  //                       numOfGroups: settingsBloc.settings.numOfGroups));
-  //                   bloc.add(const LoadSchedule());
-  //                   Navigator.pop(context);
-  //                 },
-  //                 child: Text(S.of(context).ok, style: Style.buttonS),
-  //               ),
-  //               TextButton(
-  //                 onPressed: () {
-  //                   Navigator.pop(context);
-  //                 },
-  //                 child: Text(S.of(context).cancel, style: Style.buttonS),
-  //               ),
-  //             ],
-  //             contentPadding:
-  //                 const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-  //           );
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        final bloc = context.read<ScheduleBloc>();
+        final settingsBloc = context.read<SettingsBloc>();
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return AlertDialog(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(S.of(context).menu,
+                      style: Style.bodyL.copyWith(fontSize: 22)),
+                  IconButton(
+                    icon: const Icon(Icons.help),
+                    onPressed: () {
+                      showUsageGuideBottomSheet(context);
+                    },
+                  ),
+                ],
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildGroupListTile(),
+                  _buildNumsOfGroupListTile(),
+                  ElevatedButton(
+                    onPressed: () async {
+                      settingsBloc.add(const ClearCache());
+                      bloc.add(const PickFile());
+                    },
+                    child: Text(
+                      S.of(context).chooseExcel,
+                      style: Style.captionL.copyWith(fontSize: 14),
+                    ),
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () async {
+                    bloc.add(SaveSchedule(
+                        group: settingsBloc.settings.group,
+                        numOfGroups: settingsBloc.settings.numOfGroups));
+                    bloc.add(const LoadSchedule());
+                    Navigator.pop(context);
+                  },
+                  child: Text(S.of(context).ok, style: Style.buttonS),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(S.of(context).cancel, style: Style.buttonS),
+                ),
+              ],
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            );
+          },
+        );
+      },
+    );
+  }
 
   Widget _buildGroupListTile() {
     final bloc = context.read<SettingsBloc>();
