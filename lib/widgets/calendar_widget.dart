@@ -38,6 +38,16 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   }
 
   @override
+  void initState() {
+    final bloc = context.read<ScheduleBloc>();
+    var temp = DateTime.now().toString().replaceRange(10, 24, '');
+    _selectedDate = DateTime.parse(temp);
+    bloc.add(ChangeDateOfClasses(_selectedDate));
+    bloc.add(const LoadSchedule());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final currentLocale = Localizations.localeOf(context).languageCode;
 

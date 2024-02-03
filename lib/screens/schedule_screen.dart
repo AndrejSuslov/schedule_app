@@ -52,6 +52,14 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ScheduleBloc>().add(_formEvent(DateTime.now()));
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider<ScheduleBloc>(
       create: (context) {
