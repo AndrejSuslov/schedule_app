@@ -68,7 +68,6 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           formatButtonTextStyle: Style.bodyRegular,
         ),
         calendarStyle: CalendarStyle(
-          // todayTextStyle: Style.bodyRegular.copyWith(fontSize: 16),
           defaultTextStyle: Style.bodyRegular,
           defaultDecoration: const BoxDecoration(
             borderRadius: BorderRadius.all(

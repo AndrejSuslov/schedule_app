@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_test_project/services/parser.dart';
+import 'package:flutter_test_project/services/parser/parser.dart';
 import 'package:flutter_test_project/services/storage.dart';
 
 part 'schedule_event.dart';
@@ -13,7 +13,6 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   final String date = DateTime.now().toString().replaceRange(10, 26, '');
   late DateTime currentDay = DateTime.parse(date);
   PlatformFile? globalFile;
-  //late final Map<DateTime, List<String>> loadedClassesFromCache;
 
   ScheduleBloc() : super(ScheduleInitial()) {
     on<ScheduleEvent>(
@@ -57,14 +56,14 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     emit(SavingSchedule());
 
     final parsedExcel = ExcelParsing(int.parse(event.numOfGroups));
-    await parsedExcel.parseForAllGroups(globalFile!);
-    Map<String, List<String>> stringMap = parsedExcel
-        .getClassesForChoosedGroup(int.parse(event.group))
-        .map((key, value) => MapEntry(key.toString(), value));
-    String jsonString = jsonEncode(stringMap);
-    Storage().saveSchedule(jsonString);
-    var time = parsedExcel.getTimeOfClasses();
-    Storage().saveTime(time);
+    await parsedExcel.parse(globalFile!);
+    // Map<String, List<String>> stringMap = parsedExcel
+    //     .getClassesForChoosedGroup(int.parse(event.group))
+    //     .map((key, value) => MapEntry(key.toString(), value));
+    // String jsonString = jsonEncode(stringMap);
+    // Storage().saveSchedule(jsonString);
+    // var time = parsedExcel.getTimeOfClasses();
+    // Storage().saveTime(time);
     emit(SavedSchedule());
   }
 
