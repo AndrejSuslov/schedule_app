@@ -18,7 +18,9 @@ class PickFile extends ScheduleEvent {
 }
 
 class LoadSchedule extends ScheduleEvent {
-  const LoadSchedule();
+  final DateTime date;
+
+  const LoadSchedule(this.date);
 }
 
 class GetSchedule extends ScheduleEvent {}

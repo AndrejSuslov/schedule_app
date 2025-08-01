@@ -12,27 +12,28 @@ class Storage {
   Future<Settings?> readSettings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final settings = prefs.getString('settsNew68');
-    if (settings != null) {
+    if (settings != null && settings.isNotEmpty) {
       return Settings.fromMap(jsonDecode(settings));
     }
     return null;
   }
 
-  Future<void> saveSchedule(String jsonFromBloc) async {
+  Future<void> saveSchedule(String date, String jsonFromBloc) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('schedule25', jsonFromBloc);
+    prefs.setString(date, jsonFromBloc);
   }
 
-  Future<String> readSchedule() async {
+  Future<String> readSchedule(String date) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final schedule = prefs.getString('schedule25').toString();
+    final schedule = prefs.getString(date).toString();
     return schedule;
   }
 
   Future<void> clearStorage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('time4');
-    prefs.remove('schedule25');
+    final settings = prefs.getString('settsNew68');
+    prefs.clear();
+    prefs.setString('settsNew68', settings ?? '');
   }
 
   Future<void> clearFullStorage() async {

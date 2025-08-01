@@ -24,7 +24,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     var temp = DateTime.now().toString().replaceRange(10, 26, '');
     _selectedDate = DateTime.parse(temp);
     bloc.add(ChangeDateOfClasses(_selectedDate));
-    bloc.add(const LoadSchedule());
+    bloc.add(LoadSchedule(_selectedDate));
     super.initState();
   }
 
@@ -68,7 +68,6 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           formatButtonTextStyle: Style.bodyRegular,
         ),
         calendarStyle: CalendarStyle(
-          // todayTextStyle: Style.bodyRegular.copyWith(fontSize: 16),
           defaultTextStyle: Style.bodyRegular,
           defaultDecoration: const BoxDecoration(
             borderRadius: BorderRadius.all(
@@ -104,7 +103,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             var temp = selDate.toString().replaceRange(10, 24, '');
             _selectedDate = DateTime.parse(temp);
             bloc.add(ChangeDateOfClasses(_selectedDate));
-            bloc.add(const LoadSchedule());
+            bloc.add(LoadSchedule(_selectedDate));
             if (bloc.state is ScheduleError) {
               bloc.emit(const ScheduleDayIsEmpty("messsage"));
             }

@@ -214,7 +214,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             final _date = (bloc.state as ScheduleLoaded).date.add(duration);
             schedule = (bloc.state as ScheduleLoaded).classes;
             bloc.add(ChangeDateOfClasses(_date));
-            bloc.add(const LoadSchedule());
+            bloc.add(LoadSchedule(_date));
           }
           return Future.value(false);
         },
@@ -343,7 +343,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                     bloc.add(SaveSchedule(
                         group: settingsBloc.settings.group,
                         numOfGroups: settingsBloc.settings.numOfGroups));
-                    bloc.add(const LoadSchedule());
+                    bloc.add(LoadSchedule(DateTime.now()));
                     Navigator.pop(context);
                   },
                   child: Text(S.of(context).ok, style: Style.buttonS),
