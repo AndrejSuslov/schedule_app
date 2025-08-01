@@ -62,18 +62,19 @@ class ExcelParsing {
     var sheet = excel[excel.getDefaultSheet() as String];
     List<DataClasses> result = [];
     int i = 0;
-    do {
-      result.add(DataClasses(
-          _getValue(sheet, CLASSES_DATA_START_CELL_COLUMN,
-              CLASSES_DATA_START_CELL_ROW + i),
-          _getValue(sheet, CLASSES_DATA_START_CELL_COLUMN + 1,
-              CLASSES_DATA_START_CELL_ROW + i),
-          _getValue(sheet, CLASSES_DATA_START_CELL_COLUMN + 2,
-              CLASSES_DATA_START_CELL_ROW + i),
-          _getValue(sheet, CLASSES_DATA_START_CELL_COLUMN + 3,
-              CLASSES_DATA_START_CELL_ROW + i)));
-    } while (_isValidRussianClass(_getValue(sheet,
-        CLASSES_DATA_START_CELL_COLUMN, CLASSES_DATA_START_CELL_ROW + ++i)));
+    while (_isValidRussianClass(_getValue(sheet, CLASSES_DATA_START_CELL_COLUMN,
+        CLASSES_DATA_START_CELL_ROW + i))) {
+      var (shortName, firstCol) = _getNextValueWhileNotNull(sheet,
+          CLASSES_DATA_START_CELL_COLUMN, CLASSES_DATA_START_CELL_ROW + i);
+      var (fullName, secondCol) = _getNextValueWhileNotNull(
+          sheet, firstCol, CLASSES_DATA_START_CELL_ROW + i);
+      var (attestationForm, thirdCol) = _getNextValueWhileNotNull(
+          sheet, secondCol, CLASSES_DATA_START_CELL_ROW + i);
+      var (teachers, fourth) = _getNextValueWhileNotNull(
+          sheet, thirdCol, CLASSES_DATA_START_CELL_ROW + i);
+      i++;
+      result.add(DataClasses(shortName, fullName, attestationForm, teachers));
+    }
     return result;
   }
 
@@ -251,5 +252,20 @@ class ExcelParsing {
 
     if (aRow != bRow) return aRow.compareTo(bRow);
     return aCol.compareTo(bCol);
+  }
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////
+  //TODO refactor this piece of shit, but it works, rewrite the logic later
+  (String, int) _getNextValueWhileNotNull(
+      Sheet sheet, int indexColumn, int indexRow) {
+    for (int i = 0; true; i++) {
+      String value = _getValue(sheet, indexColumn + i, indexRow);
+      if (value != 'null') {
+        return (value, indexColumn + i + 1);
+      }
+      if (indexColumn + i + 1 > 30) {
+        return ('', 0);
+      }
+    }
   }
 }

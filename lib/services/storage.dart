@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/settings.dart';
-// import '../models/schedule.dart';
 
 class Storage {
+  static const String DATA_KEY = "DATA_CLASSES";
   Future<void> saveSettings(Settings settings) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('settsNew68', jsonEncode(settings.toMap()));
@@ -50,5 +50,10 @@ class Storage {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final time = prefs.getStringList('time4') ?? [];
     return time;
+  }
+
+  Future<void> saveClassesData(String data) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(DATA_KEY, data);
   }
 }

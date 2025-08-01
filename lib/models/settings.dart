@@ -1,4 +1,3 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 class Settings {
@@ -21,7 +20,6 @@ class Settings {
     this.group,
     this.numOfGroups,
     this.isFirstLaunch,
-    // this.course,
   );
 
   Map<String, dynamic> toMap() {
@@ -30,7 +28,6 @@ class Settings {
       'group': group,
       'numOfGroups': numOfGroups,
       'isFirstLaunch': isFirstLaunch,
-      // 'course': course,
     };
   }
 
@@ -40,7 +37,6 @@ class Settings {
       map['group'],
       map['numOfGroups'],
       map['isFirstLaunch'],
-      // map['course'],
     );
   }
 }
