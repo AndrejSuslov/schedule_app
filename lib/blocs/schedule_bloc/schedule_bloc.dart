@@ -55,15 +55,16 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       SaveSchedule event, Emitter<ScheduleState> emit) async {
     emit(SavingSchedule());
 
-    final parsedExcel = ExcelParsing(int.parse(event.numOfGroups));
-    await parsedExcel.parse(globalFile!);
-    // Map<String, List<String>> stringMap = parsedExcel
-    //     .getClassesForChoosedGroup(int.parse(event.group))
-    //     .map((key, value) => MapEntry(key.toString(), value));
-    // String jsonString = jsonEncode(stringMap);
-    // Storage().saveSchedule(jsonString);
-    // var time = parsedExcel.getTimeOfClasses();
-    // Storage().saveTime(time);
+    final parser = ExcelParsing(int.parse(event.numOfGroups));
+    var days = await parser.parse(globalFile!) as List<Day>;
+
+    for (Day day in days) {
+      String jsonString = jsonEncode(day.classes[int.parse(event.group)]);
+      Storage().saveSchedule(day.date, jsonString);
+    }
+
+    var time = parser.parseTimeOfClasses();
+    Storage().saveTime(time);
     emit(SavedSchedule());
   }
 
@@ -71,16 +72,16 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       LoadSchedule event, Emitter<ScheduleState> emit) async {
     emit(ScheduleLoading());
 
-    var futureString = Storage().readSchedule();
-    late final Map<DateTime, List<String>> loadedClassesFromCache;
+    var futureString = Storage().readSchedule(_dateToString(event.date));
+    late final List<String> loadedClassesFromCache;
+
     await futureString.then((string) {
       try {
-        Map<String, List<dynamic>> decodedStringMap =
-            Map<String, List<dynamic>>.from(jsonDecode(string));
-        loadedClassesFromCache = decodedStringMap.map((key, value) =>
-            MapEntry(DateTime.parse(key), value.cast<String>().toList()));
+        final decodedList = jsonDecode(string) as List<dynamic>;
+        loadedClassesFromCache = decodedList.cast<String>().toList();
       } catch (e) {
         emit(const ScheduleError('Необходимо выбрать файл'));
+        loadedClassesFromCache = [];
       }
     });
     late final List<String> lastTime;
@@ -93,7 +94,10 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       }
     });
     if (loadedClassesFromCache.isEmpty) emit(const ScheduleDayIsEmpty(""));
-    emit(ScheduleLoaded(
-        loadedClassesFromCache[currentDay] ?? [], currentDay, lastTime));
+    emit(ScheduleLoaded(loadedClassesFromCache, event.date, lastTime));
+  }
+
+  String _dateToString(DateTime date) {
+    return date.toString().replaceRange(10, date.toString().length, '');
   }
 }

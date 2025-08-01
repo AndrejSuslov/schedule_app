@@ -8,7 +8,7 @@ part 'classes_data.dart';
 class ExcelParsing {
   static const int QUANTITY_OF_CLASSES = 6;
   static const int DAYS_IN_WEEK = 6;
-  static const int WEEKS_IN_ROW = 8;
+  static const int WEEKS_IN_ROW = 9;
 
   static const int FIRST_START_CLASSES_CELL_COLUMN = 3;
   static const int FIRST_START_CLASSES_CELL_ROW = 14;
@@ -88,26 +88,30 @@ class ExcelParsing {
         Map<int, List<String>> groupClasses = {};
         var cell = _getData(
             sheet,
-            startIndexRow + week,
-            startIndexColumn +
-                day -
-                1); // it can return the DateTime, rewrite it
-        double date = 0.0;
-        if (_isCellFormula(cell)) {
-          date = _resolveDateFormula(cell, sheet) ?? 0.0;
-        }
-        String strDate = _dateToString(_doubleToDateTime(date));
-
-        for (int group = 0; group < quantityOfGroups; group++) {
-          List<String> classes = [];
-
-          for (int clazz = 0; clazz < QUANTITY_OF_CLASSES; clazz++) {
-            classes.add(_getValue(sheet, startIndexRow + week + group,
-                startIndexColumn + day + clazz));
+            startIndexColumn + week * (quantityOfGroups + 1) - 1,
+            startIndexRow + day * QUANTITY_OF_CLASSES);
+        late String date;
+        if (cell.value != null) {
+          if (_isCellFormula(cell)) {
+            date = _dateToString(
+                _resolveDateFormula(cell, sheet) ?? DateTime.now());
+          } else {
+            date = _dateToString(DateTime.parse(cell.value.toString()));
           }
-          groupClasses[group + 1] = classes;
+
+          for (int group = 0; group < quantityOfGroups; group++) {
+            List<String> classes = [];
+
+            for (int clazz = 0; clazz < QUANTITY_OF_CLASSES; clazz++) {
+              classes.add(_getValue(
+                  sheet,
+                  startIndexColumn + startIndexColumn * week + group,
+                  startIndexRow + day * QUANTITY_OF_CLASSES + clazz));
+            }
+            groupClasses[group + 1] = classes;
+          }
+          result.add(Day(date, groupClasses));
         }
-        result.add(Day(strDate, groupClasses));
       }
     }
     return result;
@@ -118,7 +122,7 @@ class ExcelParsing {
   String _getValue(Sheet sheet, int columnIndex, int rowIndex) {
     return sheet
             .cell(CellIndex.indexByColumnRow(
-                columnIndex: rowIndex, rowIndex: columnIndex))
+                columnIndex: columnIndex, rowIndex: rowIndex))
             .value
             ?.toString() ??
         'null';
@@ -126,7 +130,7 @@ class ExcelParsing {
 
   Data _getData(Sheet sheet, int columnIndex, int rowIndex) {
     return sheet.cell(CellIndex.indexByColumnRow(
-        columnIndex: rowIndex, rowIndex: columnIndex));
+        columnIndex: columnIndex, rowIndex: rowIndex));
   }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -143,9 +147,9 @@ class ExcelParsing {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-  double? _resolveDateFormula(Data cell, Sheet sheet) {
-    if (cell.value is DoubleCellValue) {
-      return (cell.value as DoubleCellValue).value;
+  DateTime? _resolveDateFormula(Data cell, Sheet sheet) {
+    if (cell.value is DateCellValue) {
+      return (cell.value as DateCellValue).asDateTimeLocal();
     }
 
     if (_isCellFormula(cell)) {
@@ -167,28 +171,14 @@ class ExcelParsing {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-  double _addWeekToExcelDate(double excelDate) {
-    const epochDiff = 25569;
+  DateTime _addWeekToExcelDate(DateTime excelDate) {
     const daysToAdd = 7;
-
-    final milliseconds = ((excelDate - epochDiff) * 86400 * 1000).round();
-    final newDateTime = DateTime.fromMillisecondsSinceEpoch(milliseconds)
-        .add(const Duration(days: daysToAdd));
-
-    return epochDiff + (newDateTime.millisecondsSinceEpoch / (86400 * 1000));
+    return excelDate.add(const Duration(days: daysToAdd));
   }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
   String _dateToString(DateTime date) {
-    return date.toString().replaceRange(10, 26, '');
-  }
-
-  //////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  DateTime _doubleToDateTime(double excelDate) {
-    const epochDiff = 25569;
-    final milliseconds = ((excelDate - epochDiff) * 86400 * 1000).round();
-    return DateTime.fromMillisecondsSinceEpoch(milliseconds);
+    return date.toString().replaceRange(10, date.toString().length, '');
   }
 }
