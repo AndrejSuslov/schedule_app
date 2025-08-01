@@ -218,20 +218,19 @@ class ExcelParsing {
         final originCell = sheet.cell(CellIndex.indexByString(originCellRef));
 
         if (originCell.value?.toString().isNotEmpty == true) {
-          // Add suffix to ALL cells in the horizontal merge (origin + merged)
           return "${originCell.value} (лк.)";
         }
         break;
       }
     }
-    return null; // Returns null if not in a horizontal merge
+    return null;
   }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
   String _getCellReference(int col, int row) {
-    final colLetter = String.fromCharCode(65 + col); // A=0, B=1, etc.
-    return '$colLetter${row + 1}'; // Rows are 1-based
+    final colLetter = String.fromCharCode(65 + col);
+    return '$colLetter${row + 1}';
   }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
