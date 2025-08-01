@@ -83,6 +83,7 @@ class ExcelParsing {
       Sheet sheet, int startIndexColumn, int startIndexRow) {
     sheet = excel[excel.getDefaultSheet() as String];
     List<Day> result = [];
+    final horizontalMerges = _getHorizontalMerges(sheet);
     for (int week = 0; week < WEEKS_IN_ROW; week++) {
       for (int day = 0; day < DAYS_IN_WEEK; day++) {
         Map<int, List<String>> groupClasses = {};
@@ -103,10 +104,14 @@ class ExcelParsing {
             List<String> classes = [];
 
             for (int clazz = 0; clazz < QUANTITY_OF_CLASSES; clazz++) {
-              classes.add(_getValue(
-                  sheet,
-                  startIndexColumn + startIndexColumn * week + group,
-                  startIndexRow + day * QUANTITY_OF_CLASSES + clazz));
+              int col =
+                  startIndexColumn + week * (quantityOfGroups + 1) + group;
+              int row = startIndexRow + day * QUANTITY_OF_CLASSES + clazz;
+
+              final cellRef = _getCellReference(col, row);
+              final mergedValue =
+                  _getHorizontalMergeValue(sheet, horizontalMerges, cellRef);
+              classes.add(mergedValue ?? _getValue(sheet, col, row));
             }
             groupClasses[group + 1] = classes;
           }
@@ -180,5 +185,72 @@ class ExcelParsing {
 
   String _dateToString(DateTime date) {
     return date.toString().replaceRange(10, date.toString().length, '');
+  }
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  Map<String, String> _getHorizontalMerges(Sheet sheet) {
+    final merges = <String, String>{};
+
+    for (final mergeRange in sheet.spannedItems) {
+      final parts = mergeRange.split(':');
+      if (parts.length != 2) continue;
+
+      final startCell = parts[0];
+      final endCell = parts[1];
+
+      // Check if it's horizontal merge (same row)
+      if (startCell.substring(1) == endCell.substring(1)) {
+        merges[mergeRange] = startCell;
+      }
+    }
+
+    return merges;
+  }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  String? _getHorizontalMergeValue(
+      Sheet sheet, Map<String, String> merges, String cellRef) {
+    for (final mergeRange in merges.keys) {
+      if (_isCellInMerge(cellRef, mergeRange)) {
+        final originCellRef = merges[mergeRange]!;
+        final originCell = sheet.cell(CellIndex.indexByString(originCellRef));
+
+        if (originCell.value?.toString().isNotEmpty == true) {
+          // Add suffix to ALL cells in the horizontal merge (origin + merged)
+          return "${originCell.value} (лк.)";
+        }
+        break;
+      }
+    }
+    return null; // Returns null if not in a horizontal merge
+  }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  String _getCellReference(int col, int row) {
+    final colLetter = String.fromCharCode(65 + col); // A=0, B=1, etc.
+    return '$colLetter${row + 1}'; // Rows are 1-based
+  }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  bool _isCellInMerge(String cellRef, String mergeRange) {
+    final [start, end] = mergeRange.split(':');
+    return _compareCellRefs(cellRef, start) >= 0 &&
+        _compareCellRefs(cellRef, end) <= 0;
+  }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  int _compareCellRefs(String a, String b) {
+    final aCol = a.codeUnitAt(0);
+    final aRow = int.parse(a.substring(1));
+    final bCol = b.codeUnitAt(0);
+    final bRow = int.parse(b.substring(1));
+
+    if (aRow != bRow) return aRow.compareTo(bRow);
+    return aCol.compareTo(bCol);
   }
 }
