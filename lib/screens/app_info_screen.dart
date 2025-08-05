@@ -152,8 +152,7 @@ class AboutAppPage extends StatelessWidget {
                                         .copyWith(color: Colors.blue),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        launchUrlString(
-                                            "https://t.me/juuustyyy");
+                                        launchUrlString("https://t.me/qhsdkx");
                                       },
                                   )),
                                 ],
@@ -195,7 +194,7 @@ class AboutAppPage extends StatelessWidget {
                                       ),
                                       onClick: () {
                                         launchUrlString(
-                                          'https://github.com/AndrejSuslov/our_app_flutter',
+                                          'https://github.com/qhsdkx/schedule_app',
                                           mode: LaunchMode.externalApplication,
                                         );
                                       },

@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_test_project/services/parser.dart';
 
 import '../../models/settings.dart';
 import '../../services/storage.dart';
@@ -38,13 +37,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     Emitter<SettingsState> emit,
   ) {
     try {
-      //ЗАМЕНИТЬ НА ISNOTEMPTY КОГДА ДОБАВИМ ГРУППЫ!!!!!!!!!!!!!!1
       emit(SettingsInitial());
       settings.group = event.group;
       settings.themeMode = event.themeMode;
       settings.numOfGroups = event.numOfGroups;
       settings.isFirstLaunch = event.isFirstLaunch;
-      // settings.numOfGroups = event.numOfGroups;
       Storage().saveSettings(settings);
       emit(SettingsLoaded(settings));
     } catch (_) {

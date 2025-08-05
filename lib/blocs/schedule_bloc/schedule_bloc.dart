@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_test_project/services/parser.dart';
+import 'package:flutter_test_project/services/parser/parser.dart';
 import 'package:flutter_test_project/services/storage.dart';
 
 part 'schedule_event.dart';
@@ -13,7 +13,6 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   final String date = DateTime.now().toString().replaceRange(10, 26, '');
   late DateTime currentDay = DateTime.parse(date);
   PlatformFile? globalFile;
-  //late final Map<DateTime, List<String>> loadedClassesFromCache;
 
   ScheduleBloc() : super(ScheduleInitial()) {
     on<ScheduleEvent>(
@@ -56,15 +55,19 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       SaveSchedule event, Emitter<ScheduleState> emit) async {
     emit(SavingSchedule());
 
-    final parsedExcel = ExcelParsing(int.parse(event.numOfGroups));
-    await parsedExcel.parseForAllGroups(globalFile!);
-    Map<String, List<String>> stringMap = parsedExcel
-        .getClassesForChoosedGroup(int.parse(event.group))
-        .map((key, value) => MapEntry(key.toString(), value));
-    String jsonString = jsonEncode(stringMap);
-    Storage().saveSchedule(jsonString);
-    var time = parsedExcel.getTimeOfClasses();
+    final parser = ExcelParsing(int.parse(event.numOfGroups));
+    var days = await parser.parse(globalFile!) as List<Day>;
+
+    for (Day day in days) {
+      String jsonString = jsonEncode(day.classes[int.parse(event.group)]);
+      Storage().saveSchedule(day.date, jsonString);
+    }
+
+    var time = parser.parseTimeOfClasses();
     Storage().saveTime(time);
+
+    List<DataClasses> classesData = parser.parseDataClasses();
+    Storage().saveClassesData(jsonEncode(classesData));
     emit(SavedSchedule());
   }
 
@@ -72,16 +75,16 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       LoadSchedule event, Emitter<ScheduleState> emit) async {
     emit(ScheduleLoading());
 
-    var futureString = Storage().readSchedule();
-    late final Map<DateTime, List<String>> loadedClassesFromCache;
+    var futureString = Storage().readSchedule(_dateToString(event.date));
+    late final List<String> loadedClassesFromCache;
+
     await futureString.then((string) {
       try {
-        Map<String, List<dynamic>> decodedStringMap =
-            Map<String, List<dynamic>>.from(jsonDecode(string));
-        loadedClassesFromCache = decodedStringMap.map((key, value) =>
-            MapEntry(DateTime.parse(key), value.cast<String>().toList()));
+        final decodedList = jsonDecode(string) as List<dynamic>;
+        loadedClassesFromCache = decodedList.cast<String>().toList();
       } catch (e) {
         emit(const ScheduleError('Необходимо выбрать файл'));
+        loadedClassesFromCache = [];
       }
     });
     late final List<String> lastTime;
@@ -94,7 +97,10 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       }
     });
     if (loadedClassesFromCache.isEmpty) emit(const ScheduleDayIsEmpty(""));
-    emit(ScheduleLoaded(
-        loadedClassesFromCache[currentDay] ?? [], currentDay, lastTime));
+    emit(ScheduleLoaded(loadedClassesFromCache, event.date, lastTime));
+  }
+
+  String _dateToString(DateTime date) {
+    return date.toString().replaceRange(10, date.toString().length, '');
   }
 }
