@@ -6,11 +6,20 @@ class DataClasses {
   String _attestationForm;
   String _teachers;
 
-  DataClasses(this._shortName, this._fullName, this._attestationForm, this._teachers);
+  DataClasses(
+      this._shortName, this._fullName, this._attestationForm, this._teachers);
 
   String get shortName => _shortName;
   String get fullName => _fullName;
   String get attestationForm => _attestationForm;
   String get teachers => _teachers;
-  
+
+  Map<String, dynamic> toJson() {
+    return {
+      'shortName': _shortName,
+      'fullName': _fullName,
+      'attestationForm': _attestationForm,
+      'teachers': _teachers,
+    };
+  }
 }

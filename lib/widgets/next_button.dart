@@ -22,7 +22,7 @@ class NextPageViewButton extends StatelessWidget {
       onPressed: () {
         if (isLastPage) {
           bloc.add(ChangeSettings(bloc.settings.themeMode, bloc.settings.group,
-              bloc.settings.numOfGroups, false));
+              bloc.settings.numOfGroups, false, false));
           pushToMainScreen(context);
         } else {
           onClick();

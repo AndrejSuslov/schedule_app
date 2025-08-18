@@ -152,8 +152,12 @@ class SettingsScreen extends StatelessWidget {
             ],
             onChanged: (themeMode) {
               if (themeMode != null) {
-                bloc.add(ChangeSettings(themeMode, bloc.settings.group,
-                    bloc.settings.numOfGroups, bloc.settings.isFirstLaunch));
+                bloc.add(ChangeSettings(
+                    themeMode,
+                    bloc.settings.group,
+                    bloc.settings.numOfGroups,
+                    bloc.settings.isFirstLaunch,
+                    bloc.settings.isScheduleLoaded));
               }
             },
           ),

@@ -5,22 +5,14 @@ class Settings {
   String group;
   String numOfGroups;
   bool isFirstLaunch = true;
+  bool isScheduleLoaded = false;
   String? file;
-  // String course;
 
-  static Settings defaultSettings = Settings(
-    ThemeMode.system,
-    '1',
-    '2',
-    true,
-  );
+  static Settings defaultSettings =
+      Settings(ThemeMode.system, '1', '2', true, false);
 
-  Settings(
-    this.themeMode,
-    this.group,
-    this.numOfGroups,
-    this.isFirstLaunch,
-  );
+  Settings(this.themeMode, this.group, this.numOfGroups, this.isFirstLaunch,
+      this.isScheduleLoaded);
 
   Map<String, dynamic> toMap() {
     return {
@@ -28,15 +20,16 @@ class Settings {
       'group': group,
       'numOfGroups': numOfGroups,
       'isFirstLaunch': isFirstLaunch,
+      'isScheduleLoaded': isScheduleLoaded
     };
   }
 
   factory Settings.fromMap(Map<String, dynamic> map) {
     return Settings(
-      ThemeMode.values[map['themeMode']],
-      map['group'],
-      map['numOfGroups'],
-      map['isFirstLaunch'],
-    );
+        ThemeMode.values[map['themeMode']],
+        map['group'],
+        map['numOfGroups'],
+        map['isFirstLaunch'],
+        map['isScheduleLoaded'] != Null ? map['isScheduleLoaded'] : false);
   }
 }

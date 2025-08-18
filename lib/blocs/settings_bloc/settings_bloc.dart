@@ -42,6 +42,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       settings.themeMode = event.themeMode;
       settings.numOfGroups = event.numOfGroups;
       settings.isFirstLaunch = event.isFirstLaunch;
+      settings.isScheduleLoaded = event.isScheduleLoaded;
       Storage().saveSettings(settings);
       emit(SettingsLoaded(settings));
     } catch (_) {

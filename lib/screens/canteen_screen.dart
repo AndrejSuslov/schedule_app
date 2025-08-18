@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_project/screens/schedule_screen.dart';
 import 'package:flutter_test_project/widgets/typography.dart';
+import 'package:rive/rive.dart';
 
 import '../blocs/settings_bloc/settings_bloc.dart';
 import '../generated/l10n.dart';
 import '../services/parse.dart';
 
 class CanteenScreen extends StatefulWidget {
-  final Canteen canteen;
-  final DateTime dateTime;
+  //final Canteen canteen;
+  //final DateTime dateTime;
 
-  const CanteenScreen({Key? key, required this.canteen, required this.dateTime})
-      : super(key: key);
+  const CanteenScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _CanteenScreenState createState() => _CanteenScreenState();
@@ -54,10 +56,10 @@ class _CanteenScreenState extends State<CanteenScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
-            '${S.of(context).canteenMenu} ${widget.canteen.date}',
-            style: Style.h6,
-          ),
+          // title: Text(
+          //   '${S.of(context).canteenMenu} ${widget.canteen.date}',
+          //   style: Style.h6,
+          // ),
           // titleTextStyle: const TextStyle(fontSize: 21),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
@@ -65,38 +67,68 @@ class _CanteenScreenState extends State<CanteenScreen> {
               pushToMainScreen(context);
             },
           ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.calculate),
-              onPressed: () {
-                showShoppingCartDialog(context);
-              },
-            ),
-          ],
+          // actions: [
+          //   IconButton(
+          //     icon: const Icon(Icons.calculate),
+          //     onPressed: () {
+          //       showShoppingCartDialog(context);
+          //     },
+          //   ),
+          // ],
         ),
-        body: GestureDetector(
-          onHorizontalDragUpdate: (details) {
-            if (details.primaryDelta! > 20) {
-              // If the user swipes from left to right, navigate back
-              pushToMainScreen(context);
-            }
-          },
-          child: _buildBody(context),
+        body: Column(
+          // onHorizontalDragUpdate: (details) {
+          //   if (details.primaryDelta! > 20) {
+          //     // If the user swipes from left to right, navigate back
+          //     pushToMainScreen(context);
+          //   }
+          // },
+          children: [_buildBody(context)],
         ),
       ),
     );
   }
 
   Widget _buildBody(BuildContext context) {
-    return ListView.builder(
-      itemCount: widget.canteen.cat.length,
-      itemBuilder: (context, index) {
-        return CategoryTileContent(
-          category: widget.canteen.cat[index],
-          selectedItems: selectedItems,
-          toggleItemInCart: toggleItemInCart,
-        );
-      },
+    // return ListView.builder(
+    //   itemCount: widget.canteen.cat.length,
+    //   itemBuilder: (context, index) {
+    //     return CategoryTileContent(
+    //       category: widget.canteen.cat[index],
+    //       selectedItems: selectedItems,
+    //       toggleItemInCart: toggleItemInCart,
+    //     );
+    //   },
+    // );
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.5,
+          width: MediaQuery.of(context).size.width * 0.7,
+          child: const RiveAnimation.asset(
+            'assets/anims/error.riv',
+          ),
+        ),
+        const Text(
+          "Меню столовой не работает на данный момент",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 14),
+        const Text(
+          "Поменялось руководство столовой и API больше не предоставляется. Но эта вкладка остается с надеждой на лучшее",
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: 16,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ],
     );
   }
 

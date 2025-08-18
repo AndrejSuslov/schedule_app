@@ -49,6 +49,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   ];
 
   static const List contentTexts = [
+    //TODO rework and add i18n
     'Это приложение было создано студентами для студентов',
     'В столовой ты или на парах - оказывается, расписание можно смотреть и без всяких файлов',
     'Иногда так лень открывать файл в Excel и искать нужную тебе информацию, мы это исправили',
@@ -203,8 +204,12 @@ class _PageIndicatorsState extends State<PageIndicators> {
               ? Container()
               : TextButton(
                   onPressed: () {
-                    bloc.add(ChangeSettings(bloc.settings.themeMode,
-                        bloc.settings.group, bloc.settings.numOfGroups, false));
+                    bloc.add(ChangeSettings(
+                        bloc.settings.themeMode,
+                        bloc.settings.group,
+                        bloc.settings.numOfGroups,
+                        false,
+                        false));
                     pushToMainScreen(context);
                   },
                   child: Text(
