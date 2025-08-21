@@ -4,6 +4,7 @@ import 'package:flutter_test_project/services/parser/parser.dart';
 import 'package:flutter_test_project/blocs/settings_bloc/settings_bloc.dart';
 import 'package:flutter_test_project/screens/schedule_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test_project/generated/l10n.dart';
 
 class ClassesListWidget extends StatefulWidget {
   const ClassesListWidget({Key? key}) : super(key: key);
@@ -32,7 +33,7 @@ class _ClassesListWidgetState extends State<ClassesListWidget> {
     } catch (e) {
       setState(() => _isLoading = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Ошибка загрузки данных: $e')),
+        SnackBar(content: Text(S.of(context).noData + '$e')),
       );
     }
   }
@@ -56,9 +57,9 @@ class _ClassesListWidgetState extends State<ClassesListWidget> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => _pushToMainScreen(context),
         ),
-        title: const Text(
-          'Пары и преподаватели',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+        title: Text(
+          S.of(context).teachersAndClasses,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
       ),
@@ -72,7 +73,7 @@ class _ClassesListWidgetState extends State<ClassesListWidget> {
     }
 
     if (_classes.isEmpty) {
-      return const Center(child: Text('Нет данных о предметах'));
+      return Center(child: Text(S.of(context).noData));
     }
 
     return ListView.builder(
@@ -125,12 +126,14 @@ class __ClassItemWidgetState extends State<_ClassItemWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildInfoField('Полное название:', widget.dataClass.fullName),
+                _buildInfoField(
+                    S.of(context).fullName, widget.dataClass.fullName),
+                const SizedBox(height: 12),
+                _buildInfoField(S.of(context).attestationForm,
+                    widget.dataClass.attestationForm),
                 const SizedBox(height: 12),
                 _buildInfoField(
-                    'Форма аттестации:', widget.dataClass.attestationForm),
-                const SizedBox(height: 12),
-                _buildInfoField('Преподаватели:', widget.dataClass.teachers),
+                    S.of(context).teachers, widget.dataClass.teachers),
               ],
             ),
           ),

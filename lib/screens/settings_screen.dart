@@ -53,8 +53,7 @@ class SettingsScreen extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         _buildThemeListTile(),
-                        // _buildGroupListTile(),
-                        // _buildNumsOfGroupListTile(),
+                        _buildChangeLanguageTile(),
                         _buildClearCacheListTile(context),
                       ],
                     ),
@@ -73,9 +72,6 @@ class SettingsScreen extends StatelessWidget {
                           TextSpan(
                               text: "UIR-2022",
                               style: Style.bodyRegular.copyWith(fontSize: 14)),
-                          // TextSpan(
-                          //   text: "UIR-2022",
-                          // ),
                         ],
                       ),
                     ),
@@ -90,14 +86,13 @@ class SettingsScreen extends StatelessWidget {
   }
 
   void _showSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          style: Style.captionL,
-        ),
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(
+        message,
+        style: Style.captionL.copyWith(fontSize: 14),
+        textAlign: TextAlign.center,
       ),
-    );
+    ));
   }
 
   Widget _buildClearCacheListTile(BuildContext context) {
@@ -166,88 +161,43 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  // Widget _buildGroupListTile() {
-  //   List<int> groups = [1, 2, 3, 4, 5];
-  //   return BlocBuilder<SettingsBloc, SettingsState>(
-  //     bloc: bloc,
-  //     builder: (context, state) {
-  //       return ListTile(
-  //         title: const Text('Группа'),
-  //         trailing: DropdownButton<String>(
-  //           value: bloc.settings.group,
-  //           items: [
-  //             DropdownMenuItem(
-  //               value: groups.elementAt(0).toString(),
-  //               child: const Text('1'),
-  //             ),
-  //             DropdownMenuItem(
-  //               value: groups.elementAt(1).toString(),
-  //               child: const Text('2'),
-  //             ),
-  //             DropdownMenuItem(
-  //               value: groups.elementAt(2).toString(),
-  //               child: const Text('3'),
-  //             ),
-  //             DropdownMenuItem(
-  //               value: groups.elementAt(3).toString(),
-  //               child: const Text('4'),
-  //             ),
-  //             DropdownMenuItem(
-  //               value: groups.elementAt(4).toString(),
-  //               child: const Text('5'),
-  //             ),
-  //           ],
-  //           onChanged: (group) {
-  //             if (group != null) {
-  //               bloc.add(ChangeSettings(bloc.settings.themeMode, group,
-  //                   bloc.settings.numOfGroups, bloc.settings.isFirstLaunch));
-  //             }
-  //           },
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
-  // Widget _buildNumsOfGroupListTile() {
-  //   List<int> groups = [2, 3, 4, 5];
-  //   return BlocBuilder<SettingsBloc, SettingsState>(
-  //     bloc: bloc,
-  //     builder: (context, state) {
-  //       return ListTile(
-  //         title: const Text('Кол-во групп на потоке'),
-  //         trailing: DropdownButton<String>(
-  //           value: bloc.settings.numOfGroups,
-  //           items: [
-  //             DropdownMenuItem(
-  //               value: groups.elementAt(0).toString(),
-  //               child: const Text('2'),
-  //             ),
-  //             DropdownMenuItem(
-  //               value: groups.elementAt(1).toString(),
-  //               child: const Text('3'),
-  //             ),
-  //             DropdownMenuItem(
-  //               value: groups.elementAt(2).toString(),
-  //               child: const Text('4'),
-  //             ),
-  //             DropdownMenuItem(
-  //               value: groups.elementAt(3).toString(),
-  //               child: const Text('5'),
-  //             ),
-  //           ],
-  //           onChanged: (numOfGroups) {
-  //             if (numOfGroups != null) {
-  //               bloc.add(ChangeSettings(
-  //                   bloc.settings.themeMode,
-  //                   bloc.settings.group,
-  //                   numOfGroups,
-  //                   bloc.settings.isFirstLaunch));
-  //             }
-  //           },
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
+  Widget _buildChangeLanguageTile() {
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      bloc: bloc,
+      builder: (context, state) {
+        return ListTile(
+          title: Text(
+            S.of(context).language,
+            style: Style.bodyL.copyWith(fontSize: 16),
+          ),
+          trailing: DropdownButton<String>(
+            value: bloc.language,
+            items: [
+              DropdownMenuItem(
+                value: 'ru',
+                child:
+                    Text('Русский', style: Style.bodyL.copyWith(fontSize: 16)),
+              ),
+              DropdownMenuItem(
+                value: 'be',
+                child: Text('Беларуская',
+                    style: Style.bodyL.copyWith(fontSize: 16)),
+              ),
+              DropdownMenuItem(
+                value: 'en',
+                child:
+                    Text('English', style: Style.bodyL.copyWith(fontSize: 16)),
+              ),
+            ],
+            onChanged: (language) {
+              if (language != null && language.isNotEmpty) {
+                bloc.add(ChangeLanguage(language));
+                _showSnackBar(context, S.of(context).languageChanged);
+              }
+            },
+          ),
+        );
+      },
+    );
+  }
 }

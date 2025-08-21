@@ -35,13 +35,53 @@ class ExcelParsing {
   Future<List<Day>?> parse(PlatformFile file) async {
     final bytes = await File(file.path ?? '').readAsBytes();
     excel = Excel.decodeBytes(bytes);
-    var sheet = excel[excel.getDefaultSheet() as String];
-    var firstClasses = _parseClasses(
-        sheet, FIRST_START_CLASSES_CELL_COLUMN, FIRST_START_CLASSES_CELL_ROW);
-    var secondClasses = _parseClasses(
-        sheet, SECOND_START_CLASSES_CELL_COLUMN, SECOND_START_CLASSES_CELL_ROW);
-    firstClasses.addAll(secondClasses);
-    return firstClasses;
+    if (!_isThereSeparationByStreams(excel)) {
+      var sheet = excel[excel.getDefaultSheet() as String];
+      var firstClasses = _parseClasses(sheet, FIRST_START_CLASSES_CELL_COLUMN,
+          FIRST_START_CLASSES_CELL_ROW, quantityOfGroups);
+      var secondClasses = _parseClasses(sheet, SECOND_START_CLASSES_CELL_COLUMN,
+          SECOND_START_CLASSES_CELL_ROW, quantityOfGroups);
+      firstClasses.addAll(secondClasses);
+      return firstClasses;
+    } else {
+      List<Day> resultFirst = [];
+      List<Day> resultSecond = [];
+      for (var sheet in excel.sheets.values) {
+        if (sheet.sheetName == excel.getDefaultSheet()) {
+          var firstClasses = _parseClasses(
+              sheet,
+              FIRST_START_CLASSES_CELL_COLUMN,
+              FIRST_START_CLASSES_CELL_ROW + 1,
+              3);
+          var secondClasses = _parseClasses(
+              sheet,
+              SECOND_START_CLASSES_CELL_COLUMN,
+              SECOND_START_CLASSES_CELL_ROW + 2,
+              3);
+          resultFirst.addAll(firstClasses);
+          resultFirst.addAll(secondClasses);
+        } else {
+          var firstClasses = _parseClasses(sheet,
+              FIRST_START_CLASSES_CELL_COLUMN, FIRST_START_CLASSES_CELL_ROW, 2);
+          var secondClasses = _parseClasses(
+              sheet,
+              SECOND_START_CLASSES_CELL_COLUMN,
+              SECOND_START_CLASSES_CELL_ROW + 1,
+              2);
+          resultSecond.addAll(firstClasses);
+          resultSecond.addAll(secondClasses);
+        }
+      }
+      for (var day1 in resultFirst) {
+        for (var day2 in resultSecond) {
+          if (day1._date == day2._date) {
+            day1._classes[4] = day2._classes[1] ?? List.empty();
+            day1._classes[5] = day2._classes[2] ?? List.empty();
+          }
+        }
+      }
+      return resultFirst;
+    }
   }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,6 +92,12 @@ class ExcelParsing {
 
     for (int i = 0; i < QUANTITY_OF_CLASSES; i++) {
       time.add(_getValue(sheet, 1, FIRST_START_CLASSES_CELL_ROW + i));
+    }
+    if (_isThereSeparationByStreams(excel)) {
+      time = [];
+      for (int i = 0; i < QUANTITY_OF_CLASSES; i++) {
+        time.add(_getValue(sheet, 1, FIRST_START_CLASSES_CELL_ROW + 1 + i));
+      }
     }
     return time;
   }
@@ -75,14 +121,34 @@ class ExcelParsing {
       i++;
       result.add(DataClasses(shortName, fullName, attestationForm, teachers));
     }
+    if (_isThereSeparationByStreams(excel)) {
+      result = [];
+      i = 0;
+      while (_isValidRussianClass(_getValue(
+          sheet,
+          CLASSES_DATA_START_CELL_COLUMN,
+          CLASSES_DATA_START_CELL_ROW + 1 + i))) {
+        var (shortName, firstCol) = _getNextValueWhileNotNull(
+            sheet,
+            CLASSES_DATA_START_CELL_COLUMN,
+            CLASSES_DATA_START_CELL_ROW + 1 + i);
+        var (fullName, secondCol) = _getNextValueWhileNotNull(
+            sheet, firstCol, CLASSES_DATA_START_CELL_ROW + 1 + i);
+        var (attestationForm, thirdCol) = _getNextValueWhileNotNull(
+            sheet, secondCol, CLASSES_DATA_START_CELL_ROW + 1 + i);
+        var (teachers, fourth) = _getNextValueWhileNotNull(
+            sheet, thirdCol, CLASSES_DATA_START_CELL_ROW + 1 + i);
+        i++;
+        result.add(DataClasses(shortName, fullName, attestationForm, teachers));
+      }
+    }
     return result;
   }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-  List<Day> _parseClasses(
-      Sheet sheet, int startIndexColumn, int startIndexRow) {
-    sheet = excel[excel.getDefaultSheet() as String];
+  List<Day> _parseClasses(Sheet sheet, int startIndexColumn, int startIndexRow,
+      int quantityOfGroups) {
     List<Day> result = [];
     final horizontalMerges = _getHorizontalMerges(sheet);
     for (int week = 0; week < WEEKS_IN_ROW; week++) {
@@ -96,7 +162,8 @@ class ExcelParsing {
         if (cell.value != null) {
           if (_isCellFormula(cell)) {
             date = _dateToString(
-                _resolveDateFormula(cell, sheet) ?? DateTime.now());
+                _resolveDateFormula(cell, sheet, quantityOfGroups) ??
+                    DateTime.now());
           } else {
             date = _dateToString(DateTime.parse(cell.value.toString()));
           }
@@ -142,7 +209,7 @@ class ExcelParsing {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
   bool _isValidRussianClass(String text) {
-    return RegExp(r'^[А-ЯЁ][а-яёА-ЯЁ\-()\s]*$').hasMatch(text);
+    return RegExp(r'^[А-ЯЁ][а-яёА-ЯЁ\-()\s.]*$').hasMatch(text);
   }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -153,7 +220,7 @@ class ExcelParsing {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-  DateTime? _resolveDateFormula(Data cell, Sheet sheet) {
+  DateTime? _resolveDateFormula(Data cell, Sheet sheet, int quantityOfGroups) {
     if (cell.value is DateCellValue) {
       return (cell.value as DateCellValue).asDateTimeLocal();
     }
@@ -167,7 +234,7 @@ class ExcelParsing {
         final refCell = sheet.cell(CellIndex.indexByColumnRow(
             columnIndex: cell.columnIndex - quantityOfGroups - 1,
             rowIndex: cell.rowIndex));
-        final baseDate = _resolveDateFormula(refCell, sheet);
+        final baseDate = _resolveDateFormula(refCell, sheet, quantityOfGroups);
         return baseDate != null ? _addWeekToExcelDate(baseDate) : null;
       }
     }
@@ -267,5 +334,19 @@ class ExcelParsing {
         return ('', 0);
       }
     }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  bool _isThereSeparationByStreams(Excel excel) {
+    var defaultSheetName = excel.getDefaultSheet() ?? "";
+    for (var sheetEntry in excel.sheets.entries) {
+      if (sheetEntry.key != defaultSheetName) {
+        if (sheetEntry.value.spannedItems.isNotEmpty) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }

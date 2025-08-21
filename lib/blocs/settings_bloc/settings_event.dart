@@ -7,6 +7,12 @@ abstract class SettingsEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class ChangeLanguage extends SettingsEvent {
+  final String language;
+
+  const ChangeLanguage(this.language);
+}
+
 class ChangeSettings extends SettingsEvent {
   final ThemeMode themeMode;
   final String group;

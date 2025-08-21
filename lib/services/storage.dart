@@ -33,8 +33,10 @@ class Storage {
   Future<void> clearStorage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final settings = prefs.getString('settsNew68');
+    final language = prefs.getString('language');
     prefs.clear();
     prefs.setString('settsNew68', settings ?? '');
+    prefs.setString('language', language ?? '');
   }
 
   Future<void> clearFullStorage() async {
@@ -84,5 +86,15 @@ class Storage {
     } catch (e) {
       throw Exception('Не удалось загрузить данные из кэша');
     }
+  }
+
+  Future<void> saveLanguage(String language) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('language', language);
+  }
+
+  Future<String> loadLanguage() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('language') ?? '';
   }
 }

@@ -161,5 +161,24 @@ class MessageLookup extends MessageLookupByLibrary {
             'За иконку приложения выражаем благодарность '),
         "tanya": MessageLookupByLibrary.simpleMessage('Татьяне Голубевой'),
         "canteenMenu": MessageLookupByLibrary.simpleMessage('Меню столовой'),
+        "teachersAndClasses":
+            MessageLookupByLibrary.simpleMessage('Пары и преподаватели'),
+        "noData": MessageLookupByLibrary.simpleMessage('Нет данных'),
+        "fullName": MessageLookupByLibrary.simpleMessage('Полное название'),
+        "attestationForm":
+            MessageLookupByLibrary.simpleMessage('Форма аттестации'),
+        "pass": MessageLookupByLibrary.simpleMessage('Пропустить'),
+        "welcome": MessageLookupByLibrary.simpleMessage('Доброе пожаловать!'),
+        "checkSchedule":
+            MessageLookupByLibrary.simpleMessage('Смотри расписание!'),
+        "beInKnown":
+            MessageLookupByLibrary.simpleMessage('Будь всегда в курсе!'),
+        "exploreToUSe":
+            MessageLookupByLibrary.simpleMessage('Узнай как пользоваться!'),
+        "language": MessageLookupByLibrary.simpleMessage('Язык'),
+        "languageChanged": MessageLookupByLibrary.simpleMessage(
+            'Язык изменен. Пожалуйста, перезапустите приложение'),
+        "errorTellDevs": MessageLookupByLibrary.simpleMessage(
+            'Ошибка. Сообщите разработчикам'),
       };
 }

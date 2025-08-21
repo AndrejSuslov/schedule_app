@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../services/storage.dart';
 
 import 'messages/messages_all.dart';
 
@@ -26,13 +27,18 @@ class S {
 
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
-  static Future<S> load(Locale locale) {
+  static Future<S> load(Locale locale) async {
     final name = (locale.countryCode?.isEmpty ?? false)
         ? locale.languageCode
         : locale.toString();
+    var language = '';
+    await Storage()
+        .loadLanguage()
+        .then((String language1) => language = language1);
     final localeName = Intl.canonicalizedLocale(name);
-    return initializeMessages(localeName).then((_) {
-      Intl.defaultLocale = localeName;
+    return initializeMessages(language.isNotEmpty ? language : localeName)
+        .then((_) {
+      Intl.defaultLocale = language.isNotEmpty ? language : localeName;
       final instance = S();
       S._current = instance;
 
@@ -938,6 +944,114 @@ class S {
     return Intl.message(
       'Canteen menu',
       name: 'canteenMenu',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get teachersAndClasses {
+    return Intl.message(
+      'Teachers and classes',
+      name: 'teachersAndClasses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get noData {
+    return Intl.message(
+      'No data',
+      name: 'noData',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get fullName {
+    return Intl.message(
+      'Full name',
+      name: 'fullName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get attestationForm {
+    return Intl.message(
+      'Attestation form',
+      name: 'attestationForm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get pass {
+    return Intl.message(
+      'Pass',
+      name: 'pass',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get welcome {
+    return Intl.message(
+      'Welcome',
+      name: 'welcome',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get checkSchedule {
+    return Intl.message(
+      'Check schedule',
+      name: 'checkSchedule',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get beInKnown {
+    return Intl.message(
+      'Be in known',
+      name: 'beInKnown',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get exploreToUse {
+    return Intl.message(
+      'Explore how to use',
+      name: 'exploreToUse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get language {
+    return Intl.message(
+      'Language',
+      name: 'language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get languageChanged {
+    return Intl.message(
+      'Language changed',
+      name: 'languageChanged',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get errorTellDevs {
+    return Intl.message(
+      'Error. Tell to developers',
+      name: 'errorTellDevs',
       desc: '',
       args: [],
     );

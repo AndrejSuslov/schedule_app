@@ -159,5 +159,24 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage('For the app icon thanks to '),
         "tanya": MessageLookupByLibrary.simpleMessage('Tatyana Golubeva'),
         "canteenMenu": MessageLookupByLibrary.simpleMessage('Canteen menu'),
+        "teachersAndClasses":
+            MessageLookupByLibrary.simpleMessage('Teachers and classes'),
+        "noData": MessageLookupByLibrary.simpleMessage('No data'),
+        "fullName": MessageLookupByLibrary.simpleMessage('Full name'),
+        "attestationForm":
+            MessageLookupByLibrary.simpleMessage('Attestation form'),
+        "pass": MessageLookupByLibrary.simpleMessage('Pass'),
+        "welcome": MessageLookupByLibrary.simpleMessage('Welcome!'),
+        "checkSchedule":
+            MessageLookupByLibrary.simpleMessage('Check the schedule!'),
+        "beInKnown":
+            MessageLookupByLibrary.simpleMessage('Be always in known!'),
+        "exploreToUse":
+            MessageLookupByLibrary.simpleMessage('Explore how to use!'),
+        "language": MessageLookupByLibrary.simpleMessage('Language'),
+        "languageChanged": MessageLookupByLibrary.simpleMessage(
+            'Language was changed. Restart the app please'),
+        "errorTellDevs":
+            MessageLookupByLibrary.simpleMessage('Error. Tell to developers'),
       };
 }

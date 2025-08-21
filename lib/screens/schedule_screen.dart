@@ -139,7 +139,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               ? ListTile(
                   leading: const Icon(Icons.accessibility),
                   title: Text(
-                    'Пары и преподаватели', //TODO make i18n
+                    S.of(context).teachersAndClasses,
                     style: Style.bodyRegular.copyWith(fontSize: 16),
                   ),
                   onTap: () {
@@ -148,8 +148,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 )
               : Container(),
           ListTile(
-            leading:
-                const Icon(Icons.fastfood_outlined), // Icon for the first item
+            leading: const Icon(Icons.fastfood_outlined),
             title: Text(
               S.of(context).canteen,
               style: Style.bodyRegular.copyWith(fontSize: 16),
@@ -159,7 +158,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.task_alt), // Icon for the second item
+            leading: const Icon(Icons.task_alt),
             title: Text(
               S.of(context).hometasks,
               style: Style.bodyRegular.copyWith(fontSize: 16),
@@ -169,8 +168,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             },
           ),
           ListTile(
-            leading: const Icon(
-                Icons.supervised_user_circle_sharp), // Icon for the second item
+            leading: const Icon(Icons.supervised_user_circle_sharp),
             title: Text(
               S.of(context).services,
               style: Style.bodyRegular.copyWith(fontSize: 16),
@@ -180,8 +178,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             },
           ),
           ListTile(
-            leading:
-                const Icon(UniconsLine.info_circle), // Icon for the second item
+            leading: const Icon(UniconsLine.info_circle),
             title: Text(
               S.of(context).aboutApp,
               style: Style.bodyRegular.copyWith(fontSize: 16),
@@ -191,7 +188,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.settings), // Icon for the second item
+            leading: const Icon(Icons.settings),
             title: Text(
               S.of(context).settings,
               style: Style.bodyRegular.copyWith(fontSize: 16),
