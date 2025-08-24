@@ -186,5 +186,6 @@ class MessageLookup extends MessageLookupByLibrary {
             'Меню столовой не работает на данный момент'),
         "headerChanged": MessageLookupByLibrary.simpleMessage(
             'Поменялось руководство столовой и API больше не предоставляется. Но эта вкладка остается с надеждой на лучшее'),
+        "toComplete": MessageLookupByLibrary.simpleMessage('К выполнению'),
       };
 }

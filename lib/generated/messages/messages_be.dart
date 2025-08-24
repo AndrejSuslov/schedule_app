@@ -184,5 +184,6 @@ class MessageLookup extends MessageLookupByLibrary {
             'Меню сталовай не працуе на цяперашні час'),
         "headerChanged": MessageLookupByLibrary.simpleMessage(
             'Кіраўніцтва сталовай змянілася і API больш не прадастаўляецца. Але гэтая ўкладка застаецца з надзеяй на лепшае'),
+        "toComplete": MessageLookupByLibrary.simpleMessage('Да выканання'),
       };
 }

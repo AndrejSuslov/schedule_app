@@ -1092,6 +1092,15 @@ class S {
       args: [],
     );
   }
+
+  String get toComplete {
+    return Intl.message(
+      'To complete',
+      name: 'toComplete',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

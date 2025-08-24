@@ -184,5 +184,6 @@ class MessageLookup extends MessageLookupByLibrary {
             'The canteen menu is no longer available'),
         "headerChanged": MessageLookupByLibrary.simpleMessage(
             'The canteen administration has changed and the API is no longer provided. But this tab remains with no hope for the best'),
+        "toComplete": MessageLookupByLibrary.simpleMessage('To complete'),
       };
 }
