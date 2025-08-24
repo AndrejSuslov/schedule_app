@@ -209,7 +209,7 @@ class ExcelParsing {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
   bool _isValidRussianClass(String text) {
-    return RegExp(r'^[А-ЯЁ][а-яёА-ЯЁ\-()\s.]*$').hasMatch(text);
+    return RegExp(r'^[А-ЯЁA-Z][а-яёa-zА-ЯЁA-Z\-()\s.,]*$').hasMatch(text);
   }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -227,15 +227,23 @@ class ExcelParsing {
 
     if (_isCellFormula(cell)) {
       final formula = (cell.value as FormulaCellValue).formula;
-      final pattern = RegExp(r'^([A-Z]+\d+)\s*\+\s*7$');
+      final pattern = RegExp(r'^([A-Z]+)(\d+)\s*\+\s*(\d+)$');
       final match = pattern.firstMatch(formula);
 
       if (match != null) {
+        final columnLetter = match.group(1)!;
+        final rowNumber = int.parse(match.group(2)!);
+        final daysToAdd = int.parse(match.group(3)!);
+
+        final columnIndex = _columnLetterToIndex(columnLetter);
+
         final refCell = sheet.cell(CellIndex.indexByColumnRow(
-            columnIndex: cell.columnIndex - quantityOfGroups - 1,
-            rowIndex: cell.rowIndex));
+            columnIndex: columnIndex, rowIndex: rowNumber - 1));
+
         final baseDate = _resolveDateFormula(refCell, sheet, quantityOfGroups);
-        return baseDate != null ? _addWeekToExcelDate(baseDate) : null;
+        return baseDate != null
+            ? _addDaysToExcelDate(baseDate, daysToAdd)
+            : null;
       }
     }
 
@@ -244,9 +252,18 @@ class ExcelParsing {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-  DateTime _addWeekToExcelDate(DateTime excelDate) {
-    const daysToAdd = 7;
-    return excelDate.add(const Duration(days: daysToAdd));
+  int _columnLetterToIndex(String columnLetter) {
+    int index = 0;
+    for (int i = 0; i < columnLetter.length; i++) {
+      index = index * 26 + (columnLetter.codeUnitAt(i) - 'A'.codeUnitAt(0) + 1);
+    }
+    return index - 1; // Конвертируем в 0-based индекс
+  }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+  DateTime _addDaysToExcelDate(DateTime excelDate, int daysToAdd) {
+    return excelDate.add(Duration(days: daysToAdd));
   }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////

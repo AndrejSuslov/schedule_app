@@ -71,7 +71,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "no": MessageLookupByLibrary.simpleMessage('НЕ'),
         "canteen": MessageLookupByLibrary.simpleMessage('Сталовая'),
         "services": MessageLookupByLibrary.simpleMessage('Сэрвісы'),
-        "aboutApp": MessageLookupByLibrary.simpleMessage('Пра прыладу'),
+        "aboutApp": MessageLookupByLibrary.simpleMessage('Пра дадатак'),
         "tryAgain":
             MessageLookupByLibrary.simpleMessage('Паспрабаваць яшчэ раз'),
         "checkConn": MessageLookupByLibrary.simpleMessage(
@@ -178,5 +178,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorTellDevs": MessageLookupByLibrary.simpleMessage(
             'Памылка. Данясіце распрацоўнікам'),
         "hometasks": MessageLookupByLibrary.simpleMessage('Дамашнія заданні'),
+        "twoWeeks": MessageLookupByLibrary.simpleMessage('Два тыдні'),
+        "week": MessageLookupByLibrary.simpleMessage('Тыдзень'),
+        "menuDoesntWork": MessageLookupByLibrary.simpleMessage(
+            'Меню сталовай не працуе на цяперашні час'),
+        "headerChanged": MessageLookupByLibrary.simpleMessage(
+            'Кіраўніцтва сталовай змянілася і API больш не прадастаўляецца. Але гэтая ўкладка застаецца з надзеяй на лепшае'),
       };
 }

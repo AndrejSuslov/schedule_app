@@ -180,5 +180,11 @@ class MessageLookup extends MessageLookupByLibrary {
             'Язык изменен. Пожалуйста, перезапустите приложение'),
         "errorTellDevs": MessageLookupByLibrary.simpleMessage(
             'Ошибка. Сообщите разработчикам'),
+        "twoWeeks": MessageLookupByLibrary.simpleMessage('Две недели'),
+        "week": MessageLookupByLibrary.simpleMessage('Неделя'),
+        "menuDoesntWork": MessageLookupByLibrary.simpleMessage(
+            'Меню столовой не работает на данный момент'),
+        "headerChanged": MessageLookupByLibrary.simpleMessage(
+            'Поменялось руководство столовой и API больше не предоставляется. Но эта вкладка остается с надеждой на лучшее'),
       };
 }

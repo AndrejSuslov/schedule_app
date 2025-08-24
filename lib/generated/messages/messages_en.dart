@@ -178,5 +178,11 @@ class MessageLookup extends MessageLookupByLibrary {
             'Language was changed. Restart the app please'),
         "errorTellDevs":
             MessageLookupByLibrary.simpleMessage('Error. Tell to developers'),
+        "twoWeeks": MessageLookupByLibrary.simpleMessage('Two weeks'),
+        "week": MessageLookupByLibrary.simpleMessage('Week'),
+        "menuDoesntWork": MessageLookupByLibrary.simpleMessage(
+            'The canteen menu is no longer available'),
+        "headerChanged": MessageLookupByLibrary.simpleMessage(
+            'The canteen administration has changed and the API is no longer provided. But this tab remains with no hope for the best'),
       };
 }

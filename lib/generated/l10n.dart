@@ -1056,6 +1056,42 @@ class S {
       args: [],
     );
   }
+
+  String get twoWeeks {
+    return Intl.message(
+      'Two weeks',
+      name: 'twoWeeks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get week {
+    return Intl.message(
+      'Week',
+      name: 'week',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get menuDoesntWork {
+    return Intl.message(
+      'Menu doesn\'t work',
+      name: 'menuDoesntWork',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get headerChanged {
+    return Intl.message(
+      'Header changed',
+      name: 'headerChanged',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

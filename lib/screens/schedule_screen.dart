@@ -1,28 +1,21 @@
-import 'dart:developer';
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_test_project/screens/app_info_screen.dart';
 import 'package:flutter_test_project/screens/data_classes_screen.dart';
 import 'package:flutter_test_project/screens/canteen_screen.dart';
 import 'package:flutter_test_project/screens/error_screen.dart';
-import 'package:flutter_test_project/screens/onboarding_screen.dart';
 import 'package:flutter_test_project/screens/services_screen.dart';
 import 'package:flutter_test_project/screens/settings_screen.dart';
 import 'package:flutter_test_project/widgets/guider.dart';
 import 'package:flutter_test_project/widgets/schedule_widget.dart';
 import 'package:flutter_test_project/widgets/typography.dart';
-import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:rive/rive.dart';
 import 'package:unicons/unicons.dart';
 import '../blocs/schedule_bloc/schedule_bloc.dart';
 import '../blocs/settings_bloc/settings_bloc.dart';
 import '../generated/l10n.dart';
 import 'homework_screen.dart';
-import '../services/parse.dart';
 import '../widgets/calendar_widget.dart';
 
 class ScheduleScreen extends StatefulWidget {
@@ -55,15 +48,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       return ChangeDateOfClasses(dateTime);
     }
   }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   final bloc = context.read<ScheduleBloc>();
-  //   var temp = DateTime.now().toString().replaceRange(10, 26, '');
-  //   bloc.add(ChangeDateOfClasses(DateTime.parse(temp)));
-  //   bloc.add(const LoadSchedule());
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -256,7 +240,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           forNullCheking++;
         }
       }
-      if (forNullCheking >= 6 || DateTime.sunday == DateTime.now().weekday) {
+      if (forNullCheking >= 6) {
         return _buildEmptyListWidget(context);
       }
       return AnimationLimiter(

@@ -25,11 +25,7 @@ class Settings {
   }
 
   factory Settings.fromMap(Map<String, dynamic> map) {
-    return Settings(
-        ThemeMode.values[map['themeMode']],
-        map['group'],
-        map['numOfGroups'],
-        map['isFirstLaunch'],
-        map['isScheduleLoaded'] != Null ? map['isScheduleLoaded'] : false);
+    return Settings(ThemeMode.values[map['themeMode']], map['group'],
+        map['numOfGroups'], map['isFirstLaunch'], map['isScheduleLoaded']);
   }
 }

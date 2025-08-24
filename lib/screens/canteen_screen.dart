@@ -110,9 +110,9 @@ class _CanteenScreenState extends State<CanteenScreen> {
             'assets/anims/error.riv',
           ),
         ),
-        const Text(
-          "Меню столовой не работает на данный момент",
-          style: TextStyle(
+        Text(
+          S.of(context).menuDoesntWork,
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -120,9 +120,9 @@ class _CanteenScreenState extends State<CanteenScreen> {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 14),
-        const Text(
-          "Поменялось руководство столовой и API больше не предоставляется. Но эта вкладка остается с надеждой на лучшее",
-          style: TextStyle(
+        Text(
+          S.of(context).headerChanged,
+          style: const TextStyle(
             color: Colors.grey,
             fontSize: 16,
           ),
