@@ -1,27 +1,21 @@
-import 'dart:developer';
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_test_project/screens/app_info_screen.dart';
+import 'package:flutter_test_project/screens/data_classes_screen.dart';
 import 'package:flutter_test_project/screens/canteen_screen.dart';
 import 'package:flutter_test_project/screens/error_screen.dart';
-import 'package:flutter_test_project/screens/onboarding_screen.dart';
 import 'package:flutter_test_project/screens/services_screen.dart';
 import 'package:flutter_test_project/screens/settings_screen.dart';
 import 'package:flutter_test_project/widgets/guider.dart';
 import 'package:flutter_test_project/widgets/schedule_widget.dart';
 import 'package:flutter_test_project/widgets/typography.dart';
-import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:rive/rive.dart';
 import 'package:unicons/unicons.dart';
 import '../blocs/schedule_bloc/schedule_bloc.dart';
 import '../blocs/settings_bloc/settings_bloc.dart';
 import '../generated/l10n.dart';
 import 'homework_screen.dart';
-import '../services/parse.dart';
 import '../widgets/calendar_widget.dart';
 
 class ScheduleScreen extends StatefulWidget {
@@ -54,15 +48,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       return ChangeDateOfClasses(dateTime);
     }
   }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   final bloc = context.read<ScheduleBloc>();
-  //   var temp = DateTime.now().toString().replaceRange(10, 26, '');
-  //   bloc.add(ChangeDateOfClasses(DateTime.parse(temp)));
-  //   bloc.add(const LoadSchedule());
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -116,6 +101,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   }
 
   Widget _buildDrawer(BuildContext context) {
+    final bloc = context.read<SettingsBloc>();
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -133,9 +119,20 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               ],
             ),
           ),
+          bloc.settings.isScheduleLoaded
+              ? ListTile(
+                  leading: const Icon(Icons.accessibility),
+                  title: Text(
+                    S.of(context).teachersAndClasses,
+                    style: Style.bodyRegular.copyWith(fontSize: 16),
+                  ),
+                  onTap: () {
+                    pushToDataClassesScreen(context);
+                  },
+                )
+              : Container(),
           ListTile(
-            leading:
-                const Icon(Icons.fastfood_outlined), // Icon for the first item
+            leading: const Icon(Icons.fastfood_outlined),
             title: Text(
               S.of(context).canteen,
               style: Style.bodyRegular.copyWith(fontSize: 16),
@@ -145,7 +142,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.task_alt), // Icon for the second item
+            leading: const Icon(Icons.task_alt),
             title: Text(
               S.of(context).hometasks,
               style: Style.bodyRegular.copyWith(fontSize: 16),
@@ -155,8 +152,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             },
           ),
           ListTile(
-            leading: const Icon(
-                Icons.supervised_user_circle_sharp), // Icon for the second item
+            leading: const Icon(Icons.supervised_user_circle_sharp),
             title: Text(
               S.of(context).services,
               style: Style.bodyRegular.copyWith(fontSize: 16),
@@ -166,8 +162,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             },
           ),
           ListTile(
-            leading:
-                const Icon(UniconsLine.info_circle), // Icon for the second item
+            leading: const Icon(UniconsLine.info_circle),
             title: Text(
               S.of(context).aboutApp,
               style: Style.bodyRegular.copyWith(fontSize: 16),
@@ -177,7 +172,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.settings), // Icon for the second item
+            leading: const Icon(Icons.settings),
             title: Text(
               S.of(context).settings,
               style: Style.bodyRegular.copyWith(fontSize: 16),
@@ -245,7 +240,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           forNullCheking++;
         }
       }
-      if (forNullCheking >= 6 || DateTime.sunday == DateTime.now().weekday) {
+      if (forNullCheking >= 6) {
         return _buildEmptyListWidget(context);
       }
       return AnimationLimiter(
@@ -343,6 +338,12 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                     bloc.add(SaveSchedule(
                         group: settingsBloc.settings.group,
                         numOfGroups: settingsBloc.settings.numOfGroups));
+                    settingsBloc.add(ChangeSettings(
+                        settingsBloc.settings.themeMode,
+                        settingsBloc.settings.group,
+                        settingsBloc.settings.numOfGroups,
+                        settingsBloc.settings.isFirstLaunch,
+                        true));
                     bloc.add(LoadSchedule(DateTime.now()));
                     Navigator.pop(context);
                   },
@@ -399,8 +400,12 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             ],
             onChanged: (group) {
               if (group != null) {
-                bloc.add(ChangeSettings(bloc.settings.themeMode, group,
-                    bloc.settings.numOfGroups, bloc.settings.isFirstLaunch));
+                bloc.add(ChangeSettings(
+                    bloc.settings.themeMode,
+                    group,
+                    bloc.settings.numOfGroups,
+                    bloc.settings.isFirstLaunch,
+                    bloc.settings.isScheduleLoaded));
               }
             },
           ),
@@ -444,7 +449,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                     bloc.settings.themeMode,
                     bloc.settings.group,
                     numOfGroups,
-                    bloc.settings.isFirstLaunch));
+                    bloc.settings.isFirstLaunch,
+                    bloc.settings.isScheduleLoaded));
               }
             },
           ),
@@ -514,67 +520,54 @@ void pushToSettingsScreen(BuildContext context) {
   );
 }
 
-Future<void> pushToCanteenScreenWithLoading(BuildContext context) async {
-  List<String> canteenLoadingPhrases = [
-    "Ищем печеньки...",
-    "Тетя Зина накрывает на стол...",
-    "Греем сосиски в тесте...",
-    "Нарезаем салаты...",
-    "Разгоняем заочников...",
-    "Занимаем очередь..."
-  ];
-
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Center(
-              child: LoadingAnimationWidget.fourRotatingDots(
-                size: 50,
-                color: Colors.green,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(canteenLoadingPhrases[
-                Random().nextInt(canteenLoadingPhrases.length)]),
-          ],
-        ),
-      );
-    },
+void pushToDataClassesScreen(BuildContext context) {
+  Navigator.of(context).popUntil((route) => route.isFirst);
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+      builder: (_) => const ClassesListWidget(),
+    ),
   );
-  bool result = await InternetConnection().hasInternetAccess;
-  if (result) {
-    try {
-      final canteen = await MenuLoader(
-        "https://script.google.com/macros/s/AKfycbxU0kHQHz5ozY262ZR-1veg0ZQFn0Z7KdBVgqNgMZG4wnMy-OKK86srjOoawl9goZ5N3w/exec",
-      ).loadMenu();
+}
 
-      if (context.mounted) Navigator.pop(context);
+Future<void> pushToCanteenScreenWithLoading(BuildContext context) async {
+  // List<String> canteenLoadingPhrases = [
+  //   "Ищем печеньки...",
+  //   "Тетя Зина накрывает на стол...",
+  //   "Греем сосиски в тесте...",
+  //   "Нарезаем салаты...",
+  //   "Разгоняем заочников...",
+  //   "Занимаем очередь..."
+  // ];
 
-      if (context.mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (_) => CanteenScreen(
-              canteen: canteen,
-              dateTime: DateTime.now(),
-            ),
-          ),
-        );
-      }
-    } catch (error) {
-      if (context.mounted) Navigator.pop(context);
+  // showDialog(
+  //   context: context,
+  //   barrierDismissible: false,
+  //   builder: (BuildContext context) {
+  //     return AlertDialog(
+  //       content: Column(
+  //         mainAxisSize: MainAxisSize.min,
+  //         children: [
+  //           Center(
+  //             child: LoadingAnimationWidget.fourRotatingDots(
+  //               size: 50,
+  //               color: Colors.green,
+  //             ),
+  //           ),
+  //           const SizedBox(height: 8),
+  //           Text(canteenLoadingPhrases[
+  //               Random().nextInt(canteenLoadingPhrases.length)]),
+  //         ],
+  //       ),
+  //     );
+  //   },
 
-      // _buildErrorWidget(context, 'error');
-      if (context.mounted) _buildErrorWidget(context, "error");
-    }
-  } else {
-    if (context.mounted) pushToErrorScreen(context);
-  }
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+      builder: (_) => const CanteenScreen(),
+    ),
+  );
 }
 
 Widget _buildErrorWidget(BuildContext context, String message) {

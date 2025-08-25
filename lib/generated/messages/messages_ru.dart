@@ -161,5 +161,31 @@ class MessageLookup extends MessageLookupByLibrary {
             'За иконку приложения выражаем благодарность '),
         "tanya": MessageLookupByLibrary.simpleMessage('Татьяне Голубевой'),
         "canteenMenu": MessageLookupByLibrary.simpleMessage('Меню столовой'),
+        "teachersAndClasses":
+            MessageLookupByLibrary.simpleMessage('Пары и преподаватели'),
+        "noData": MessageLookupByLibrary.simpleMessage('Нет данных'),
+        "fullName": MessageLookupByLibrary.simpleMessage('Полное название'),
+        "attestationForm":
+            MessageLookupByLibrary.simpleMessage('Форма аттестации'),
+        "pass": MessageLookupByLibrary.simpleMessage('Пропустить'),
+        "welcome": MessageLookupByLibrary.simpleMessage('Доброе пожаловать!'),
+        "checkSchedule":
+            MessageLookupByLibrary.simpleMessage('Смотри расписание!'),
+        "beInKnown":
+            MessageLookupByLibrary.simpleMessage('Будь всегда в курсе!'),
+        "exploreToUSe":
+            MessageLookupByLibrary.simpleMessage('Узнай как пользоваться!'),
+        "language": MessageLookupByLibrary.simpleMessage('Язык'),
+        "languageChanged": MessageLookupByLibrary.simpleMessage(
+            'Язык изменен. Пожалуйста, перезапустите приложение'),
+        "errorTellDevs": MessageLookupByLibrary.simpleMessage(
+            'Ошибка. Сообщите разработчикам'),
+        "twoWeeks": MessageLookupByLibrary.simpleMessage('Две недели'),
+        "week": MessageLookupByLibrary.simpleMessage('Неделя'),
+        "menuDoesntWork": MessageLookupByLibrary.simpleMessage(
+            'Меню столовой не работает на данный момент'),
+        "headerChanged": MessageLookupByLibrary.simpleMessage(
+            'Поменялось руководство столовой и API больше не предоставляется. Но эта вкладка остается с надеждой на лучшее'),
+        "toComplete": MessageLookupByLibrary.simpleMessage('К выполнению'),
       };
 }

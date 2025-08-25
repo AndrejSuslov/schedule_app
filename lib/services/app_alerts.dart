@@ -15,9 +15,7 @@ class AppAlerts {
       SnackBar(
         content: Text(
           message,
-          // style: context.textTheme.bodyMedium,
         ),
-        // backgroundColor: context.colorScheme.onSecondary,
       ),
     );
   }

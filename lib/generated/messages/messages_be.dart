@@ -71,7 +71,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "no": MessageLookupByLibrary.simpleMessage('НЕ'),
         "canteen": MessageLookupByLibrary.simpleMessage('Сталовая'),
         "services": MessageLookupByLibrary.simpleMessage('Сэрвісы'),
-        "aboutApp": MessageLookupByLibrary.simpleMessage('костыль!'),
+        "aboutApp": MessageLookupByLibrary.simpleMessage('Пра дадатак'),
         "tryAgain":
             MessageLookupByLibrary.simpleMessage('Паспрабаваць яшчэ раз'),
         "checkConn": MessageLookupByLibrary.simpleMessage(
@@ -158,5 +158,32 @@ class MessageLookup extends MessageLookupByLibrary {
             'За значок дадатку выказваем падзяку '),
         "tanya": MessageLookupByLibrary.simpleMessage('Таццяне Голубевай'),
         "canteenMenu": MessageLookupByLibrary.simpleMessage('Меню сталовай'),
+        "teachersAndClasses":
+            MessageLookupByLibrary.simpleMessage('Выкладчыкі і заняткі'),
+        "noData": MessageLookupByLibrary.simpleMessage('Няма дадзеных'),
+        "fullName": MessageLookupByLibrary.simpleMessage('Поўная назва'),
+        "attestationForm":
+            MessageLookupByLibrary.simpleMessage('Форма атэстацыі'),
+        "pass": MessageLookupByLibrary.simpleMessage('Прапусціць'),
+        "welcome": MessageLookupByLibrary.simpleMessage('Рады бачыць!'),
+        "checkSchedule":
+            MessageLookupByLibrary.simpleMessage('Глядзі расклад!'),
+        "beInKnown": MessageLookupByLibrary.simpleMessage(
+            'Будзь у курсе ў любы момант!'),
+        "exploreToUse":
+            MessageLookupByLibrary.simpleMessage('Даведайся як карыстацца'),
+        "language": MessageLookupByLibrary.simpleMessage('Мова'),
+        "languageChanged": MessageLookupByLibrary.simpleMessage(
+            'Мова зменена. Калі ласка, перазапусціце прыладу'),
+        "errorTellDevs": MessageLookupByLibrary.simpleMessage(
+            'Памылка. Данясіце распрацоўнікам'),
+        "hometasks": MessageLookupByLibrary.simpleMessage('Дамашнія заданні'),
+        "twoWeeks": MessageLookupByLibrary.simpleMessage('Два тыдні'),
+        "week": MessageLookupByLibrary.simpleMessage('Тыдзень'),
+        "menuDoesntWork": MessageLookupByLibrary.simpleMessage(
+            'Меню сталовай не працуе на цяперашні час'),
+        "headerChanged": MessageLookupByLibrary.simpleMessage(
+            'Кіраўніцтва сталовай змянілася і API больш не прадастаўляецца. Але гэтая ўкладка застаецца з надзеяй на лепшае'),
+        "toComplete": MessageLookupByLibrary.simpleMessage('Да выканання'),
       };
 }

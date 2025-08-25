@@ -18,6 +18,12 @@ class SettingsLoaded extends SettingsState {
   const SettingsLoaded(this.settings);
 }
 
+class LanguageLoaded extends SettingsState {
+  final String message;
+
+  const LanguageLoaded(this.message);
+}
+
 class SettingsError extends SettingsState {
   final String message;
 

@@ -52,7 +52,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     'Это приложение было создано студентами для студентов',
     'В столовой ты или на парах - оказывается, расписание можно смотреть и без всяких файлов',
     'Иногда так лень открывать файл в Excel и искать нужную тебе информацию, мы это исправили',
-    'Скачай готовый файл с расписанием у нас в телеграм-канале. Далее нажми на главном экране на плюс в правом нижнем углу, выставь свою группу и количество групп на потоке. Довольствуйся расписанием!'
+    'Просто нажми на главном экране на плюс в правом нижнем углу, выставь свою группу и количество групп на потоке. Довольствуйся расписанием!'
   ];
 
   double getImageTopPadding(int page) {
@@ -203,12 +203,16 @@ class _PageIndicatorsState extends State<PageIndicators> {
               ? Container()
               : TextButton(
                   onPressed: () {
-                    bloc.add(ChangeSettings(bloc.settings.themeMode,
-                        bloc.settings.group, bloc.settings.numOfGroups, false));
+                    bloc.add(ChangeSettings(
+                        bloc.settings.themeMode,
+                        bloc.settings.group,
+                        bloc.settings.numOfGroups,
+                        false,
+                        false));
                     pushToMainScreen(context);
                   },
                   child: Text(
-                    "Пропустить",
+                    S.of(context).pass,
                     style: Style.buttonS.copyWith(),
                   ),
                 ),

@@ -159,5 +159,31 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage('For the app icon thanks to '),
         "tanya": MessageLookupByLibrary.simpleMessage('Tatyana Golubeva'),
         "canteenMenu": MessageLookupByLibrary.simpleMessage('Canteen menu'),
+        "teachersAndClasses":
+            MessageLookupByLibrary.simpleMessage('Teachers and classes'),
+        "noData": MessageLookupByLibrary.simpleMessage('No data'),
+        "fullName": MessageLookupByLibrary.simpleMessage('Full name'),
+        "attestationForm":
+            MessageLookupByLibrary.simpleMessage('Attestation form'),
+        "pass": MessageLookupByLibrary.simpleMessage('Pass'),
+        "welcome": MessageLookupByLibrary.simpleMessage('Welcome!'),
+        "checkSchedule":
+            MessageLookupByLibrary.simpleMessage('Check the schedule!'),
+        "beInKnown":
+            MessageLookupByLibrary.simpleMessage('Be always in known!'),
+        "exploreToUse":
+            MessageLookupByLibrary.simpleMessage('Explore how to use!'),
+        "language": MessageLookupByLibrary.simpleMessage('Language'),
+        "languageChanged": MessageLookupByLibrary.simpleMessage(
+            'Language was changed. Restart the app please'),
+        "errorTellDevs":
+            MessageLookupByLibrary.simpleMessage('Error. Tell to developers'),
+        "twoWeeks": MessageLookupByLibrary.simpleMessage('Two weeks'),
+        "week": MessageLookupByLibrary.simpleMessage('Week'),
+        "menuDoesntWork": MessageLookupByLibrary.simpleMessage(
+            'The canteen menu is no longer available'),
+        "headerChanged": MessageLookupByLibrary.simpleMessage(
+            'The canteen administration has changed and the API is no longer provided. But this tab remains with no hope for the best'),
+        "toComplete": MessageLookupByLibrary.simpleMessage('To complete'),
       };
 }

@@ -67,7 +67,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     Storage().saveTime(time);
 
     List<DataClasses> classesData = parser.parseDataClasses();
-    Storage().saveClassesData(jsonEncode(classesData));
+    Storage().saveClassesData(classesData);
     emit(SavedSchedule());
   }
 

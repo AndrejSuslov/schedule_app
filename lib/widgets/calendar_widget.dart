@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_project/widgets/typography.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:flutter_test_project/generated/l10n.dart';
 
 import '../blocs/schedule_bloc/schedule_bloc.dart';
 
@@ -30,22 +31,6 @@ class _CalendarWidgetState extends State<CalendarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final currentLocale = Localizations.localeOf(context).languageCode;
-
-    String calendarFormatsWeek;
-    String calendarFormatsTwoWeeks;
-
-    if (currentLocale == 'ru') {
-      calendarFormatsTwoWeeks = 'Две недели';
-      calendarFormatsWeek = 'Неделя';
-    } else if (currentLocale == 'be') {
-      calendarFormatsTwoWeeks = 'Два тыдні';
-      calendarFormatsWeek = 'Тыдзень';
-    } else {
-      calendarFormatsTwoWeeks = 'Two weeks';
-      calendarFormatsWeek = 'Week';
-    }
-
     return BlocListener<ScheduleBloc, ScheduleState>(
       listener: (context, state) {
         if (state is ScheduleLoaded) {
@@ -60,7 +45,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         focusedDay: _selectedDate,
         currentDay: _selectedDate,
         firstDay: DateTime.utc(2020, 08, 09),
-        lastDay: DateTime.utc(2033, 1, 1),
+        lastDay: DateTime.utc(2035, 1, 1),
         weekendDays: const [DateTime.sunday],
         startingDayOfWeek: StartingDayOfWeek.monday,
         headerStyle: HeaderStyle(
@@ -89,8 +74,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           ),
         ),
         availableCalendarFormats: {
-          CalendarFormat.twoWeeks: calendarFormatsTwoWeeks,
-          CalendarFormat.week: calendarFormatsWeek,
+          CalendarFormat.twoWeeks: S.of(context).twoWeeks,
+          CalendarFormat.week: S.of(context).week,
         },
         onFormatChanged: (format) {
           setState(() {
@@ -100,7 +85,9 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         onDaySelected: (prevDate, selDate) {
           setState(() {
             final bloc = context.read<ScheduleBloc>();
-            var temp = selDate.toString().replaceRange(10, 24, '');
+            var temp = selDate
+                .toString()
+                .replaceRange(10, selDate.toString().length, '');
             _selectedDate = DateTime.parse(temp);
             bloc.add(ChangeDateOfClasses(_selectedDate));
             bloc.add(LoadSchedule(_selectedDate));

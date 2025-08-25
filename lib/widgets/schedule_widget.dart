@@ -25,36 +25,32 @@ class GroupScheduleWidget extends StatelessWidget {
     } else {
       return AnimationConfiguration.staggeredList(
         position: index,
-        duration: const Duration(milliseconds: 375),
-        child: SlideAnimation(
-          verticalOffset: 50.0,
-          child: Card(
-            child: ListTile(
-              onTap: () {
-                _showScheduleFullDialog(context);
-              },
-              title: (schedule[index].contains('(лк.)') ||
-                      schedule[index].contains('КЧ'.toLowerCase()) ||
-                      schedule[index].contains('Зачет'))
-                  ? Text(
-                      schedule[index],
-                      style: Style.captionL.copyWith(fontSize: 16),
-                    )
-                  : Text('${schedule[index]} (пз.)',
-                      style: Style.captionL.copyWith(fontSize: 16)),
-              subtitle: const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Text(''),
-                  // Text('Преподаватель: -'),
-                ],
-              ),
-              trailing: Flex(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                direction: Axis.vertical,
-                children: _buildTrailingListWidget(),
-              ),
+        child: Card(
+          child: ListTile(
+            onTap: () {
+              _showScheduleFullDialog(context);
+            },
+            title: (schedule[index].contains('(лк.)') ||
+                    schedule[index].contains('КЧ'.toLowerCase()) ||
+                    schedule[index].contains('Зачет'))
+                ? Text(
+                    schedule[index],
+                    style: Style.captionL.copyWith(fontSize: 16),
+                  )
+                : Text('${schedule[index]} (пз.)',
+                    style: Style.captionL.copyWith(fontSize: 16)),
+            subtitle: const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Text(''),
+                // Text('Преподаватель: -'),
+              ],
+            ),
+            trailing: Flex(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              direction: Axis.vertical,
+              children: _buildTrailingListWidget(),
             ),
           ),
         ),
@@ -64,7 +60,7 @@ class GroupScheduleWidget extends StatelessWidget {
 
   List<Widget> _buildTrailingListWidget() {
     List<Widget> widgets = [];
-    widgets.add(Text(time[index].replaceAll(RegExp(r' - '), '\n'),
+    widgets.add(Text(time[index].replaceAll(RegExp(r'\s+-\s+|\s+'), '\n'),
         style: Style.captionL.copyWith(fontSize: 14)));
     widgets.addAll([
       const SizedBox(height: 5),

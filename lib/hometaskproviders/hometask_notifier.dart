@@ -47,5 +47,5 @@ class TaskNotifier extends StateNotifier<TaskState> {
     } catch (e) {
       debugPrint(e.toString());
     }
-  }
+  } //TODO separate the view on two tabs
 }
