@@ -17,16 +17,17 @@ class CalendarWidget extends StatefulWidget {
 
 class _CalendarWidgetState extends State<CalendarWidget> {
   CalendarFormat _format = CalendarFormat.week;
-  DateTime _selectedDate = DateTime.now();
+  late DateTime _selectedDate;
+
+  DateTime _dateOnly(DateTime d) => DateTime(d.year, d.month, d.day);
 
   @override
   void initState() {
+    super.initState();
     final bloc = context.read<ScheduleBloc>();
-    var temp = DateTime.now().toString().replaceRange(10, 26, '');
-    _selectedDate = DateTime.parse(temp);
+    _selectedDate = _dateOnly(DateTime.now());
     bloc.add(ChangeDateOfClasses(_selectedDate));
     bloc.add(LoadSchedule(_selectedDate));
-    super.initState();
   }
 
   @override
@@ -34,17 +35,16 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     return BlocListener<ScheduleBloc, ScheduleState>(
       listener: (context, state) {
         if (state is ScheduleLoaded) {
-          setState(() {
-            _selectedDate = state.date;
-          });
+          setState(() => _selectedDate = _dateOnly(state.date));
         }
       },
       child: TableCalendar(
         locale: Localizations.localeOf(context).languageCode,
         calendarFormat: _format,
         focusedDay: _selectedDate,
+        selectedDayPredicate: (d) => isSameDay(d, _selectedDate),
         currentDay: _selectedDate,
-        firstDay: DateTime.utc(2020, 08, 09),
+        firstDay: DateTime.utc(2020, 8, 9),
         lastDay: DateTime.utc(2035, 1, 1),
         weekendDays: const [DateTime.sunday],
         startingDayOfWeek: StartingDayOfWeek.monday,
@@ -55,46 +55,29 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         calendarStyle: CalendarStyle(
           defaultTextStyle: Style.bodyRegular,
           defaultDecoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
-            ),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
             shape: BoxShape.rectangle,
           ),
           todayDecoration: BoxDecoration(
             shape: BoxShape.rectangle,
-            borderRadius: const BorderRadius.all(
-              Radius.circular(10),
-            ),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
             color: Theme.of(context).colorScheme.primary,
           ),
           weekendDecoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
-            ),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
         ),
         availableCalendarFormats: {
           CalendarFormat.twoWeeks: S.of(context).twoWeeks,
           CalendarFormat.week: S.of(context).week,
         },
-        onFormatChanged: (format) {
-          setState(() {
-            _format = format;
-          });
-        },
-        onDaySelected: (prevDate, selDate) {
-          setState(() {
-            final bloc = context.read<ScheduleBloc>();
-            var temp = selDate
-                .toString()
-                .replaceRange(10, selDate.toString().length, '');
-            _selectedDate = DateTime.parse(temp);
-            bloc.add(ChangeDateOfClasses(_selectedDate));
-            bloc.add(LoadSchedule(_selectedDate));
-            if (bloc.state is ScheduleError) {
-              bloc.emit(const ScheduleDayIsEmpty("messsage"));
-            }
-          });
+        onFormatChanged: (format) => setState(() => _format = format),
+        onDaySelected: (selectedDay, focusedDay) {
+          final d = _dateOnly(selectedDay);
+          setState(() => _selectedDate = d);
+          final bloc = context.read<ScheduleBloc>();
+          bloc.add(ChangeDateOfClasses(d));
+          bloc.add(LoadSchedule(d));
         },
       ),
     );

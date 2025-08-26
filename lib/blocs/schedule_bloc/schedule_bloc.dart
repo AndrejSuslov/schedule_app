@@ -11,8 +11,7 @@ part 'schedule_event.dart';
 part 'schedule_state.dart';
 
 class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
-  final String date = DateTime.now().toString().replaceRange(10, 26, '');
-  late DateTime currentDay = DateTime.parse(date);
+  late DateTime currentDay = _dateOnly(DateTime.now());
   PlatformFile? globalFile;
 
   ScheduleBloc() : super(ScheduleInitial()) {
@@ -23,7 +22,10 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     on<LoadSchedule>(_loadSchedule);
   }
 
-  FutureOr<void> _onChangeDate(ChangeDateOfClasses event, Emitter<ScheduleState> emit) {
+  DateTime _dateOnly(DateTime d) => DateTime(d.year, d.month, d.day);
+
+  FutureOr<void> _onChangeDate(
+      ChangeDateOfClasses event, Emitter<ScheduleState> emit) {
     emit(ScheduleReeloadDate());
     currentDay = event.selectedDay;
     if (currentDay.weekday != DateTime.sunday) {
@@ -58,7 +60,8 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     emit(PickedFile(file));
   }
 
-  FutureOr<void> _saveScheduleToCache(SaveSchedule event, Emitter<ScheduleState> emit) async {
+  FutureOr<void> _saveScheduleToCache(
+      SaveSchedule event, Emitter<ScheduleState> emit) async {
     emit(SavingSchedule());
 
     try {
@@ -71,7 +74,8 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       final days = await parser.parse(globalFile!) as List<Day>;
 
       for (final day in days) {
-        final classesForGroup = day.classes[int.parse(event.group)] ?? <String>[];
+        final classesForGroup =
+            day.classes[int.parse(event.group)] ?? <String>[];
         final jsonString = jsonEncode(classesForGroup);
         await Storage().saveSchedule(day.date, jsonString);
       }
@@ -88,11 +92,13 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     }
   }
 
-  FutureOr<void> _loadSchedule(LoadSchedule event, Emitter<ScheduleState> emit) async {
+  FutureOr<void> _loadSchedule(
+      LoadSchedule event, Emitter<ScheduleState> emit) async {
     emit(ScheduleLoading());
 
     try {
-      final scheduleJson = await Storage().readSchedule(_dateToString(event.date));
+      final scheduleJson =
+          await Storage().readSchedule(_dateToString(event.date));
       List<String> classes = [];
       if (scheduleJson.isNotEmpty) {
         try {
@@ -115,6 +121,9 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   }
 
   String _dateToString(DateTime date) {
-    return date.toString().replaceRange(10, date.toString().length, '');
+    final y = date.year.toString().padLeft(4, '0');
+    final m = date.month.toString().padLeft(2, '0');
+    final d = date.day.toString().padLeft(2, '0');
+    return '$y-$m-$d';
   }
 }

@@ -282,7 +282,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   Widget _buildFloatingActionButton(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-        // Add logic to open the context menu here
         _showContextMenu(context);
       },
       backgroundColor: Theme.of(context).primaryColor,

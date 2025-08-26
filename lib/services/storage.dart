@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui' as ui;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import '../integrations/telegram.dart';
@@ -9,8 +10,15 @@ class Storage {
   static const String DATA_KEY = "DATA_CLASSES";
   static const String SETTINGS_KEY = 'settsNew68';
   static const String LANGUAGE_KEY = 'language';
+  static const _supported = {'ru', 'be', 'en'};
 
   bool get _useTg => kIsWeb && TelegramWebApp.isAvailable;
+
+  String get _deviceLang {
+    final code =
+        ui.PlatformDispatcher.instance.locale.languageCode.toLowerCase();
+    return _supported.contains(code) ? code : 'en';
+  }
 
   Future<void> saveSettings(Settings settings) async {
     final json = jsonEncode(settings.toMap());
@@ -25,16 +33,12 @@ class Storage {
   Future<Settings?> readSettings() async {
     if (_useTg) {
       final s = await TelegramWebApp.cloudGetItem(SETTINGS_KEY);
-      if (s != null && s.isNotEmpty) {
-        return Settings.fromMap(jsonDecode(s));
-      }
+      if (s != null && s.isNotEmpty) return Settings.fromMap(jsonDecode(s));
       return null;
     } else {
       final prefs = await SharedPreferences.getInstance();
       final s = prefs.getString(SETTINGS_KEY);
-      if (s != null && s.isNotEmpty) {
-        return Settings.fromMap(jsonDecode(s));
-      }
+      if (s != null && s.isNotEmpty) return Settings.fromMap(jsonDecode(s));
       return null;
     }
   }
@@ -146,10 +150,12 @@ class Storage {
 
   Future<String> loadLanguage() async {
     if (_useTg) {
-      return (await TelegramWebApp.cloudGetItem(LANGUAGE_KEY)) ?? '';
+      final v = await TelegramWebApp.cloudGetItem(LANGUAGE_KEY);
+      return (v == null || v.isEmpty) ? _deviceLang : v;
     } else {
       final prefs = await SharedPreferences.getInstance();
-      return prefs.getString(LANGUAGE_KEY) ?? '';
+      final v = prefs.getString(LANGUAGE_KEY);
+      return (v == null || v.isEmpty) ? _deviceLang : v;
     }
   }
 }

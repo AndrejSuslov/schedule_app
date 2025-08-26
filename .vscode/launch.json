@@ -1,0 +1,44 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "schedule_app",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "schedule_app (web debug)",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "chrome",
+            "args": [
+                "--web-port=8080",
+                "--web-hostname=localhost",
+                "--debug"
+            ]
+        },
+        {
+            "name": "schedule_app (web 0.0.0.0)",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "chrome",
+            "args": [
+                "--web-port=8080",
+                "--web-hostname=0.0.0.0",
+                "--debug"
+            ]
+        },
+        {
+            "name": "schedule_app (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "schedule_app (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

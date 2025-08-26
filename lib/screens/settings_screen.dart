@@ -8,8 +8,14 @@ import '../services/app_alerts.dart';
 
 class SettingsScreen extends StatelessWidget {
   final SettingsBloc bloc;
-
   const SettingsScreen(this.bloc, {Key? key}) : super(key: key);
+
+  static const _langs = ['ru', 'be', 'en'];
+  static const _themeItems = [
+    ThemeMode.system,
+    ThemeMode.light,
+    ThemeMode.dark
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -18,19 +24,14 @@ class SettingsScreen extends StatelessWidget {
         pushToMainScreen(context);
         return false;
       },
-      child: BlocProvider<SettingsBloc>(
-        create: (_) => SettingsBloc(),
+      child: BlocProvider<SettingsBloc>.value(
+        value: bloc,
         child: Scaffold(
           appBar: AppBar(
-            title: Text(
-              S.of(context).settings,
-              style: Style.h6,
-            ),
+            title: Text(S.of(context).settings, style: Style.h6),
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                pushToMainScreen(context);
-              },
+              onPressed: () => pushToMainScreen(context),
             ),
           ),
           body: MultiBlocListener(
@@ -64,14 +65,13 @@ class SettingsScreen extends StatelessWidget {
                     child: RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 12,
-                        ),
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 12),
                         children: [
                           TextSpan(
-                              text: "UIR-2022",
-                              style: Style.bodyRegular.copyWith(fontSize: 14)),
+                            text: "UIR-2022",
+                            style: Style.bodyRegular.copyWith(fontSize: 14),
+                          ),
                         ],
                       ),
                     ),
@@ -86,13 +86,15 @@ class SettingsScreen extends StatelessWidget {
   }
 
   void _showSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(
-        message,
-        style: Style.captionL.copyWith(fontSize: 14),
-        textAlign: TextAlign.center,
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: Style.captionL.copyWith(fontSize: 14),
+          textAlign: TextAlign.center,
+        ),
       ),
-    ));
+    );
   }
 
   Widget _buildClearCacheListTile(BuildContext context) {
@@ -107,12 +109,12 @@ class SettingsScreen extends StatelessWidget {
   }
 
   void pushToMainScreen(BuildContext context) {
-    final bloc = context.read<SettingsBloc>();
+    final sb = context.read<SettingsBloc>();
     Navigator.of(context).popUntil((route) => route.isFirst);
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => ScheduleScreen({'group': bloc.settings.group}),
+        builder: (_) => ScheduleScreen({'group': sb.settings.group}),
       ),
     );
   }
@@ -121,13 +123,14 @@ class SettingsScreen extends StatelessWidget {
     return BlocBuilder<SettingsBloc, SettingsState>(
       bloc: bloc,
       builder: (context, state) {
+        final current = _themeItems.contains(bloc.settings.themeMode)
+            ? bloc.settings.themeMode
+            : ThemeMode.system;
         return ListTile(
-          title: Text(
-            S.of(context).theme,
-            style: Style.bodyL.copyWith(fontSize: 16),
-          ),
+          title: Text(S.of(context).theme,
+              style: Style.bodyL.copyWith(fontSize: 16)),
           trailing: DropdownButton<ThemeMode>(
-            value: bloc.settings.themeMode,
+            value: current,
             items: [
               DropdownMenuItem(
                 value: ThemeMode.system,
@@ -147,12 +150,15 @@ class SettingsScreen extends StatelessWidget {
             ],
             onChanged: (themeMode) {
               if (themeMode != null) {
-                bloc.add(ChangeSettings(
+                bloc.add(
+                  ChangeSettings(
                     themeMode,
                     bloc.settings.group,
                     bloc.settings.numOfGroups,
                     bloc.settings.isFirstLaunch,
-                    bloc.settings.isScheduleLoaded));
+                    bloc.settings.isScheduleLoaded,
+                  ),
+                );
               }
             },
           ),
@@ -165,29 +171,19 @@ class SettingsScreen extends StatelessWidget {
     return BlocBuilder<SettingsBloc, SettingsState>(
       bloc: bloc,
       builder: (context, state) {
+        final current = _langs.contains(bloc.language) ? bloc.language : null;
+
         return ListTile(
-          title: Text(
-            S.of(context).language,
-            style: Style.bodyL.copyWith(fontSize: 16),
-          ),
+          title: Text(S.of(context).language,
+              style: Style.bodyL.copyWith(fontSize: 16)),
           trailing: DropdownButton<String>(
-            value: bloc.language,
-            items: [
-              DropdownMenuItem(
-                value: 'ru',
-                child:
-                    Text('Русский', style: Style.bodyL.copyWith(fontSize: 16)),
-              ),
-              DropdownMenuItem(
-                value: 'be',
-                child: Text('Беларуская',
-                    style: Style.bodyL.copyWith(fontSize: 16)),
-              ),
-              DropdownMenuItem(
-                value: 'en',
-                child:
-                    Text('English', style: Style.bodyL.copyWith(fontSize: 16)),
-              ),
+            value: current,
+            hint: Text(S.of(context).language,
+                style: Style.bodyL.copyWith(fontSize: 16)),
+            items: const [
+              DropdownMenuItem(value: 'ru', child: Text('Русский')),
+              DropdownMenuItem(value: 'be', child: Text('Беларуская')),
+              DropdownMenuItem(value: 'en', child: Text('English')),
             ],
             onChanged: (language) {
               if (language != null && language.isNotEmpty) {

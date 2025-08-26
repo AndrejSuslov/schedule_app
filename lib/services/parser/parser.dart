@@ -1,7 +1,8 @@
 import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:excel/excel.dart';
-import 'platform_file_bytes_io.dart' if (dart.library.html) 'platform_file_bytes_web.dart';
+import 'platform_file_bytes_io.dart'
+    if (dart.library.html) 'platform_file_bytes_web.dart';
 
 part 'day.dart';
 part 'classes_data.dart';
@@ -43,8 +44,10 @@ class ExcelParsing {
     if (!_isThereSeparationByStreams(excel)) {
       final defaultSheet = excel.getDefaultSheet() ?? excel.sheets.keys.first;
       var sheet = excel[defaultSheet];
-      var firstClasses = _parseClasses(sheet, FIRST_START_CLASSES_CELL_COLUMN, FIRST_START_CLASSES_CELL_ROW, quantityOfGroups);
-      var secondClasses = _parseClasses(sheet, SECOND_START_CLASSES_CELL_COLUMN, SECOND_START_CLASSES_CELL_ROW, quantityOfGroups);
+      var firstClasses = _parseClasses(sheet, FIRST_START_CLASSES_CELL_COLUMN,
+          FIRST_START_CLASSES_CELL_ROW, quantityOfGroups);
+      var secondClasses = _parseClasses(sheet, SECOND_START_CLASSES_CELL_COLUMN,
+          SECOND_START_CLASSES_CELL_ROW, quantityOfGroups);
       firstClasses.addAll(secondClasses);
       return firstClasses;
     } else {
@@ -52,13 +55,26 @@ class ExcelParsing {
       List<Day> resultSecond = [];
       for (var sheet in excel.sheets.values) {
         if (sheet.sheetName == excel.getDefaultSheet()) {
-          var firstClasses = _parseClasses(sheet, FIRST_START_CLASSES_CELL_COLUMN, FIRST_START_CLASSES_CELL_ROW + 1, 3);
-          var secondClasses = _parseClasses(sheet, SECOND_START_CLASSES_CELL_COLUMN, SECOND_START_CLASSES_CELL_ROW + 2, 3);
+          var firstClasses = _parseClasses(
+              sheet,
+              FIRST_START_CLASSES_CELL_COLUMN,
+              FIRST_START_CLASSES_CELL_ROW + 1,
+              3);
+          var secondClasses = _parseClasses(
+              sheet,
+              SECOND_START_CLASSES_CELL_COLUMN,
+              SECOND_START_CLASSES_CELL_ROW + 2,
+              3);
           resultFirst.addAll(firstClasses);
           resultFirst.addAll(secondClasses);
         } else {
-          var firstClasses = _parseClasses(sheet, FIRST_START_CLASSES_CELL_COLUMN, FIRST_START_CLASSES_CELL_ROW, 2);
-          var secondClasses = _parseClasses(sheet, SECOND_START_CLASSES_CELL_COLUMN, SECOND_START_CLASSES_CELL_ROW + 1, 2);
+          var firstClasses = _parseClasses(sheet,
+              FIRST_START_CLASSES_CELL_COLUMN, FIRST_START_CLASSES_CELL_ROW, 2);
+          var secondClasses = _parseClasses(
+              sheet,
+              SECOND_START_CLASSES_CELL_COLUMN,
+              SECOND_START_CLASSES_CELL_ROW + 1,
+              2);
           resultSecond.addAll(firstClasses);
           resultSecond.addAll(secondClasses);
         }
@@ -100,22 +116,36 @@ class ExcelParsing {
     var sheet = excel[defaultSheet];
     List<DataClasses> result = [];
     int i = 0;
-    while (_isValidRussianClass(_getValue(sheet, CLASSES_DATA_START_CELL_COLUMN, CLASSES_DATA_START_CELL_ROW + i))) {
-      var (shortName, firstCol) = _getNextValueWhileNotNull(sheet, CLASSES_DATA_START_CELL_COLUMN, CLASSES_DATA_START_CELL_ROW + i);
-      var (fullName, secondCol) = _getNextValueWhileNotNull(sheet, firstCol, CLASSES_DATA_START_CELL_ROW + i);
-      var (attestationForm, thirdCol) = _getNextValueWhileNotNull(sheet, secondCol, CLASSES_DATA_START_CELL_ROW + i);
-      var (teachers, fourth) = _getNextValueWhileNotNull(sheet, thirdCol, CLASSES_DATA_START_CELL_ROW + i);
+    while (_isValidRussianClass(_getValue(sheet, CLASSES_DATA_START_CELL_COLUMN,
+        CLASSES_DATA_START_CELL_ROW + i))) {
+      var (shortName, firstCol) = _getNextValueWhileNotNull(sheet,
+          CLASSES_DATA_START_CELL_COLUMN, CLASSES_DATA_START_CELL_ROW + i);
+      var (fullName, secondCol) = _getNextValueWhileNotNull(
+          sheet, firstCol, CLASSES_DATA_START_CELL_ROW + i);
+      var (attestationForm, thirdCol) = _getNextValueWhileNotNull(
+          sheet, secondCol, CLASSES_DATA_START_CELL_ROW + i);
+      var (teachers, fourth) = _getNextValueWhileNotNull(
+          sheet, thirdCol, CLASSES_DATA_START_CELL_ROW + i);
       i++;
       result.add(DataClasses(shortName, fullName, attestationForm, teachers));
     }
     if (_isThereSeparationByStreams(excel)) {
       result = [];
       i = 0;
-      while (_isValidRussianClass(_getValue(sheet, CLASSES_DATA_START_CELL_COLUMN, CLASSES_DATA_START_CELL_ROW + 1 + i))) {
-        var (shortName, firstCol) = _getNextValueWhileNotNull(sheet, CLASSES_DATA_START_CELL_COLUMN, CLASSES_DATA_START_CELL_ROW + 1 + i);
-        var (fullName, secondCol) = _getNextValueWhileNotNull(sheet, firstCol, CLASSES_DATA_START_CELL_ROW + 1 + i);
-        var (attestationForm, thirdCol) = _getNextValueWhileNotNull(sheet, secondCol, CLASSES_DATA_START_CELL_ROW + 1 + i);
-        var (teachers, fourth) = _getNextValueWhileNotNull(sheet, thirdCol, CLASSES_DATA_START_CELL_ROW + 1 + i);
+      while (_isValidRussianClass(_getValue(
+          sheet,
+          CLASSES_DATA_START_CELL_COLUMN,
+          CLASSES_DATA_START_CELL_ROW + 1 + i))) {
+        var (shortName, firstCol) = _getNextValueWhileNotNull(
+            sheet,
+            CLASSES_DATA_START_CELL_COLUMN,
+            CLASSES_DATA_START_CELL_ROW + 1 + i);
+        var (fullName, secondCol) = _getNextValueWhileNotNull(
+            sheet, firstCol, CLASSES_DATA_START_CELL_ROW + 1 + i);
+        var (attestationForm, thirdCol) = _getNextValueWhileNotNull(
+            sheet, secondCol, CLASSES_DATA_START_CELL_ROW + 1 + i);
+        var (teachers, fourth) = _getNextValueWhileNotNull(
+            sheet, thirdCol, CLASSES_DATA_START_CELL_ROW + 1 + i);
         i++;
         result.add(DataClasses(shortName, fullName, attestationForm, teachers));
       }
@@ -123,27 +153,35 @@ class ExcelParsing {
     return result;
   }
 
-  List<Day> _parseClasses(Sheet sheet, int startIndexColumn, int startIndexRow, int quantityOfGroups) {
+  List<Day> _parseClasses(Sheet sheet, int startIndexColumn, int startIndexRow,
+      int quantityOfGroups) {
     List<Day> result = [];
     final horizontalMerges = _getHorizontalMerges(sheet);
     for (int week = 0; week < WEEKS_IN_ROW; week++) {
       for (int day = 0; day < DAYS_IN_WEEK; day++) {
         Map<int, List<String>> groupClasses = {};
-        var cell = _getData(sheet, startIndexColumn + week * (quantityOfGroups + 1) - 1, startIndexRow + day * QUANTITY_OF_CLASSES);
+        var cell = _getData(
+            sheet,
+            startIndexColumn + week * (quantityOfGroups + 1) - 1,
+            startIndexRow + day * QUANTITY_OF_CLASSES);
         late String date;
         if (cell.value != null) {
           if (_isCellFormula(cell)) {
-            date = _dateToString(_resolveDateFormula(cell, sheet, quantityOfGroups) ?? DateTime.now());
+            date = _dateToString(
+                _resolveDateFormula(cell, sheet, quantityOfGroups) ??
+                    DateTime.now());
           } else {
             date = _dateToString(DateTime.parse(cell.value.toString()));
           }
           for (int group = 0; group < quantityOfGroups; group++) {
             List<String> classes = [];
             for (int clazz = 0; clazz < QUANTITY_OF_CLASSES; clazz++) {
-              int col = startIndexColumn + week * (quantityOfGroups + 1) + group;
+              int col =
+                  startIndexColumn + week * (quantityOfGroups + 1) + group;
               int row = startIndexRow + day * QUANTITY_OF_CLASSES + clazz;
               final cellRef = _getCellReference(col, row);
-              final mergedValue = _getHorizontalMergeValue(sheet, horizontalMerges, cellRef);
+              final mergedValue =
+                  _getHorizontalMergeValue(sheet, horizontalMerges, cellRef);
               classes.add(mergedValue ?? _getValue(sheet, col, row));
             }
             groupClasses[group + 1] = classes;
@@ -156,11 +194,17 @@ class ExcelParsing {
   }
 
   String _getValue(Sheet sheet, int columnIndex, int rowIndex) {
-    return sheet.cell(CellIndex.indexByColumnRow(columnIndex: columnIndex, rowIndex: rowIndex)).value?.toString() ?? 'null';
+    return sheet
+            .cell(CellIndex.indexByColumnRow(
+                columnIndex: columnIndex, rowIndex: rowIndex))
+            .value
+            ?.toString() ??
+        'null';
   }
 
   Data _getData(Sheet sheet, int columnIndex, int rowIndex) {
-    return sheet.cell(CellIndex.indexByColumnRow(columnIndex: columnIndex, rowIndex: rowIndex));
+    return sheet.cell(CellIndex.indexByColumnRow(
+        columnIndex: columnIndex, rowIndex: rowIndex));
   }
 
   bool _isValidRussianClass(String text) {
@@ -184,9 +228,12 @@ class ExcelParsing {
         final rowNumber = int.parse(match.group(2)!);
         final daysToAdd = int.parse(match.group(3)!);
         final columnIndex = _columnLetterToIndex(columnLetter);
-        final refCell = sheet.cell(CellIndex.indexByColumnRow(columnIndex: columnIndex, rowIndex: rowNumber - 1));
+        final refCell = sheet.cell(CellIndex.indexByColumnRow(
+            columnIndex: columnIndex, rowIndex: rowNumber - 1));
         final baseDate = _resolveDateFormula(refCell, sheet, quantityOfGroups);
-        return baseDate != null ? _addDaysToExcelDate(baseDate, daysToAdd) : null;
+        return baseDate != null
+            ? _addDaysToExcelDate(baseDate, daysToAdd)
+            : null;
       }
     }
     return null;
@@ -211,7 +258,10 @@ class ExcelParsing {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
   String _dateToString(DateTime date) {
-    return date.toString().replaceRange(10, date.toString().length, '');
+    final y = date.year.toString().padLeft(4, '0');
+    final m = date.month.toString().padLeft(2, '0');
+    final d = date.day.toString().padLeft(2, '0');
+    return '$y-$m-$d';
   }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -234,7 +284,8 @@ class ExcelParsing {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-  String? _getHorizontalMergeValue(Sheet sheet, Map<String, String> merges, String cellRef) {
+  String? _getHorizontalMergeValue(
+      Sheet sheet, Map<String, String> merges, String cellRef) {
     for (final mergeRange in merges.keys) {
       if (_isCellInMerge(cellRef, mergeRange)) {
         final originCellRef = merges[mergeRange]!;
@@ -277,7 +328,8 @@ class ExcelParsing {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-  (String, int) _getNextValueWhileNotNull(Sheet sheet, int indexColumn, int indexRow) {
+  (String, int) _getNextValueWhileNotNull(
+      Sheet sheet, int indexColumn, int indexRow) {
     for (int i = 0; true; i++) {
       String value = _getValue(sheet, indexColumn + i, indexRow);
       if (value != 'null') {
