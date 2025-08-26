@@ -312,4 +312,16 @@ class ExcelParsing {
     }
     return buf.toString().split('').reversed.join();
   }
+
+  bool _isThereSeparationByStreams(Excel excel) {
+    var defaultSheetName = excel.getDefaultSheet() ?? "";
+    for (var sheetEntry in excel.sheets.entries) {
+      if (sheetEntry.key != defaultSheetName) {
+        if (sheetEntry.value.spannedItems.isNotEmpty) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 }
