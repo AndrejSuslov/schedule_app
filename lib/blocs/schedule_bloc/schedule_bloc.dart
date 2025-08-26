@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_project/services/parser/parser.dart';
 import 'package:flutter_test_project/services/storage.dart';
@@ -15,89 +16,102 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   PlatformFile? globalFile;
 
   ScheduleBloc() : super(ScheduleInitial()) {
-    on<ScheduleEvent>(
-      (event, emit) {},
-    );
+    on<ScheduleEvent>((event, emit) {});
     on<PickFile>(_pickFile);
     on<ChangeDateOfClasses>(_onChangeDate);
     on<SaveSchedule>(_saveScheduleToCache);
     on<LoadSchedule>(_loadSchedule);
   }
 
-  FutureOr<void> _onChangeDate(
-      ChangeDateOfClasses event, Emitter<ScheduleState> emit) {
+  FutureOr<void> _onChangeDate(ChangeDateOfClasses event, Emitter<ScheduleState> emit) {
     emit(ScheduleReeloadDate());
     currentDay = event.selectedDay;
     if (currentDay.weekday != DateTime.sunday) {
       emit(ChangedDate());
     } else {
-      const ScheduleDayIsEmpty('There aren\'t classes. Chill out, bro');
+      emit(const ScheduleDayIsEmpty('There aren\'t classes. Chill out, bro'));
     }
   }
 
   FutureOr<void> _pickFile(PickFile event, Emitter<ScheduleState> emit) async {
     emit(ScheduleInitial());
 
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
+    final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['xlsx'],
+      allowedExtensions: const ['xlsx'],
+      withData: true,
+      allowMultiple: false,
     );
-    if (result != null) {
-      PlatformFile file = result.files.single;
-      globalFile = file;
-      emit(PickedFile(file));
-    } else {
+
+    if (result == null || result.files.isEmpty) {
       emit(const ScheduleError('Something went wrong'));
+      return;
     }
+
+    final file = result.files.single;
+    if (kIsWeb && file.bytes == null) {
+      emit(const ScheduleError('File read error'));
+      return;
+    }
+
+    globalFile = file;
+    emit(PickedFile(file));
   }
 
-  FutureOr<void> _saveScheduleToCache(
-      SaveSchedule event, Emitter<ScheduleState> emit) async {
+  FutureOr<void> _saveScheduleToCache(SaveSchedule event, Emitter<ScheduleState> emit) async {
     emit(SavingSchedule());
 
-    final parser = ExcelParsing(int.parse(event.numOfGroups));
-    var days = await parser.parse(globalFile!) as List<Day>;
+    try {
+      if (globalFile == null) {
+        emit(const ScheduleError('Select a file first'));
+        return;
+      }
 
-    for (Day day in days) {
-      String jsonString = jsonEncode(day.classes[int.parse(event.group)]);
-      Storage().saveSchedule(day.date, jsonString);
+      final parser = ExcelParsing(int.parse(event.numOfGroups));
+      final days = await parser.parse(globalFile!) as List<Day>;
+
+      for (final day in days) {
+        final classesForGroup = day.classes[int.parse(event.group)] ?? <String>[];
+        final jsonString = jsonEncode(classesForGroup);
+        await Storage().saveSchedule(day.date, jsonString);
+      }
+
+      final time = parser.parseTimeOfClasses();
+      await Storage().saveTime(time);
+
+      final classesData = parser.parseDataClasses();
+      await Storage().saveClassesData(classesData);
+
+      emit(SavedSchedule());
+    } catch (e) {
+      emit(ScheduleError('Import error: $e'));
     }
-
-    var time = parser.parseTimeOfClasses();
-    Storage().saveTime(time);
-
-    List<DataClasses> classesData = parser.parseDataClasses();
-    Storage().saveClassesData(classesData);
-    emit(SavedSchedule());
   }
 
-  FutureOr<void> _loadSchedule(
-      LoadSchedule event, Emitter<ScheduleState> emit) async {
+  FutureOr<void> _loadSchedule(LoadSchedule event, Emitter<ScheduleState> emit) async {
     emit(ScheduleLoading());
 
-    var futureString = Storage().readSchedule(_dateToString(event.date));
-    late final List<String> loadedClassesFromCache;
+    try {
+      final scheduleJson = await Storage().readSchedule(_dateToString(event.date));
+      List<String> classes = [];
+      if (scheduleJson.isNotEmpty) {
+        try {
+          final decoded = jsonDecode(scheduleJson) as List<dynamic>;
+          classes = decoded.cast<String>().toList();
+        } catch (_) {}
+      }
 
-    await futureString.then((string) {
-      try {
-        final decodedList = jsonDecode(string) as List<dynamic>;
-        loadedClassesFromCache = decodedList.cast<String>().toList();
-      } catch (e) {
-        emit(const ScheduleError('Необходимо выбрать файл'));
-        loadedClassesFromCache = [];
+      final time = await Storage().readTime();
+
+      if (classes.isEmpty) {
+        emit(const ScheduleDayIsEmpty(''));
+        return;
       }
-    });
-    late final List<String> lastTime;
-    var time = Storage().readTime();
-    await time.then((listWithTime) {
-      try {
-        lastTime = listWithTime;
-      } catch (e) {
-        emit(const ScheduleError('Необходимо выбрать файл'));
-      }
-    });
-    if (loadedClassesFromCache.isEmpty) emit(const ScheduleDayIsEmpty(""));
-    emit(ScheduleLoaded(loadedClassesFromCache, event.date, lastTime));
+
+      emit(ScheduleLoaded(classes, event.date, time));
+    } catch (e) {
+      emit(ScheduleError('Load error: $e'));
+    }
   }
 
   String _dateToString(DateTime date) {
